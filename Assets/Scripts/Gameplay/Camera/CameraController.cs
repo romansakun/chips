@@ -8,7 +8,6 @@ namespace Gameplay
     public class CameraController : MonoBehaviour 
     {
         [SerializeField] private Camera _camera;
-        [SerializeField] private Transform _watching;
 
         [Header("Settings")]
         [SerializeField] private float _padding = 1.0f;
@@ -27,7 +26,6 @@ namespace Gameplay
         private Quaternion _cameraRotation;
 
         public Camera Camera => _camera;
-        public Transform Watching => _watching;
 
         private void Awake()
         {

@@ -15,6 +15,8 @@ namespace UI
 
         public IReactiveProperty<float> HitTimer => _logicAgent.Context.HitTimer;
         public IReactiveProperty<bool> ShowHitTimer => _logicAgent.Context.ShowHitTimer;
+        public IReactiveProperty<bool> IsHitSuccess => _logicAgent.Context.IsHitSuccess;
+        public IReactiveProperty<bool> IsHitFailed => _logicAgent.Context.IsHitFailed;
 
         private LogicAgent<GameplayViewModelContext> _logicAgent;
 
@@ -26,21 +28,28 @@ namespace UI
                 .AddAction<PrepareChipsStackAction>()
                 .JoinAction<BitChipsStackAction>()
                 .JoinAction<WaitChipsCollisionAction>();
-            var collectWinningChipsAction = builder
-                .AddAction<CollectWinningChips>();
+            var setSuccessHitState = builder
+                .AddAction<SetSuccessHitStateAction>()
+                .JoinAction<CollectWinningChips>();
+            var setFailHitState = builder
+                .AddAction<SetFailHitStateAction>();
+            var finishMove = builder
+                .AddAction<FinishPlayerMoveAction>();
 
             var resultHitSelector = builder.AddSelector<FirstScoreSelector<GameplayViewModelContext>>();
             resultHitSelector
-                .AddQualifier<IsPlayerCannotCollectWinningsChipsQualifier>(null)
-                .DirectTo(collectWinningChipsAction);
+                .AddQualifier<IsPlayerCannotCollectWinningsChipsQualifier>(setFailHitState)
+                .DirectTo(setSuccessHitState);
 
-            var rootSelector = builder
+            builder
                 .AddSelector<FirstScoreSelector<GameplayViewModelContext>>()
                 .AddQualifier<IsBitChipsStackQualifier>(hitChipsAction)
                 .AddQualifier<IsPrepareChipsStackQualifier>(prepareStackAction)
                 .SetAsRoot();
-            
+
             hitChipsAction.DirectTo(resultHitSelector);
+            setFailHitState.DirectTo(finishMove);
+            setSuccessHitState.DirectTo(finishMove);
 
             _logicAgent = builder.Build();
         }

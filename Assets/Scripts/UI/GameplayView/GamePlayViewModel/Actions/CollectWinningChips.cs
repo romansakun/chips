@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using Gameplay;
 using Gameplay.Chips;
-using UnityEngine;
 using Zenject;
 
 namespace UI
@@ -11,20 +10,24 @@ namespace UI
     {
         [Inject] private ChipsStack _chipsStack;
         [Inject] private CameraController _cameraController;
-        [Inject] private ChipDestinationsHolder _destinations;
+        [Inject] private GameplayObjectsHolder _destinations;
 
         private Sequence _collectionSequence;
         
         public override async Task ExecuteAsync(GameplayViewModelContext context)
         {
             //TODO засчитать игроку победные фишки
-            var winningChips = _chipsStack.Chips.FindAll(c => c.Transform.up.y < c.Transform.position.y);
 
             _collectionSequence?.Kill();
             _collectionSequence = DOTween.Sequence();
+            _collectionSequence.OnUpdate(() =>
+            {
+                if (context.IsDisposed)
+                    _collectionSequence.Kill();
+            });
             _cameraController.CancelFollowing();
             var destination = _destinations.MyPlayerChipDestination.position;
-            foreach (var chip in winningChips)
+            foreach (var chip in context.HitWinningChips)
             {
                 _collectionSequence
                     .AppendCallback(() => chip.Rigidbody.isKinematic = true)

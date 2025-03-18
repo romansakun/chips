@@ -23,7 +23,9 @@ namespace UI
                 foreach (var chip in _chipsStack.Chips)
                 {
                     // there was a step over the line => need repeat hit
-                    if (chip.Transform.position.sqrMagnitude > sqrAllowedScatterRadius)
+                    var position = chip.Transform.position;
+                    position.y = 0;
+                    if (position.sqrMagnitude > sqrAllowedScatterRadius)
                     {
                         context.IsPlayerCannotCollectWinningsChips = true;
                         break;
@@ -32,7 +34,6 @@ namespace UI
                     if (chip.Rigidbody.isKinematic == false)
                     {
                         canFinishedWaiting = false;
-                        break;
                     }
                 }
 

@@ -10,12 +10,14 @@ namespace Installers
         [SerializeField] private GameRules _gameRules;
         [SerializeField] private ChipsSettings _chipsSettings;
         [SerializeField] private SoundsSettings _soundsSettings;
+        [SerializeField] private ColorsSettings _colorsSettings;
 
         public override void InstallBindings()
         {
             Container.Bind<GameRules>().FromInstance(_gameRules).AsSingle();
             Container.Bind<ChipsSettings>().FromInstance(_chipsSettings).AsSingle();
             Container.Bind<SoundsSettings>().FromInstance(_soundsSettings).AsSingle();
+            Container.Bind<ColorsSettings>().FromInstance(_colorsSettings).AsSingle();
             Container.Bind<LayersSettings>().AsSingle();
         }
     }
@@ -26,6 +28,7 @@ namespace Installers
         public float AllowedScatterRadius;
         public float AllowedSlopeAngle;
         public float MaxTimeToWaitForRepeatHit;
+        
     }
 
     [Serializable]
@@ -40,6 +43,14 @@ namespace Installers
     {
         public AudioClip GroundChipsHitSound;
         public AudioClip BackroundMusic;
+    }    
+
+    [Serializable]
+    public class ColorsSettings
+    {
+        public Color DefaultCircleColor;
+        public Color FailedHitCircleColor;
+        public Color SuccessHitCircleColor;
     }
 
     public class LayersSettings
