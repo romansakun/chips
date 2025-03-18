@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Gameplay.Chips;
 using UnityEngine;
 
-namespace Gameplay.ChipsStack
+namespace Gameplay
 {
     
     //лишний класс, надо убрать!
@@ -52,7 +52,7 @@ namespace Gameplay.ChipsStack
             // // Добавляем случайный крутящий момент для вращения
             var torque = new Vector3(
                 Random.Range(-.05f, .05f),
-                Random.Range(-1f, 1f),
+                Random.Range(-.5f, .5f),
                 Random.Range(-.05f, .05f));
             
             foreach (var chip in _chips)

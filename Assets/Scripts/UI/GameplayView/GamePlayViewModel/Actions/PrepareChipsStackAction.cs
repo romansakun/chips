@@ -1,6 +1,5 @@
 using Gameplay;
 using Gameplay.Chips;
-using Gameplay.ChipsStack;
 using UnityEngine;
 using Zenject;
 
@@ -14,8 +13,9 @@ namespace UI
 
         protected override void Execute(GameplayViewModelContext context)
         {
+            
             _chipsStack.RemoveAllChips();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 12; i++)
             {
                 var chip = _chipFactory.Create();
                 chip.Rigidbody.isKinematic = true;

@@ -19,7 +19,7 @@ namespace LogicUtility
         public bool IsExecuting => _isExecuting;
 
         private StringBuilder _log = new StringBuilder();
-        
+
         public LogicAgent(TContext context, INode<TContext> rootNode, bool safeMode)
         {
             Context = context;

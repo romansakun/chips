@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using Gameplay.ChipsStack;
+using Gameplay;
+using Installers;
 using UnityEngine;
 using Zenject;
 
@@ -7,31 +8,51 @@ namespace UI
 {
     public class WaitChipsCollisionAction : BaseGameplayViewModelAction
     {
+        [Inject] private GameRules _gameRules;
         [Inject] private ChipsStack _chipsStack;
-
-        private float _maxWaitTime = 5f;
 
         public override async Task ExecuteAsync(GameplayViewModelContext context)
         {
-            var timer = _maxWaitTime;
-            var isNotRest = true;
-            while (isNotRest && timer > 0)
-            {
-                await Task.Yield();
-                timer -= Time.deltaTime;
+            context.ShowHitTimer.Value = true;
 
-                isNotRest = false;
+            var sqrAllowedScatterRadius = _gameRules.AllowedScatterRadius * _gameRules.AllowedScatterRadius;
+            var waitingTime = _gameRules.MaxTimeToWaitForRepeatHit;
+            while (waitingTime > 0 && CanWait(context))
+            {
+                var canFinishedWaiting = true;
                 foreach (var chip in _chipsStack.Chips)
                 {
-                    //переделать
-                    if (chip.IsRest == false)
+                    // there was a step over the line => need repeat hit
+                    if (chip.Transform.position.sqrMagnitude > sqrAllowedScatterRadius)
                     {
-                        isNotRest = true;
+                        context.IsPlayerCannotCollectWinningsChips = true;
+                        break;
+                    }
+                    // the chip is not a rest => keep waiting
+                    if (chip.Rigidbody.isKinematic == false)
+                    {
+                        canFinishedWaiting = false;
                         break;
                     }
                 }
+
+                context.HitTimer.Value = waitingTime;
+
+                if (canFinishedWaiting)
+                    waitingTime = 0;
+                else
+                    waitingTime -= Time.deltaTime;
+
+                await Task.Yield();
             }
 
+            context.ShowHitTimer.Value = false;
+        }
+
+        private static bool CanWait(GameplayViewModelContext context)
+        {
+            return context.IsDisposed == false && 
+                   context.IsPlayerCannotCollectWinningsChips == false;
         }
     }
 }

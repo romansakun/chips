@@ -8,6 +8,7 @@ namespace UI
     {
         [SerializeField] private Button _prepareButton;
         [SerializeField] private Button _bitButton;
+        [SerializeField] private Button _reloadButton;
 
         private GameplayViewModel _viewModel;
 
@@ -15,14 +16,26 @@ namespace UI
         {
             _prepareButton.onClick.AddListener(()=>_viewModel.OnPrepareButtonClick());
             _bitButton.onClick.AddListener(()=>_viewModel.OnBitButtonClick());
+            _reloadButton.onClick.AddListener(()=>_viewModel.OnReloadButtonClick());
         }
 
         public override void Initialize(ViewModel viewModel)
         {
             UpdateViewModel(ref _viewModel, viewModel);
-            
+            _viewModel.ShowHitTimer.Subscribe(ShowHitTimerChanged);
+            _viewModel.HitTimer.Subscribe(HitTimerChanged);
         }
 
+        private void ShowHitTimerChanged(bool state)
+        {
+            Debug.Log($"Show hit timer = {state}");
+        }
+
+        private void HitTimerChanged(float value)
+        {
+            Debug.Log($"hit timer = {value}");
+        }
+        
         public void OnBeginDrag(PointerEventData eventData)
         {
             _viewModel.OnBeginDrag(eventData);
@@ -47,6 +60,7 @@ namespace UI
         {
             _prepareButton.onClick.RemoveAllListeners();
             _bitButton.onClick.RemoveAllListeners();
+            _reloadButton.onClick.RemoveAllListeners();
             _viewModel.Dispose();
         }
     }

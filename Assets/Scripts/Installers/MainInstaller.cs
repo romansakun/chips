@@ -1,4 +1,6 @@
 using Factories;
+using Gameplay;
+using Gameplay.Battle;
 using Gameplay.Chips;
 using Managers;
 using Zenject;
@@ -13,6 +15,7 @@ namespace Installers
             Container.Bind<AddressableManager>().AsSingle();
             Container.Bind<GuiManager>().AsSingle();
             Container.Bind<GameManager>().AsSingle();
+            Container.Bind<BattleController>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<LoadingManager>().AsSingle();
 

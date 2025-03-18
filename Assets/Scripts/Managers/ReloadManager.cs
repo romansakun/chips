@@ -12,27 +12,18 @@ namespace Managers
         [Inject] private GameManager _gameManager;
         [Inject] private AddressableManager _addressableManager;
 
-        public void ReloadGame()
+        public async void ReloadGame()
         {
-            _addressableManager.Dispose();
             _guiManager.Dispose();
             _gameManager.Dispose();
+            _addressableManager.Dispose();
             _container.UnbindAll();
 
-            var sceneCount = SceneManager.sceneCount;
-            for (var i = 1; i < sceneCount; i++)
-            {
-                var scene = SceneManager.GetSceneAt(i);
-                Addressables.ResourceManager.CleanupSceneInstances(scene);
-                SceneManager.UnloadSceneAsync(scene);
-            }
-            var mainScene = SceneManager.GetSceneByBuildIndex(0);
-            Addressables.ResourceManager.CleanupSceneInstances(mainScene);
-            SceneManager.UnloadSceneAsync(mainScene);
+            var scene = SceneManager.GetActiveScene();
+            Addressables.ResourceManager.CleanupSceneInstances(scene);
+            await Resources.UnloadUnusedAssets();
 
-            Resources.UnloadUnusedAssets();
-
-            SceneManager.LoadScene(mainScene.name);
+            SceneManager.LoadScene(scene.name);
         }
 
     }
