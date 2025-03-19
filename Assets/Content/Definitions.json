@@ -1,0 +1,36 @@
+{
+  "Chips": {
+    "Chip1": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_1",
+      "Material": "Content/Materials/Chips/MortalCombatChipsMaterial.mat",
+      "Mesh": "Content/ChipMeshes/ChipMesh_0_1.asset",
+      "Id": "Chip1"
+    },
+    "Chip3": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_3",
+      "Material": "Content/Materials/Chips/MortalCombatChipsMaterial.mat",
+      "Mesh": "Content/ChipMeshes/ChipMesh_0_3.asset",
+      "Id": "Chip3"
+    },
+    "Chip2": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_2",
+      "Material": "Content/Materials/Chips/MortalCombatChipsMaterial.mat",
+      "Mesh": "Content/ChipMeshes/ChipMesh_0_2.asset",
+      "Id": "Chip2"
+    }
+  },
+  "InitialPlayerContext": {
+    "ChipsCount": {
+      "Chip1": 1,
+      "Chip2": 2,
+      "Chip3": 2
+    },
+    "Id": "InitialPlayerContext"
+  },
+  "GameplaySettings": {
+    "AllowedScatterRadius": 10.0,
+    "AllowedSlopeAngle": 30.0,
+    "MaxTimeToWaitHitResult": 15.0,
+    "Id": "GameplaySettings"
+  }
+}

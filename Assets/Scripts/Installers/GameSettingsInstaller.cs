@@ -1,4 +1,6 @@
 using System;
+using Definitions;
+using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
 
@@ -7,28 +9,34 @@ namespace Installers
     [CreateAssetMenu(fileName = "GameSettingsInstaller", menuName = "Installers/GameSettingsInstaller")]
     public class GameSettingsInstaller : ScriptableObjectInstaller 
     {
-        [SerializeField] private GameRules _gameRules;
+        [SerializeField] private GameDefsTextAssetProvider gameDefsTextAssetProvider;
         [SerializeField] private ChipsSettings _chipsSettings;
         [SerializeField] private SoundsSettings _soundsSettings;
         [SerializeField] private ColorsSettings _colorsSettings;
 
         public override void InstallBindings()
         {
-            Container.Bind<GameRules>().FromInstance(_gameRules).AsSingle();
+            var gameDefs = JsonConvert.DeserializeObject<GameDefs>(gameDefsTextAssetProvider.DefinitionsData.text);
+            Container.Bind<GameDefs>().FromInstance(gameDefs).AsSingle();
             Container.Bind<ChipsSettings>().FromInstance(_chipsSettings).AsSingle();
             Container.Bind<SoundsSettings>().FromInstance(_soundsSettings).AsSingle();
             Container.Bind<ColorsSettings>().FromInstance(_colorsSettings).AsSingle();
             Container.Bind<LayersSettings>().AsSingle();
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            gameDefsTextAssetProvider.DefinitionsData = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Content/Definitions.json");
+        }
+#endif
+
     }
 
     [Serializable]
-    public class GameRules
+    public class GameDefsTextAssetProvider
     {
-        public float AllowedScatterRadius;
-        public float AllowedSlopeAngle;
-        public float MaxTimeToWaitForRepeatHit;
-        
+        public TextAsset DefinitionsData;
     }
 
     [Serializable]
@@ -43,7 +51,7 @@ namespace Installers
     {
         public AudioClip GroundChipsHitSound;
         public AudioClip BackroundMusic;
-    }    
+    }
 
     [Serializable]
     public class ColorsSettings

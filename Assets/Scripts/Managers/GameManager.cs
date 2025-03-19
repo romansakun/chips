@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Definitions;
 using Factories;
 using Gameplay.Battle;
 using UnityEngine;
@@ -32,37 +33,37 @@ namespace Managers
                    {
                        Id = 1,
                        Name = "Player1",
-                       Chips = new List<ChipData>()
-                       {
-                          new ChipData(){Id = 1, Name = "Chip1"},
-                          new ChipData(){Id = 2, Name = "Chip2"},
-                          new ChipData(){Id = 3, Name = "Chip3"},
-                          new ChipData(){Id = 4, Name = "Chip4"},
-                          new ChipData(){Id = 5, Name = "Chip5"},
-                          new ChipData(){Id = 6, Name = "Chip6"},
-                          new ChipData(){Id = 7, Name = "Chip7"},
-                          new ChipData(){Id = 8, Name = "Chip8"},
-                          new ChipData(){Id = 9, Name = "Chip9"},
-                          new ChipData(){Id = 10, Name = "Chip10"},
-                       }
+                       // Chips = new List<ChipDef>()
+                       // {
+                       //    new ChipDef(){Id = 1, LocalizationKey = "Chip1"},
+                       //    new ChipDef(){Id = 2, LocalizationKey = "Chip2"},
+                       //    new ChipDef(){Id = 3, LocalizationKey = "Chip3"},
+                       //    new ChipDef(){Id = 4, LocalizationKey = "Chip4"},
+                       //    new ChipDef(){Id = 5, LocalizationKey = "Chip5"},
+                       //    new ChipDef(){Id = 6, LocalizationKey = "Chip6"},
+                       //    new ChipDef(){Id = 7, LocalizationKey = "Chip7"},
+                       //    new ChipDef(){Id = 8, LocalizationKey = "Chip8"},
+                       //    new ChipDef(){Id = 9, LocalizationKey = "Chip9"},
+                       //    new ChipDef(){Id = 10,LocalizationKey = "Chip10"},
+                       // }
                    },
                    new PlayerData()
                    {
                        Id = 2,
                        Name = "Player2",
-                       Chips = new List<ChipData>()
-                       {
-                          new ChipData(){Id = 11, Name = "Chip11"},
-                          new ChipData(){Id = 12, Name = "Chip12"},
-                          new ChipData(){Id = 13, Name = "Chip13"},
-                          new ChipData(){Id = 14, Name = "Chip14"},
-                          new ChipData(){Id = 15, Name = "Chip15"},
-                          new ChipData(){Id = 16, Name = "Chip16"},
-                          new ChipData(){Id = 17, Name = "Chip17"},
-                          new ChipData(){Id = 18, Name = "Chip18"},
-                          new ChipData(){Id = 19, Name = "Chip19"},
-                          new ChipData(){Id = 20, Name = "Chip20"},
-                       }
+                       // Chips = new List<ChipDef>()
+                       // {
+                       //    new ChipDef(){Id = 11, LocalizationKey = "Chip11"},
+                       //    new ChipDef(){Id = 12, LocalizationKey = "Chip12"},
+                       //    new ChipDef(){Id = 13, LocalizationKey = "Chip13"},
+                       //    new ChipDef(){Id = 14, LocalizationKey = "Chip14"},
+                       //    new ChipDef(){Id = 15, LocalizationKey = "Chip15"},
+                       //    new ChipDef(){Id = 16, LocalizationKey = "Chip16"},
+                       //    new ChipDef(){Id = 17, LocalizationKey = "Chip17"},
+                       //    new ChipDef(){Id = 18, LocalizationKey = "Chip18"},
+                       //    new ChipDef(){Id = 19, LocalizationKey = "Chip19"},
+                       //    new ChipDef(){Id = 20, LocalizationKey = "Chip20"},
+                       // }
                    }
                });
         }

@@ -1,0 +1,5 @@
+{
+    "AllowedScatterRadius"   : 10.0,
+    "AllowedSlopeAngle"      : 30.0,
+    "MaxTimeToWaitHitResult" : 15.0
+}

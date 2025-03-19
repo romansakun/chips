@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Gameplay.Chips;
+using Gameplay;
 using Installers;
 using Zenject;
 
@@ -14,6 +14,7 @@ namespace UI
         {
             if (context.IsHitFailed.Value)
             {
+                //переделать без task.delay (для webgl)
                 await Task.Delay(500);
                 if (context.IsDisposed)
                     return;

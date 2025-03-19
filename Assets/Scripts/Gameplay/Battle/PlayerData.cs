@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Definitions;
 using Gameplay.Battle;
 
 namespace Gameplay.Battle
@@ -9,8 +10,8 @@ namespace Gameplay.Battle
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<ChipData> Chips { get; set; } = new List<ChipData>();
-        public List<ChipData> SelectedChips { get; set; } = new List<ChipData>();
+        public List<ChipDef> Chips { get; set; } = new List<ChipDef>();
+        public List<ChipDef> SelectedChips { get; set; } = new List<ChipDef>();
         public PlayerRockPaperScissorsHand Hand { get; set; }
     }
 }

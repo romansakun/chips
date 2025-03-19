@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Definitions;
 using LogicUtility;
 
 namespace Gameplay.Battle
@@ -11,7 +12,7 @@ namespace Gameplay.Battle
 
         public List<int> PlayersOrder { get; set; } = new List<int>();
 
-        public List<ChipData> CurrentChipsStack { get; set; } = new List<ChipData>();
+        public List<ChipDef> CurrentChipsStack { get; set; } = new List<ChipDef>();
 
         public void Dispose()
         {

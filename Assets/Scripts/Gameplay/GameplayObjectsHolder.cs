@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gameplay.Chips
+namespace Gameplay
 {
     public class GameplayObjectsHolder : MonoBehaviour 
     {

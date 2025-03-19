@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
+using Definitions;
 using Gameplay;
-using Installers;
 using UnityEngine;
 using Zenject;
 
@@ -8,15 +8,16 @@ namespace UI
 {
     public class WaitChipsCollisionAction : BaseGameplayViewModelAction
     {
-        [Inject] private GameRules _gameRules;
+        [Inject] private GameDefs _gameDefs;
         [Inject] private ChipsStack _chipsStack;
 
         public override async Task ExecuteAsync(GameplayViewModelContext context)
         {
             context.ShowHitTimer.Value = true;
 
-            var sqrAllowedScatterRadius = _gameRules.AllowedScatterRadius * _gameRules.AllowedScatterRadius;
-            var waitingTime = _gameRules.MaxTimeToWaitForRepeatHit;
+            var allowedScatterRadius = _gameDefs.GameplaySettings.AllowedScatterRadius;
+            var sqrAllowedScatterRadius = allowedScatterRadius * allowedScatterRadius;
+            var waitingTime = _gameDefs.GameplaySettings.MaxTimeToWaitHitResult;
             while (waitingTime > 0 && CanWait(context))
             {
                 var canFinishedWaiting = true;

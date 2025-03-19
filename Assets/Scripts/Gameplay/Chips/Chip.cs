@@ -1,4 +1,5 @@
 using System;
+using Definitions;
 using Installers;
 using Managers;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Gameplay.Chips
 
         [Inject] private AudioManager _audioManager;
         [Inject] private LayersSettings _layersSettings;
-        [Inject] private GameRules _gameRules;
+        [Inject] private GameDefs _gameDefs;
 
         [SerializeField] private MeshRenderer _meshRenderer; 
         [SerializeField] private MeshFilter _meshFilter;
@@ -74,7 +75,8 @@ namespace Gameplay.Chips
                 return;
 
             var slopeAngle = Vector3.Angle(transform.up, Vector3.up);
-            if (slopeAngle > _gameRules.AllowedSlopeAngle && slopeAngle < 180 - _gameRules.AllowedSlopeAngle)
+            var allowedSlopeAngle = _gameDefs.GameplaySettings.AllowedSlopeAngle;
+            if (slopeAngle > allowedSlopeAngle && slopeAngle < 180 - allowedSlopeAngle)
                 return;
 
             var position = _transform.position;

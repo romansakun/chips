@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09f27b1db1484fd2862e6503f901be6d, type: 3}
   m_Name: GameSettingsInstaller
   m_EditorClassIdentifier: 
-  _gameRules:
-    AllowedScatterRadius: 10
-    AllowedSlopeAngle: 30
-    MaxTimeToWaitForRepeatHit: 15
+  gameDefsTextAssetProvider:
+    DefinitionsData: {fileID: 4900000, guid: d2ed014d011b43b45a76a133f70f1c46, type: 3}
   _chipsSettings:
     ChipsMeshes:
     - {fileID: 4300000, guid: 5f6dc70609e9cda468b817f9c3548121, type: 2}

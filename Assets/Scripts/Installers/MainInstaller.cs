@@ -1,8 +1,8 @@
 using Factories;
-using Gameplay;
 using Gameplay.Battle;
 using Gameplay.Chips;
 using Managers;
+using Model;
 using Zenject;
 
 namespace Installers
@@ -17,6 +17,7 @@ namespace Installers
             Container.Bind<GameManager>().AsSingle();
             Container.Bind<BattleController>().AsSingle();
 
+            Container.BindInterfacesAndSelfTo<PlayerContextRepository>().AsSingle();
             Container.BindInterfacesAndSelfTo<LoadingManager>().AsSingle();
 
             //Factories:
