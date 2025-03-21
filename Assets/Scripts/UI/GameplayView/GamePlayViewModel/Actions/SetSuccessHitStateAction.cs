@@ -10,8 +10,9 @@ namespace UI
         [Inject] private GameplayObjectsHolder _gameplayObjects;
         protected override void Execute(GameplayViewModelContext context)
         {
-            context.IsHitSuccess.Value = true;
             _gameplayObjects.AllowedScatterCircleSpriteRenderer.color = _colorsSettings.SuccessHitCircleColor;
+
+            context.IsHitSuccess.Value = true;
         }
     }
 }

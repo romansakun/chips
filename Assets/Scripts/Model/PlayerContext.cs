@@ -9,15 +9,9 @@ namespace Model
         public Dictionary<string, int> ChipsCount = new Dictionary<string, int>();
         public PlayerStoryProgress StoryProgress { get; set; } = new PlayerStoryProgress();
         public PlayerStats Stats { get; set; } = new PlayerStats();
+        public Dictionary<string, NpcContext> NpcContexts { get; set; } = new Dictionary<string, NpcContext>();
+        public int RandomSeed { get; set; }
     }
-
-    [Serializable]
-    public class PlayerStats
-    {
-        public int BattleWins { get; set; }
-        public int BattleLoses { get; set; }
-        public int HitChipsCount { get; set; }
-    }  
 
     [Serializable]
     public class PlayerStoryProgress

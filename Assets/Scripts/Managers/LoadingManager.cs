@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Gameplay.Chips;
+using Model;
 using UnityEngine;
 using Zenject;
 
@@ -7,6 +8,7 @@ namespace Managers
 {
     public class LoadingManager : IInitializable
     {
+        [Inject] private PlayerContextRepository _playerContext;
         [Inject] private GameManager _gameManager;
         [Inject] private Chip.Factory _chipFactory;
 
@@ -14,6 +16,7 @@ namespace Managers
         {
             await LoadAsync();
 
+            //_playerContext.CreateNewPlayerContext();
             _gameManager.Start();
         }
 
@@ -22,11 +25,8 @@ namespace Managers
         {
             while (_chipFactory.Ready == false)
             {
-                Debug.Log("ChipFactory not ready..");
                 await UniTask.Yield();
             }
-
-            Debug.Log("ChipFactory ready!");
         }
     }
 }

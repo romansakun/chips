@@ -1,5 +1,5 @@
 {
     "LocalizationKey" : "MORTALCOMBAT_CHIP_2",
-    "Material" : "Content/Materials/Chips/MortalCombatChipsMaterial.mat",
-    "Mesh" : "Content/ChipMeshes/ChipMesh_0_2.asset"
+    "Material" : "MortalCombatChipsMaterial",
+    "Mesh" : "ChipMesh_0_2"
 }

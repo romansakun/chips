@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Factories;
+using Gameplay.Battle;
 using LogicUtility;
 using LogicUtility.Nodes;
 using Managers;
@@ -12,6 +15,7 @@ namespace UI
     {
         [Inject] private LogicBuilderFactory _logicBuilder;
         [Inject] private ReloadManager _reloadManager;
+        [Inject]private DiContainer _diContainer;
 
         public IReactiveProperty<float> HitTimer => _logicAgent.Context.HitTimer;
         public IReactiveProperty<bool> ShowHitTimer => _logicAgent.Context.ShowHitTimer;
@@ -34,7 +38,8 @@ namespace UI
             var setFailHitState = builder
                 .AddAction<SetFailHitStateAction>();
             var finishMove = builder
-                .AddAction<FinishPlayerMoveAction>();
+                .AddAction<FinishPlayerMoveAction>()
+                .JoinAction<TryFinishGameAction>();
 
             var resultHitSelector = builder.AddSelector<FirstScoreSelector<GameplayViewModelContext>>();
             resultHitSelector
@@ -52,6 +57,14 @@ namespace UI
             setSuccessHitState.DirectTo(finishMove);
 
             _logicAgent = builder.Build();
+        }
+
+        public GameplayViewModel SetPlayers(List<PlayerData> contextPlayers)
+        {
+            _logicAgent.Context.Players = contextPlayers;
+            _logicAgent.Context.HittingPlayerIndex = 0;
+            _logicAgent.Context.Players.Sort((p1, p2) => p1.MovementOrder > p2.MovementOrder ? 1 : -1);
+            return this;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -101,5 +114,38 @@ namespace UI
         {
             _logicAgent.Dispose();
         }
+
+#if WITH_CHEATS
+        public async void WinGame()
+        {
+            await FinishGame(true);
+        }
+
+        public async void LoseGame()
+        {
+            await FinishGame(false);
+        }
+
+        private async Task FinishGame(bool isUserNeedBeWinner)
+        {
+            _logicAgent.Context.HittingPlayerIndex = _logicAgent.Context.Players.FindIndex(p => isUserNeedBeWinner 
+                ? p.PlayerType == PlayerType.User
+                : p.PlayerType != PlayerType.User);
+            var prepareAction = _diContainer.Instantiate<PrepareChipsStackAction>();
+            var successHitAction = _diContainer.Instantiate<SetSuccessHitStateAction>();
+            var collectChipsAction = _diContainer.Instantiate<CollectWinningChips>();
+            var finishPlayerMoveAction = _diContainer.Instantiate<FinishPlayerMoveAction>();
+            var tryFinishGameAction = _diContainer.Instantiate<TryFinishGameAction>();
+
+            await prepareAction.ExecuteAsync(_logicAgent.Context);
+            _logicAgent.Context.HitWinningChipsAndDefs.Clear();
+            _logicAgent.Context.HitWinningChipsAndDefs.AddRange(_logicAgent.Context.HittingChipsAndDefs);
+            await successHitAction.ExecuteAsync(_logicAgent.Context);
+            await collectChipsAction.ExecuteAsync(_logicAgent.Context);
+            await finishPlayerMoveAction.ExecuteAsync(_logicAgent.Context);
+            await tryFinishGameAction.ExecuteAsync(_logicAgent.Context);
+        }
+#endif
+
     }
 }

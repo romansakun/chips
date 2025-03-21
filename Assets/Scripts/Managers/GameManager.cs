@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Definitions;
 using Factories;
 using Gameplay.Battle;
 using UnityEngine;
@@ -26,46 +25,37 @@ namespace Managers
            // var viewModel = _viewModelFactory.Create<GameplayViewModel>();
            // var view = await _guiManager.ShowAsync<GameplayView, GameplayViewModel>(viewModel);
            
-           await 
-               _battleController.ExecuteBattle(new List<PlayerData>()
+           await _battleController.ExecuteBattle(new List<PlayerData>()
+           {
+               new PlayerData()
                {
-                   new PlayerData()
+                   PlayerType = PlayerType.User,
+                   BetChips = new List<string>()
                    {
-                       Id = 1,
-                       Name = "Player1",
-                       // Chips = new List<ChipDef>()
-                       // {
-                       //    new ChipDef(){Id = 1, LocalizationKey = "Chip1"},
-                       //    new ChipDef(){Id = 2, LocalizationKey = "Chip2"},
-                       //    new ChipDef(){Id = 3, LocalizationKey = "Chip3"},
-                       //    new ChipDef(){Id = 4, LocalizationKey = "Chip4"},
-                       //    new ChipDef(){Id = 5, LocalizationKey = "Chip5"},
-                       //    new ChipDef(){Id = 6, LocalizationKey = "Chip6"},
-                       //    new ChipDef(){Id = 7, LocalizationKey = "Chip7"},
-                       //    new ChipDef(){Id = 8, LocalizationKey = "Chip8"},
-                       //    new ChipDef(){Id = 9, LocalizationKey = "Chip9"},
-                       //    new ChipDef(){Id = 10,LocalizationKey = "Chip10"},
-                       // }
+                      "Chip1",
+                      "Chip2",
+                      // "Chip3",
+                      // "Chip4",
+                      // "Chip5",
+                      // "Chip6"
                    },
-                   new PlayerData()
+                   MovementOrder = 1
+               },
+               new PlayerData()
+               {
+                   Id = "Npc1",
+                   PlayerType = PlayerType.LeftNpc,
+                   BetChips = new List<string>()
                    {
-                       Id = 2,
-                       Name = "Player2",
-                       // Chips = new List<ChipDef>()
-                       // {
-                       //    new ChipDef(){Id = 11, LocalizationKey = "Chip11"},
-                       //    new ChipDef(){Id = 12, LocalizationKey = "Chip12"},
-                       //    new ChipDef(){Id = 13, LocalizationKey = "Chip13"},
-                       //    new ChipDef(){Id = 14, LocalizationKey = "Chip14"},
-                       //    new ChipDef(){Id = 15, LocalizationKey = "Chip15"},
-                       //    new ChipDef(){Id = 16, LocalizationKey = "Chip16"},
-                       //    new ChipDef(){Id = 17, LocalizationKey = "Chip17"},
-                       //    new ChipDef(){Id = 18, LocalizationKey = "Chip18"},
-                       //    new ChipDef(){Id = 19, LocalizationKey = "Chip19"},
-                       //    new ChipDef(){Id = 20, LocalizationKey = "Chip20"},
-                       // }
-                   }
-               });
+                       "Chip1",
+                       "Chip1",
+                       // "Chip1",
+                       // "Chip1",
+                       // "Chip1"
+                   },
+                   MovementOrder = 2
+               }
+           });
         }
 
         public void Dispose()

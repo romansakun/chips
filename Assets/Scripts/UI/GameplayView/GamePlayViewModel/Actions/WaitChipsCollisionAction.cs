@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Definitions;
-using Gameplay;
 using UnityEngine;
 using Zenject;
 
@@ -9,7 +8,6 @@ namespace UI
     public class WaitChipsCollisionAction : BaseGameplayViewModelAction
     {
         [Inject] private GameDefs _gameDefs;
-        [Inject] private ChipsStack _chipsStack;
 
         public override async Task ExecuteAsync(GameplayViewModelContext context)
         {
@@ -21,7 +19,7 @@ namespace UI
             while (waitingTime > 0 && CanWait(context))
             {
                 var canFinishedWaiting = true;
-                foreach (var chip in _chipsStack.Chips)
+                foreach (var chip in context.HittingChips)
                 {
                     // there was a step over the line => need repeat hit
                     var position = chip.Transform.position;

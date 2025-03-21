@@ -1,29 +1,79 @@
 {
   "Chips": {
+    "Chip6": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_6",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_0_6",
+      "Id": "Chip6"
+    },
+    "Chip4": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_4",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_0_4",
+      "Id": "Chip4"
+    },
     "Chip1": {
       "LocalizationKey": "MORTALCOMBAT_CHIP_1",
-      "Material": "Content/Materials/Chips/MortalCombatChipsMaterial.mat",
-      "Mesh": "Content/ChipMeshes/ChipMesh_0_1.asset",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_0_1",
       "Id": "Chip1"
     },
     "Chip3": {
       "LocalizationKey": "MORTALCOMBAT_CHIP_3",
-      "Material": "Content/Materials/Chips/MortalCombatChipsMaterial.mat",
-      "Mesh": "Content/ChipMeshes/ChipMesh_0_3.asset",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_0_3",
       "Id": "Chip3"
     },
     "Chip2": {
       "LocalizationKey": "MORTALCOMBAT_CHIP_2",
-      "Material": "Content/Materials/Chips/MortalCombatChipsMaterial.mat",
-      "Mesh": "Content/ChipMeshes/ChipMesh_0_2.asset",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_0_2",
       "Id": "Chip2"
+    },
+    "Chip5": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_5",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_0_5",
+      "Id": "Chip5"
     }
   },
   "InitialPlayerContext": {
     "ChipsCount": {
       "Chip1": 1,
       "Chip2": 2,
-      "Chip3": 2
+      "Chip3": 2,
+      "Chip4": 2,
+      "Chip5": 2
+    },
+    "NpcContexts": {
+      "Npc1": {
+        "ChipsCount": {
+          "Chip1": 1,
+          "Chip2": 2,
+          "Chip3": 2,
+          "Chip4": 2,
+          "Chip5": 2
+        },
+        "DefId": null,
+        "Stats": {
+          "BattleWins": 0,
+          "BattleLoses": 0,
+          "HitChipsCount": 0
+        }
+      },
+      "Npc2": {
+        "ChipsCount": {
+          "Chip1": 1,
+          "Chip2": 2,
+          "Chip3": 2
+        },
+        "DefId": null,
+        "Stats": {
+          "BattleWins": 0,
+          "BattleLoses": 0,
+          "HitChipsCount": 0
+        }
+      }
     },
     "Id": "InitialPlayerContext"
   },
@@ -31,6 +81,11 @@
     "AllowedScatterRadius": 10.0,
     "AllowedSlopeAngle": 30.0,
     "MaxTimeToWaitHitResult": 15.0,
+    "SqrRestChipPositionThreshold": 0.00025,
+    "RestChipAngleThreshold": 2.0,
+    "FramesToWatchRestChip": 60,
+    "TimeToShowFailedHit": 0.5,
+    "TimeToMoveWinningChipToPlayer": 0.5,
     "Id": "GameplaySettings"
   }
 }

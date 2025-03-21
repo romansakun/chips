@@ -10,18 +10,22 @@ namespace Installers
     public class GameSettingsInstaller : ScriptableObjectInstaller 
     {
         [SerializeField] private GameDefsTextAssetProvider gameDefsTextAssetProvider;
-        [SerializeField] private ChipsSettings _chipsSettings;
         [SerializeField] private SoundsSettings _soundsSettings;
         [SerializeField] private ColorsSettings _colorsSettings;
-
+#if WITH_CHEATS
+        [SerializeField] private GameObject IngameDebugConsolePrefab;
+#endif
         public override void InstallBindings()
         {
             var gameDefs = JsonConvert.DeserializeObject<GameDefs>(gameDefsTextAssetProvider.DefinitionsData.text);
             Container.Bind<GameDefs>().FromInstance(gameDefs).AsSingle();
-            Container.Bind<ChipsSettings>().FromInstance(_chipsSettings).AsSingle();
             Container.Bind<SoundsSettings>().FromInstance(_soundsSettings).AsSingle();
             Container.Bind<ColorsSettings>().FromInstance(_colorsSettings).AsSingle();
             Container.Bind<LayersSettings>().AsSingle();
+
+#if WITH_CHEATS
+            Instantiate(IngameDebugConsolePrefab);
+#endif
         }
 
 #if UNITY_EDITOR
@@ -37,13 +41,6 @@ namespace Installers
     public class GameDefsTextAssetProvider
     {
         public TextAsset DefinitionsData;
-    }
-
-    [Serializable]
-    public class ChipsSettings
-    {
-        public Mesh[] ChipsMeshes;
-        public Material ChipsMaterial;
     }
 
     [Serializable]

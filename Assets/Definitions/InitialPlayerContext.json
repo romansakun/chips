@@ -2,6 +2,26 @@
     "ChipsCount" : {
         "Chip1" : 1,
         "Chip2" : 2,
-        "Chip3" : 2
+        "Chip3" : 2,
+        "Chip4" : 2,
+        "Chip5" : 2
+    },
+    "NpcContexts" : {
+        "Npc1" : {
+            "ChipsCount" : {
+                "Chip1" : 1,
+                "Chip2" : 2,
+                "Chip3" : 2,
+                "Chip4" : 2,
+                "Chip5" : 2
+            }
+        },
+        "Npc2" : {
+            "ChipsCount": {
+                "Chip1": 1,
+                "Chip2": 2,
+                "Chip3": 2
+            }
+        }
     }
 }

@@ -24,6 +24,13 @@ namespace UI
             _reloadButton.onClick.AddListener(()=>_viewModel.OnReloadButtonClick());
         }
 
+        private void Start()
+        {
+#if WITH_CHEATS
+            AddDebugCommands();
+#endif
+        }
+
         public override void Initialize(ViewModel viewModel)
         {
             UpdateViewModel(ref _viewModel, viewModel);
@@ -97,7 +104,35 @@ namespace UI
             {
                 ViewModelDispose();
             }
+
+#if WITH_CHEATS
+            RemoveDebugCommands();
+#endif
         }
+
+#if WITH_CHEATS
+        private void AddDebugCommands()
+        {
+            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(WinGame).ToLower(), string.Empty, WinGame);
+            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(LoseGame).ToLower(), string.Empty, LoseGame);
+        }
+
+        private void RemoveDebugCommands()
+        {
+            IngameDebugConsole.DebugLogConsole.RemoveCommand(WinGame);
+            IngameDebugConsole.DebugLogConsole.RemoveCommand(LoseGame);
+        }
+
+        private void WinGame()
+        {
+            _viewModel.WinGame();
+        }
+
+        private void LoseGame()
+        {
+            _viewModel.LoseGame();
+        }
+#endif
 
     }
 }

@@ -1,5 +1,10 @@
 {
     "AllowedScatterRadius"   : 10.0,
     "AllowedSlopeAngle"      : 30.0,
-    "MaxTimeToWaitHitResult" : 15.0
+    "MaxTimeToWaitHitResult" : 15.0,
+    "TimeToShowFailedHit"    : 0.5,
+    "TimeToMoveWinningChipToPlayer"    : 0.5,
+    "SqrRestChipPositionThreshold" : 0.00025,
+    "RestChipAngleThreshold" : 2,
+    "FramesToWatchRestChip"  : 60
 }

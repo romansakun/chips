@@ -1,14 +1,16 @@
 using System.Threading.Tasks;
+using Definitions;
 using DG.Tweening;
 using Gameplay;
-using Gameplay.Chips;
+using Gameplay.Battle;
+using UnityEngine;
 using Zenject;
 
 namespace UI
 {
     public class CollectWinningChips : BaseGameplayViewModelAction
     {
-        [Inject] private ChipsStack _chipsStack;
+        [Inject] private GameDefs _gameDefs;
         [Inject] private CameraController _cameraController;
         [Inject] private GameplayObjectsHolder _destinations;
 
@@ -16,8 +18,6 @@ namespace UI
         
         public override async Task ExecuteAsync(GameplayViewModelContext context)
         {
-            //TODO засчитать игроку победные фишки
-
             _collectionSequence?.Kill();
             _collectionSequence = DOTween.Sequence();
             _collectionSequence.OnUpdate(() =>
@@ -26,13 +26,28 @@ namespace UI
                     _collectionSequence.Kill();
             });
             _cameraController.CancelFollowing();
-            var destination = _destinations.MyPlayerChipDestination.position;
-            foreach (var chip in context.HitWinningChips)
+
+            var hittingPlayer = context.Players[context.HittingPlayerIndex];
+            var chipsDestination = Vector3.positiveInfinity;
+            switch (hittingPlayer.PlayerType)
             {
+                case PlayerType.User: chipsDestination = _destinations.MyPlayerChipDestination.position; break;
+                case PlayerType.LeftNpc: chipsDestination = _destinations.LeftPlayerChipDestination.position; break;
+                case PlayerType.RightNpc: chipsDestination = _destinations.RightPlayerChipDestination.position; break;
+            }
+
+            foreach (var chipAndDef in context.HitWinningChipsAndDefs)
+            {
+                var chip = chipAndDef.Item1;
+                var chipDef = chipAndDef.Item2;
+
+                context.HittingChipsAndDefs.Remove(chipAndDef);
+                hittingPlayer.WinningChips.Add(chipDef.Id);
+
                 _collectionSequence
                     .AppendCallback(() => chip.Rigidbody.isKinematic = true)
                     .Append(chip.Transform
-                        .DOMove(destination, 0.5f)
+                        .DOMove(chipsDestination, _gameDefs.GameplaySettings.TimeToMoveWinningChipToPlayer)
                         .SetEase(Ease.InQuint));
             }
 

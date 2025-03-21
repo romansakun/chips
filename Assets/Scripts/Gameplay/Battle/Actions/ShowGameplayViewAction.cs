@@ -13,7 +13,9 @@ namespace Gameplay.Battle
         protected override void Execute(BattleContext context)
         {
             _guiManager.Close<GameplayView>();
-            var viewModel = _viewModelFactory.Create<GameplayViewModel>();
+            var viewModel = _viewModelFactory.Create<GameplayViewModel>()
+                .SetPlayers(context.Players);
+
             var view = _guiManager.ShowAsync<GameplayView, GameplayViewModel>(viewModel);
         }
     }

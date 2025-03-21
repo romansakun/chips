@@ -1,37 +1,44 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using Definitions;
 using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
+using Random = System.Random;
 
 namespace Model
 {
-    public class PlayerContextRepository : IInitializable, IDisposable
+    public class PlayerContextRepository : IPlayerContextRepository, IInitializable, IDisposable
     {
         public event Action OnPlayerContextChanged;
 
         [Inject] private GameDefs _gameDefs;
 
+        private Dictionary<string, NpcContextRepository> _npcContextRepositories;
         private PlayerContext _playerContext;
+        private Random _playerRandom;
         private string _playerContextPath;
 
+        private bool _willSave = false;
 
         public void Initialize()
         {
             _playerContextPath = $"{Application.persistentDataPath}/PlayerContext.json";
-            Debug.Log($"PlayerContextPath: {_playerContextPath}");
             if (TryLoadingPlayerContext()) 
                 return;
 
             CreateNewPlayerContext();
-            Save(false);
         }
 
+        public int RandomSeed() => _playerContext.RandomSeed;
+        public float RandomRange(float min, float max) => _playerRandom.Next((int)(min * 10000), (int)(max * 10000)) / 10000f;
+        public int GetRandomRange(int min, int max) => _playerRandom.Next(min, max);
         public int GetBattleWinsCount() => _playerContext.Stats.BattleWins;
         public int GetBattleLosesCount() => _playerContext.Stats.BattleLoses;
         public int GetHitChipsCount() => _playerContext.Stats.HitChipsCount;
+        public NpcContextRepository GetNpcContext(string npcId) => _npcContextRepositories.GetValueOrDefault(npcId, null);
         public int GetChipsCount(string chipId) => _playerContext.ChipsCount.GetValueOrDefault(chipId, 0);
         public void ForeachChipsCount(Action<KeyValuePair<string, int>> action) { foreach (var pair in _playerContext.ChipsCount) action(pair);}
         public void ForeachFinishedStories(Action<int> action) => _playerContext.StoryProgress.FinishedStories.ForEach(action);
@@ -42,15 +49,29 @@ namespace Model
         public void UpdateHitChipsCount(int hitChipsCount) { _playerContext.Stats.HitChipsCount = hitChipsCount; Save(); }
         public void AddFinishedStory(int finishedStory) { _playerContext.StoryProgress.FinishedStories.Add(finishedStory); Save(); }
 
-        private void Save(bool withChanged = true)
+        public void CreateNewPlayerContext()
         {
-            var json = JsonConvert.SerializeObject(_playerContext, Formatting.Indented);
-            File.WriteAllText(_playerContextPath, json);
+            var json = JsonConvert.SerializeObject(_gameDefs.InitialPlayerContext);
+            _playerContext = JsonConvert.DeserializeObject<PlayerContext>(json);
+            _playerContext.RandomSeed = UnityEngine.Random.Range(0, int.MaxValue);
+            ProcessingPlayerContext();
+            Save();
+        }
 
-            if (withChanged && OnPlayerContextChanged != null)
-            {
-                OnPlayerContextChanged();
-            }
+        private async void Save()
+        {
+            OnPlayerContextChanged?.Invoke();
+
+            if (_willSave) 
+                return;
+
+            _willSave = true;
+            await UniTask.Yield();
+            _willSave = false;
+
+            var json = JsonConvert.SerializeObject(_playerContext, Formatting.Indented);
+            await File.WriteAllTextAsync(_playerContextPath, json);
+            Debug.Log($"PlayerContextPath: {_playerContextPath}\n{json}");
         }
 
         private bool TryLoadingPlayerContext()
@@ -60,18 +81,35 @@ namespace Model
 
             var json = File.ReadAllText(_playerContextPath);
             _playerContext = JsonConvert.DeserializeObject<PlayerContext>(json);
+            ProcessingPlayerContext();
             return true;
         }
 
-        private void CreateNewPlayerContext()
+        private void ProcessingPlayerContext()
         {
-            var json = JsonConvert.SerializeObject(_gameDefs.InitialPlayerContext);
-            _playerContext = JsonConvert.DeserializeObject<PlayerContext>(json);
+            _playerRandom = new Random(_playerContext.RandomSeed);
+            _npcContextRepositories = new Dictionary<string, NpcContextRepository>(_playerContext.NpcContexts.Count);
+            foreach (var pair in _playerContext.NpcContexts)
+            {
+                var npcContextRepository = new NpcContextRepository(pair.Value);
+                npcContextRepository.OnNpcContextChanged += OnNpcContextChanged;
+                _npcContextRepositories.Add(pair.Key, npcContextRepository);
+            }
+        }
+
+        private void OnNpcContextChanged(string npcId)
+        {
+            Save();
         }
 
         public void Dispose()
         {
             OnPlayerContextChanged = null;
+            foreach (var pair in _npcContextRepositories)
+            {
+                pair.Value.OnNpcContextChanged -= OnNpcContextChanged;
+                pair.Value.Dispose();
+            }
         }
 
     }

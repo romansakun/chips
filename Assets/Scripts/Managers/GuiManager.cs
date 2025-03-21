@@ -28,7 +28,7 @@ namespace Managers
 
         public async UniTask<V> ShowAsync<V,VM> (VM viewModel) where V : View where VM : ViewModel
         {
-            var viewPrefab = await _addressableManager.LoadAsync<V>();
+            var viewPrefab = await _addressableManager.LoadPrefabAsync<V>();
             var view = _diContainer.InstantiatePrefabForComponent<V>(viewPrefab, _canvasRectTransform);
 
             _instancedViews.Add(view);

@@ -14,60 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameDefsTextAssetProvider:
     DefinitionsData: {fileID: 4900000, guid: d2ed014d011b43b45a76a133f70f1c46, type: 3}
-  _chipsSettings:
-    ChipsMeshes:
-    - {fileID: 4300000, guid: 5f6dc70609e9cda468b817f9c3548121, type: 2}
-    - {fileID: 4300000, guid: 6d706056b9593a1478b5089aa4e2bfb8, type: 2}
-    - {fileID: 4300000, guid: 5e722f1ccf094d64fa8be4bb24823239, type: 2}
-    - {fileID: 4300000, guid: 49e7ce92499c29344b84e8743c4441fd, type: 2}
-    - {fileID: 4300000, guid: a80d5eec13e3c3e4384cd39f7fa255bb, type: 2}
-    - {fileID: 4300000, guid: 94b14d4e9163c644bad33ff577f8ccb1, type: 2}
-    - {fileID: 4300000, guid: 9d9755d4a0dd181418b24d43f8f39789, type: 2}
-    - {fileID: 4300000, guid: 2ee395ccc9d20dd46860f85f4c325c42, type: 2}
-    - {fileID: 4300000, guid: e0de5d24364379843af076048ea289b1, type: 2}
-    - {fileID: 4300000, guid: 2a28ff63dc06ce8458f4040342f83635, type: 2}
-    - {fileID: 4300000, guid: a29a782ae791b7140bb6b4ba869363a6, type: 2}
-    - {fileID: 4300000, guid: beea86e0cc8f08941aef42d7d0e9a092, type: 2}
-    - {fileID: 4300000, guid: 7a5522a5c4d644b4ba47878aae33b066, type: 2}
-    - {fileID: 4300000, guid: 42766cd34403798488cded0147ee24f3, type: 2}
-    - {fileID: 4300000, guid: f98fe0c6a0c5afe468a104562f3f8414, type: 2}
-    - {fileID: 4300000, guid: eee3eebddf3897b4a8bdcf5f73faa351, type: 2}
-    - {fileID: 4300000, guid: 66b3184fbd077b44d8ea7cfeacad9c63, type: 2}
-    - {fileID: 4300000, guid: b7bf2b6f67f165a4aa8e37c50b0647dc, type: 2}
-    - {fileID: 4300000, guid: e078f0af7d498e84794382ae434e95d7, type: 2}
-    - {fileID: 4300000, guid: 9e16bf34af1d8e445b5de84a77501145, type: 2}
-    - {fileID: 4300000, guid: 81de25e00ed0cbd4eb6dc6440bbf7521, type: 2}
-    - {fileID: 4300000, guid: 0db964bfac37b2e42801cb8cbd12d061, type: 2}
-    - {fileID: 4300000, guid: 7ce8619894205c043a7c5e31015351df, type: 2}
-    - {fileID: 4300000, guid: 5390484c1eebae64c9c8521ff3a38169, type: 2}
-    - {fileID: 4300000, guid: b175d27a61e85a5419eea99ee655ce68, type: 2}
-    - {fileID: 4300000, guid: 0385e36c45763794483d939ad9c67ff0, type: 2}
-    - {fileID: 4300000, guid: 61f49d1bf00504a4eafdff95950fd98c, type: 2}
-    - {fileID: 4300000, guid: cdcd929b4a5314a45a5cae1ea9601f8b, type: 2}
-    - {fileID: 4300000, guid: b65896fd78c9f0248ac3e5ce9788c435, type: 2}
-    - {fileID: 4300000, guid: aef389540b7347f4bac4ab7e3b51984e, type: 2}
-    - {fileID: 4300000, guid: 81fbdc99bc9c3114083bc6b24204ea1a, type: 2}
-    - {fileID: 4300000, guid: 499fb4bd7ee989647b614fe8540e7d5d, type: 2}
-    - {fileID: 4300000, guid: ad3171a2477ab6747913e35c58dc70e0, type: 2}
-    - {fileID: 4300000, guid: 16503286eb6bab74f971034443601f0f, type: 2}
-    - {fileID: 4300000, guid: 45b42227961dcb6409f905996328df70, type: 2}
-    - {fileID: 4300000, guid: a19c5f8471ea8f84fbe45dc080eed16d, type: 2}
-    - {fileID: 4300000, guid: 0412e3c9e786b7e49a476ddbac5d3086, type: 2}
-    - {fileID: 4300000, guid: 5d6e1df54c15b2e4fbfbdddacc11b9af, type: 2}
-    - {fileID: 4300000, guid: 20b4640e26d4e61478d446553cab507e, type: 2}
-    - {fileID: 4300000, guid: ab0049924f6617a44abe87b46c257279, type: 2}
-    - {fileID: 4300000, guid: 12273b76c15c0ae48b55ecbeee20d1af, type: 2}
-    - {fileID: 4300000, guid: 7d6821d5851388641ab55335cc3310a7, type: 2}
-    - {fileID: 4300000, guid: 862b6ed0b24978d469ff7606d62658ab, type: 2}
-    - {fileID: 4300000, guid: 109baedf38f718c49a9c8851bdad775b, type: 2}
-    - {fileID: 4300000, guid: cd2f3d8687db71244a8537f89ecbb8b0, type: 2}
-    - {fileID: 4300000, guid: 44760667ef084d341b4b21416bb28ea4, type: 2}
-    - {fileID: 4300000, guid: 1dcd393de4efd9a4c8fb0f85bc86579a, type: 2}
-    - {fileID: 4300000, guid: bdeb0a5b54c586a49b14da41a7d03a50, type: 2}
-    - {fileID: 4300000, guid: 651bb2693698be645be0339d8c0ee8c2, type: 2}
-    - {fileID: 4300000, guid: 15e59c533532fe14f9e64f6d794fb734, type: 2}
-    - {fileID: 4300000, guid: e82d5a3f2af33d84da258938a9abde3d, type: 2}
-    ChipsMaterial: {fileID: 2100000, guid: 7a3ac5df2323f9445a4dacdc0b307c32, type: 2}
   _soundsSettings:
     GroundChipsHitSound: {fileID: 8300000, guid: ea6190085e532954aac88653c3c8bfc9, type: 3}
     BackroundMusic: {fileID: 8300000, guid: 2a48a8c7627d3d94fa45359c2fd8eb04, type: 3}
@@ -75,3 +21,4 @@ MonoBehaviour:
     DefaultCircleColor: {r: 1, g: 1, b: 1, a: 0.39215687}
     FailedHitCircleColor: {r: 0.78431374, g: 0.078431375, b: 0.078431375, a: 0.39215687}
     SuccessHitCircleColor: {r: 0.078431375, g: 0.78431374, b: 0.078431375, a: 0.39215687}
+  IngameDebugConsolePrefab: {fileID: 132536, guid: 3070711804921a04083029733437a52c, type: 3}
