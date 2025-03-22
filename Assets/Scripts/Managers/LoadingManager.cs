@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Gameplay.Chips;
 using Model;
-using UnityEngine;
 using Zenject;
 
 namespace Managers
@@ -20,7 +19,6 @@ namespace Managers
             _gameManager.Start();
         }
 
-        //todo сделать шкалу загрузки ?
         private async UniTask LoadAsync()
         {
             while (_chipFactory.Ready == false)

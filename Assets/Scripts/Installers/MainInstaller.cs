@@ -17,6 +17,7 @@ namespace Installers
             Container.Bind<GameManager>().AsSingle();
             Container.Bind<BattleController>().AsSingle();
 
+            Container.BindInterfacesAndSelfTo<LocalizationManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerContextRepository>().AsSingle();
             Container.BindInterfacesAndSelfTo<LoadingManager>().AsSingle();
 

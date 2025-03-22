@@ -24,35 +24,17 @@ namespace Gameplay.Chips
         private Quaternion _lastRotation;
         private int _restFramesCount;
 
-        public Rigidbody Rigidbody => _rigidbody;
-        public Transform Transform => _transform;
-        public MeshFilter MeshFilter => _meshFilter;
-        public MeshRenderer MeshRenderer => _meshRenderer;
-        public MeshCollider Collider => _meshCollider;
+        public ChipFacade Facade { get; private set; }
 
         private void Awake()
         {
             _transform = transform;
         }
 
-        public Chip PrepareForHit()
+        public void Configure(Action<ChipFacade> configureAction)
         {
-            gameObject.SetActive(true);
-            _restFramesCount = 0;
-            _rigidbody.isKinematic = false;
-            return this;
-        }
-
-        public Chip AddForce(Vector3 force, ForceMode forceMode = ForceMode.Impulse)
-        {
-            _rigidbody.AddForce(force, forceMode);
-            return this;
-        }
-
-        public Chip AddTorque(Vector3 force, ForceMode forceMode)
-        {
-            _rigidbody.AddTorque(force, forceMode);
-            return this;
+            Facade ??= new ChipFacade(this);
+            configureAction.Invoke(Facade);
         }
 
         private void OnCollisionEnter(Collision collision) 
@@ -65,10 +47,10 @@ namespace Gameplay.Chips
 
         private void FixedUpdate()
         {
-            TrySetRestMovingState();
+            TrySetRestState();
         }
 
-        private void TrySetRestMovingState()
+        private void TrySetRestState()
         {
             if (_rigidbody.isKinematic) 
                 return;
@@ -108,7 +90,6 @@ namespace Gameplay.Chips
 
         public void OnDespawned()
         {
-            _rigidbody.isKinematic = true;
             _pool = null;
         }
 
@@ -121,7 +102,34 @@ namespace Gameplay.Chips
 
         public void Dispose()
         {
-            _pool?.Despawn(this);
+            if (this) _pool?.Despawn(this);
+        }
+
+        public class ChipFacade
+        {
+            private readonly Chip _chip;
+            public MeshRenderer MeshRenderer { get; private set; }
+            public MeshFilter MeshFilter { get; private set; } 
+            public MeshCollider MeshCollider { get; private set; } 
+            public Rigidbody Rigidbody { get; private set; }
+            public Transform Transform { get; private set; } 
+            public GameObject GameObject { get; private set; } 
+
+            public ChipFacade(Chip chip)
+            {
+                _chip = chip;
+                MeshRenderer = chip._meshRenderer;
+                MeshFilter = chip._meshFilter;
+                MeshCollider = chip._meshCollider;
+                Rigidbody = chip._rigidbody;
+                Transform = chip.transform;
+                GameObject = chip.gameObject;
+            }
+
+            public void ResetRestFramesCount()
+            {
+                _chip._restFramesCount = 0;
+            }
         }
 
         public class Factory : PlaceholderFactory<Chip>

@@ -4,7 +4,6 @@ using Definitions;
 using Gameplay;
 using Gameplay.Chips;
 using Managers;
-using Model;
 using UnityEngine;
 using Zenject;
 
@@ -16,7 +15,6 @@ namespace UI
         [Inject] private CameraController _cameraController;
         [Inject] private GameDefs _gameDefs;
         [Inject] private AddressableManager _addressableManager;
-        //[Inject] private PlayerContextRepository _playerContext;
 
         private readonly Dictionary<ChipDef, int> _chipsCount = new Dictionary<ChipDef, int>();
 
@@ -45,8 +43,8 @@ namespace UI
                     }
                 }
             }
-            
-            var _chipNumber = 0;
+
+            var chipNumber = 0;
             context.HittingChips.ForEach(c => c.Dispose());
             context.HittingChips.Clear();
             context.HittingChipsAndDefs.Clear();
@@ -55,19 +53,26 @@ namespace UI
                 for (int i = 0; i < pair.Value; i++)
                 {
                     var chipDef = pair.Key;
+                    var mesh = await _addressableManager.LoadAsync<Mesh>(chipDef.Mesh);
+                    var material = await _addressableManager.LoadAsync<Material>(chipDef.Material);
+
+                    var heightOffset = chipNumber * .25f;
                     var chip = _chipFactory.Create();
-                    chip.gameObject.SetActive(false);
-                    chip.MeshFilter.sharedMesh = await _addressableManager.LoadAsync<Mesh>(chipDef.Mesh);
-                    chip.MeshRenderer.sharedMaterial = await _addressableManager.LoadAsync<Material>(chipDef.Material);
-                    chip.Transform.rotation = Quaternion.identity;
-                    chip.Transform.position = new Vector3(0, 6 + _chipNumber * .25f, 0);
-                    chip.Rigidbody.automaticCenterOfMass = true;
-                    //chip.Rigidbody.automaticCenterOfMass = false;
-                    //chip.Rigidbody.centerOfMass = new Vector3(Random.Range(-0.15f, 0.15f), 0, Random.Range(-0.15f, 0.15f));
+                    chip.Configure(c =>
+                    {
+                        c.GameObject.SetActive(false);
+                        c.Transform.rotation = Quaternion.identity;
+                        c.Transform.position = new Vector3(0, 6 + heightOffset, 0);
+                        c.Rigidbody.isKinematic = true;
+                        c.Rigidbody.automaticCenterOfMass = true;
+                        c.MeshFilter.sharedMesh = mesh;
+                        c.MeshRenderer.sharedMaterial = material;
+                    });
+
                     context.HittingChips.Add(chip);
                     context.HittingChipsAndDefs.Add((chip, chipDef));
 
-                    _chipNumber++;
+                    chipNumber++;
                 }
             }
 
@@ -78,6 +83,6 @@ namespace UI
 
             _cameraController.ResetPosition();
         }
-        
+
     }
 }

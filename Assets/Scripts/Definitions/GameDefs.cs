@@ -9,5 +9,6 @@ namespace Definitions
         public InitialPlayerContext InitialPlayerContext { get; set; }
         public GameplaySettings GameplaySettings { get; set; }
         public Dictionary<string, ChipDef> Chips = new Dictionary<string, ChipDef>();
+        public Dictionary<string, LocalizationDef> Localizations = new Dictionary<string, LocalizationDef>();
     }
 }

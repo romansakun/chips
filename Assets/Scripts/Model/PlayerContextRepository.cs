@@ -38,10 +38,25 @@ namespace Model
         public int GetBattleWinsCount() => _playerContext.Stats.BattleWins;
         public int GetBattleLosesCount() => _playerContext.Stats.BattleLoses;
         public int GetHitChipsCount() => _playerContext.Stats.HitChipsCount;
-        public NpcContextRepository GetNpcContext(string npcId) => _npcContextRepositories.GetValueOrDefault(npcId, null);
         public int GetChipsCount(string chipId) => _playerContext.ChipsCount.GetValueOrDefault(chipId, 0);
-        public void ForeachChipsCount(Action<KeyValuePair<string, int>> action) { foreach (var pair in _playerContext.ChipsCount) action(pair);}
         public void ForeachFinishedStories(Action<int> action) => _playerContext.StoryProgress.FinishedStories.ForEach(action);
+
+        public NpcContextRepository GetNpcContext(string npcId) => _npcContextRepositories.GetValueOrDefault(npcId, null);
+
+        public int GetAllChipsCount() 
+        { 
+            var count = 0; 
+            foreach (var pair in _playerContext.ChipsCount) count += pair.Value; 
+            return count;
+        }
+
+        public void ForeachChips(Action<KeyValuePair<string, int>> action)
+        {
+            foreach (var pair in _playerContext.ChipsCount)
+            {
+                action(pair);
+            }
+        }
 
         public void UpdateChipsCount(string chipId, int newCount) { _playerContext.ChipsCount[chipId] = newCount; Save(); }
         public void UpdateBattleWinsCount(int battleWins) { _playerContext.Stats.BattleWins = battleWins; Save(); }

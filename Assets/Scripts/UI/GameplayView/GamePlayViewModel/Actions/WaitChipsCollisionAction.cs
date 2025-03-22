@@ -22,7 +22,7 @@ namespace UI
                 foreach (var chip in context.HittingChips)
                 {
                     // there was a step over the line => need repeat hit
-                    var position = chip.Transform.position;
+                    var position = chip.Facade.Transform.position;
                     position.y = 0;
                     if (position.sqrMagnitude > sqrAllowedScatterRadius)
                     {
@@ -30,7 +30,7 @@ namespace UI
                         break;
                     }
                     // the chip is not a rest => keep waiting
-                    if (chip.Rigidbody.isKinematic == false)
+                    if (chip.Facade.Rigidbody.isKinematic == false)
                     {
                         canFinishedWaiting = false;
                     }

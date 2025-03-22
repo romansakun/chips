@@ -8,8 +8,9 @@ namespace Model
         int GetBattleWinsCount();
         int GetBattleLosesCount();
         int GetHitChipsCount();
+        int GetAllChipsCount();
         int GetChipsCount(string chipId);
-        void ForeachChipsCount(Action<KeyValuePair<string, int>> action);
+        void ForeachChips(Action<KeyValuePair<string, int>> action);
         void ForeachFinishedStories(Action<int> action);
 
         void UpdateChipsCount(string chipId, int newCount);

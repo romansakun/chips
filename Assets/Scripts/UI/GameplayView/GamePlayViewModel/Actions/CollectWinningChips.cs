@@ -15,7 +15,7 @@ namespace UI
         [Inject] private GameplayObjectsHolder _destinations;
 
         private Sequence _collectionSequence;
-        
+
         public override async Task ExecuteAsync(GameplayViewModelContext context)
         {
             _collectionSequence?.Kill();
@@ -45,8 +45,8 @@ namespace UI
                 hittingPlayer.WinningChips.Add(chipDef.Id);
 
                 _collectionSequence
-                    .AppendCallback(() => chip.Rigidbody.isKinematic = true)
-                    .Append(chip.Transform
+                    .AppendCallback(() => chip.Facade.Rigidbody.isKinematic = true)
+                    .Append(chip.Facade.Transform
                         .DOMove(chipsDestination, _gameDefs.GameplaySettings.TimeToMoveWinningChipToPlayer)
                         .SetEase(Ease.InQuint));
             }

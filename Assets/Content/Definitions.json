@@ -37,6 +37,24 @@
       "Id": "Chip5"
     }
   },
+  "Localizations": {
+    "English": {
+      "Description": "English",
+      "LocalizationText": {
+        "START": "Start",
+        "SELECT_BET_CHIPS": "Select your chips for the game"
+      },
+      "Id": "English"
+    },
+    "Russian": {
+      "Description": "Русский",
+      "LocalizationText": {
+        "START": "Старт",
+        "SELECT_BET_CHIPS": "Выбери фишки для игры"
+      },
+      "Id": "Russian"
+    }
+  },
   "InitialPlayerContext": {
     "ChipsCount": {
       "Chip1": 1,

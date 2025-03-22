@@ -9,7 +9,7 @@ namespace Installers
     [CreateAssetMenu(fileName = "GameSettingsInstaller", menuName = "Installers/GameSettingsInstaller")]
     public class GameSettingsInstaller : ScriptableObjectInstaller 
     {
-        [SerializeField] private GameDefsTextAssetProvider gameDefsTextAssetProvider;
+        [SerializeField] private GameDefsTextAssetProvider _gameDefsTextAssetProvider;
         [SerializeField] private SoundsSettings _soundsSettings;
         [SerializeField] private ColorsSettings _colorsSettings;
 #if WITH_CHEATS
@@ -17,7 +17,7 @@ namespace Installers
 #endif
         public override void InstallBindings()
         {
-            var gameDefs = JsonConvert.DeserializeObject<GameDefs>(gameDefsTextAssetProvider.DefinitionsData.text);
+            var gameDefs = JsonConvert.DeserializeObject<GameDefs>(_gameDefsTextAssetProvider.DefinitionsData.text);
             Container.Bind<GameDefs>().FromInstance(gameDefs).AsSingle();
             Container.Bind<SoundsSettings>().FromInstance(_soundsSettings).AsSingle();
             Container.Bind<ColorsSettings>().FromInstance(_colorsSettings).AsSingle();
@@ -31,7 +31,7 @@ namespace Installers
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            gameDefsTextAssetProvider.DefinitionsData = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Content/Definitions.json");
+            _gameDefsTextAssetProvider.DefinitionsData = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Content/Definitions.json");
         }
 #endif
 
@@ -61,6 +61,7 @@ namespace Installers
     public class LayersSettings
     {
         public int GroundLayer { get; } = LayerMask.NameToLayer("Ground");
-        public int WallLayer { get; } = LayerMask.NameToLayer("Wall");
+        public int ChipsLayer { get; } = LayerMask.NameToLayer("Chips");
+        public int ChipsLayerMask { get; } = LayerMask.GetMask("Chips");
     }
 }

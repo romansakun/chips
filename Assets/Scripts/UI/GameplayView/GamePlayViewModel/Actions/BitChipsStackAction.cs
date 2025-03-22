@@ -51,10 +51,14 @@ namespace UI
 
             foreach (var chip in chips)
             {
-                chip
-                    .PrepareForHit()
-                    .AddForce(bitForce, forceMode)
-                    .AddTorque(torque, ForceMode.Impulse);
+                chip.Configure(c =>
+                {
+                    c.GameObject.SetActive(true);
+                    c.Rigidbody.isKinematic = false;
+                    c.ResetRestFramesCount();
+                    c.Rigidbody.AddForce(bitForce, forceMode);
+                    c.Rigidbody.AddTorque(torque, forceMode);
+                });
             }
         }
     }

@@ -18,7 +18,25 @@ namespace Model
         public int GetBattleLosesCount() => _npcContext.Stats.BattleLoses;
         public int GetHitChipsCount() => _npcContext.Stats.HitChipsCount;
         public int GetChipsCount(string chipId) => _npcContext.ChipsCount.GetValueOrDefault(chipId, 0);
-        public void ForeachChipsCount(Action<KeyValuePair<string, int>> action) { foreach (var pair in _npcContext.ChipsCount) action(pair);}
+
+        public int GetAllChipsCount()
+        {
+            var count = 0; 
+            foreach (var pair in _npcContext.ChipsCount)
+            {
+                count += pair.Value;
+            }
+            return count;
+        }
+
+        public void ForeachChips(Action<KeyValuePair<string, int>> action)
+        {
+            foreach (var pair in _npcContext.ChipsCount)
+            {
+                action(pair);
+            }
+        }
+
         public void ForeachFinishedStories(Action<int> action) { }
 
         public void UpdateChipsCount(string chipId, int newCount) { _npcContext.ChipsCount[chipId] = newCount; Save(); }

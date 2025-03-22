@@ -23,12 +23,13 @@ namespace UI
             foreach (var chipAndDef in  context.HittingChipsAndDefs)
             {
                 var chip = chipAndDef.Item1;
-                var slopeAngle = Vector3.Angle(chip.Transform.up, Vector3.up);
+                var chipTransform = chip.Facade.Transform;
+                var slopeAngle = Vector3.Angle(chipTransform.up, Vector3.up);
                 var allowedSlopeAngle = _gameDefs.GameplaySettings.AllowedSlopeAngle;
                 if (slopeAngle > allowedSlopeAngle && slopeAngle < 180 - allowedSlopeAngle)
                     return 1;
 
-                if (chip.Transform.up.y < chip.Transform.position.y)
+                if (chipTransform.up.y < chipTransform.position.y)
                     _winningChips.Add(chipAndDef);
             }
 

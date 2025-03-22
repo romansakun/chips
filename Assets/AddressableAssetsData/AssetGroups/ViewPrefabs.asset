@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: ViewPrefabs
   m_GUID: 8b169c4144762564086717225fde27c0
   m_SerializeEntries:
+  - m_GUID: 3aa52891dc3c383499c47dca45492912
+    m_Address: SelectingFromAllowedChipsView
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4c2664ffe8a4f1745badf082b399d758
     m_Address: GameplayView
     m_ReadOnly: 0
