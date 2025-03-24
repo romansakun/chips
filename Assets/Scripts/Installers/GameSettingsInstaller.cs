@@ -1,5 +1,6 @@
 using System;
 using Definitions;
+using Gameplay.Chips;
 using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
@@ -10,21 +11,23 @@ namespace Installers
     public class GameSettingsInstaller : ScriptableObjectInstaller 
     {
         [SerializeField] private GameDefsTextAssetProvider _gameDefsTextAssetProvider;
+        [SerializeField] private PrefabsSettings _prefabsSettings;
         [SerializeField] private SoundsSettings _soundsSettings;
         [SerializeField] private ColorsSettings _colorsSettings;
-#if WITH_CHEATS
-        [SerializeField] private GameObject IngameDebugConsolePrefab;
-#endif
-        public override void InstallBindings()
-        {
-            var gameDefs = JsonConvert.DeserializeObject<GameDefs>(_gameDefsTextAssetProvider.DefinitionsData.text);
-            Container.Bind<GameDefs>().FromInstance(gameDefs).AsSingle();
-            Container.Bind<SoundsSettings>().FromInstance(_soundsSettings).AsSingle();
-            Container.Bind<ColorsSettings>().FromInstance(_colorsSettings).AsSingle();
-            Container.Bind<LayersSettings>().AsSingle();
 
 #if WITH_CHEATS
-            Instantiate(IngameDebugConsolePrefab);
+        [SerializeField] private GameObject _ingameDebugConsolePrefab;
+#endif
+
+        public override void InstallBindings()
+        {
+            Container.Bind<PrefabsSettings>().FromInstance(_prefabsSettings).AsSingle();
+            Container.Bind<SoundsSettings>().FromInstance(_soundsSettings).AsSingle();
+            Container.Bind<ColorsSettings>().FromInstance(_colorsSettings).AsSingle();
+            Container.Bind<GameDefs>().AsSingle();
+            Container.Bind<LayersSettings>().AsSingle();
+#if WITH_CHEATS
+            Instantiate(_ingameDebugConsolePrefab);
 #endif
         }
 
@@ -41,6 +44,12 @@ namespace Installers
     public class GameDefsTextAssetProvider
     {
         public TextAsset DefinitionsData;
+    }
+
+    [Serializable]
+    public class PrefabsSettings
+    {
+        public Chip ChipPrefab;
     }
 
     [Serializable]

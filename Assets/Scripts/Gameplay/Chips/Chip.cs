@@ -132,40 +132,8 @@ namespace Gameplay.Chips
             }
         }
 
-        public class Factory : PlaceholderFactory<Chip>
+        public class Pool : MonoPoolableMemoryPool<IMemoryPool, Chip>
         {
-            private bool _ready;
-            private ChipsPool _pool;
-
-            public bool Ready => _ready;
-
-            public Factory(DiContainer diContainer, AddressableManager addressableManager)
-            {
-                addressableManager.LoadPrefabWithCallback<Chip>(prefab =>
-                {
-                    _ready = true;
-                    diContainer.BindMemoryPool<Chip, ChipsPool>()
-                        .WithInitialSize(10)
-                        .FromComponentInNewPrefab(prefab);
-                    _pool = diContainer.Resolve<ChipsPool>();
-                });
-            }
-
-            public override Chip Create()
-            {
-                if (_ready == false)
-                {
-                    Debug.LogWarning($"Factory {GetType()} not ready, waiting for load");
-                    return null!;
-                }
-
-                var chip = _pool.Spawn(_pool);
-                return chip;
-            }
-
-            private class ChipsPool : MonoPoolableMemoryPool<IMemoryPool, Chip>
-            {
-            }
         }
     }
 }

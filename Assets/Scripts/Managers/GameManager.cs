@@ -15,8 +15,6 @@ namespace Managers
         
         public async void Start()
         {
-            Application.targetFrameRate = 60;
-
            //после загрузки показываем главный экран
            //+ возможно еще будут другие штуки
 

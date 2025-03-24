@@ -13,12 +13,6 @@ namespace Managers
          private readonly Dictionary<string, AsyncOperationHandle<GameObject>> _prefabOperationHandles = new();
          private readonly Dictionary<string, AsyncOperationHandle<Object>> _objectOperationHandles = new();
 
-         public async void LoadPrefabWithCallback<T> (Action<T> callback) where T : MonoBehaviour
-         {
-             var instance = await LoadPrefabAsync<T>();
-             callback(instance);
-         }
-
          public async UniTask<T> LoadPrefabAsync<T> () where T : MonoBehaviour
          {
              var prefabType = typeof(T);
@@ -40,12 +34,6 @@ namespace Managers
                  throw new ArgumentException($"Unable to load prefab from {prefabType.Name}");
 
              return component;
-         }
-
-         public async void LoadWithCallback<T> (string name, Action<T> callback) where T : Object
-         {
-             var instance = await LoadAsync<T>(name);
-             callback(instance);
          }
 
          public async UniTask<T> LoadAsync<T> (string name) where T : Object

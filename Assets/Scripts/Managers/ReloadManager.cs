@@ -1,3 +1,4 @@
+using System;
 using Gameplay.Battle;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -6,13 +7,20 @@ using Zenject;
 
 namespace Managers
 {
-    public class ReloadManager
+    public class ReloadManager : IInitializable, IDisposable
     {
         [Inject] private DiContainer _container;
         [Inject] private GuiManager _guiManager;
         [Inject] private GameManager _gameManager;
         [Inject] private AddressableManager _addressableManager;
         [Inject] private BattleController _battleController;
+
+        public void Initialize()
+        {
+#if WITH_CHEATS
+            AddDebugCommands();
+#endif
+        }
 
         public async void ReloadGame()
         {
@@ -29,5 +37,23 @@ namespace Managers
             SceneManager.LoadScene(scene.name);
         }
 
+        public void Dispose()
+        {
+#if WITH_CHEATS
+            RemoveDebugCommands();
+#endif
+        }
+
+#if WITH_CHEATS
+        private void AddDebugCommands()
+        {
+            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(ReloadGame).ToLower(), string.Empty, ReloadGame);
+        }
+
+        private void RemoveDebugCommands()
+        {
+            IngameDebugConsole.DebugLogConsole.RemoveCommand(ReloadGame);
+        }
+#endif
     }
 }

@@ -10,7 +10,6 @@ namespace Managers
 {
     public class GuiManager : IDisposable
     {
-        private readonly Canvas _canvas;
         private readonly DiContainer _diContainer;
         private readonly AddressableManager _addressableManager;
         private readonly RectTransform _canvasRectTransform;
@@ -22,8 +21,7 @@ namespace Managers
         {
             _diContainer = container;
             _addressableManager = addressableManager;
-            _canvas = canvas;
-            _canvasRectTransform = _canvas.GetComponent<RectTransform>();
+            _canvasRectTransform = canvas.GetComponent<RectTransform>();
         }
 
         public async UniTask<V> ShowAsync<V,VM> (VM viewModel) where V : View where VM : ViewModel

@@ -15,7 +15,6 @@ namespace Managers
 
         public void Initialize()
         {
-            TrySetLocalization(Application.systemLanguage);
 #if WITH_CHEATS
             AddDebugCommands();
 #endif
@@ -23,7 +22,12 @@ namespace Managers
 
         public bool TrySetLocalization(SystemLanguage language)
         {
-            if (_gameDefs.Localizations.TryGetValue(language.ToString(), out var localization))
+            return TrySetLocalization(language.ToString());
+        }
+
+        public bool TrySetLocalization(string language)
+        {
+            if (_gameDefs.Localizations.TryGetValue(language, out var localization))
             {
                 _currentLocalization = localization;
                 OnLocalizationChanged?.Invoke();

@@ -8,6 +8,6 @@ namespace Model
     {
         public string DefId { get; set; }
         public Dictionary<string, int> ChipsCount = new Dictionary<string, int>();
-        public PlayerStats Stats { get; set; } = new PlayerStats();
+        public UserStats Stats { get; set; } = new UserStats();
     }
 }

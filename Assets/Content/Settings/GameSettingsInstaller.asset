@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09f27b1db1484fd2862e6503f901be6d, type: 3}
   m_Name: GameSettingsInstaller
   m_EditorClassIdentifier: 
-  gameDefsTextAssetProvider:
+  _gameDefsTextAssetProvider:
     DefinitionsData: {fileID: 4900000, guid: d2ed014d011b43b45a76a133f70f1c46, type: 3}
+  _prefabsSettings:
+    ChipPrefab: {fileID: 8084650551167406804, guid: c39203c343948c544956db30d45c6327, type: 3}
   _soundsSettings:
     GroundChipsHitSound: {fileID: 8300000, guid: ea6190085e532954aac88653c3c8bfc9, type: 3}
-    BackroundMusic: {fileID: 8300000, guid: 2a48a8c7627d3d94fa45359c2fd8eb04, type: 3}
+    BackroundMusic: {fileID: 8300000, guid: b4ac6706bc1a0744a98c6fef769e4c4b, type: 3}
   _colorsSettings:
     DefaultCircleColor: {r: 1, g: 1, b: 1, a: 0.39215687}
     FailedHitCircleColor: {r: 0.78431374, g: 0.078431375, b: 0.078431375, a: 0.39215687}
     SuccessHitCircleColor: {r: 0.078431375, g: 0.78431374, b: 0.078431375, a: 0.39215687}
-  IngameDebugConsolePrefab: {fileID: 132536, guid: 3070711804921a04083029733437a52c, type: 3}
+  _ingameDebugConsolePrefab: {fileID: 132536, guid: 3070711804921a04083029733437a52c, type: 3}

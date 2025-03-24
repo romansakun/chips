@@ -12,13 +12,8 @@ namespace Managers
 
         [Inject] private SoundsSettings _soundsSettings;
 
-
         private bool _isReadyForGroundChipsHitSound;
 
-        public void PrepareForGroundChipsHitSound()
-        {
-            _isReadyForGroundChipsHitSound = true;
-        }
 
         private void Start()
         {
@@ -26,6 +21,11 @@ namespace Managers
             _musicAudioSource.volume = .15f;
             _musicAudioSource.loop = true;
             _musicAudioSource.Play();
+        }
+
+        public void PrepareForGroundChipsHitSound()
+        {
+            _isReadyForGroundChipsHitSound = true;
         }
 
         public void PlayGroundChipsHitSound()
@@ -40,5 +40,6 @@ namespace Managers
             _hitAudioSource.clip = _soundsSettings.GroundChipsHitSound;
             _hitAudioSource.Play();
         }
+
     }
 }
