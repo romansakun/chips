@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Definitions;
+using Gameplay.Battle;
 using Gameplay.Chips;
 using Managers;
 using Model;
@@ -15,6 +16,7 @@ namespace UI
         [Inject] private Chip.Pool _chipPool;
         [Inject] private AddressableManager _addressableManager;
         [Inject] private UserContextRepository _userContext;
+        [Inject] private BattleController _battleController;
 
         private int _asyncInProgressCount;
         private SelectingFromAllowedChipsViewModelContext _context;
@@ -34,6 +36,7 @@ namespace UI
             _context.RightSideChips.Clear();
             _context.RightSideChips.AddRange(_context.AllPlayersChips);
             _context.CurrentWatchingChip = _context.RightSideChips[0];
+            _context.NeedBetChipsCount.Value = _battleController.Context.NeedBetChipsCount;
             _context.BetChipsCount.Value = 0;
             _context.RightSideChips.RemoveAt(0);
 

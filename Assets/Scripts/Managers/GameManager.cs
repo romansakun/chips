@@ -23,37 +23,7 @@ namespace Managers
            // var viewModel = _viewModelFactory.Create<GameplayViewModel>();
            // var view = await _guiManager.ShowAsync<GameplayView, GameplayViewModel>(viewModel);
            
-           await _battleController.ExecuteBattle(new List<PlayerData>()
-           {
-               new PlayerData()
-               {
-                   PlayerType = PlayerType.User,
-                   BetChips = new List<string>()
-                   {
-                      "Chip1",
-                      "Chip2",
-                      // "Chip3",
-                      // "Chip4",
-                      // "Chip5",
-                      // "Chip6"
-                   },
-                   MovementOrder = 1
-               },
-               new PlayerData()
-               {
-                   Id = "Npc1",
-                   PlayerType = PlayerType.LeftNpc,
-                   BetChips = new List<string>()
-                   {
-                       "Chip1",
-                       "Chip1",
-                       // "Chip1",
-                       // "Chip1",
-                       // "Chip1"
-                   },
-                   MovementOrder = 2
-               }
-           });
+           await _battleController.ExecuteBattle(new List<string>() {"Npc1"});
         }
 
         public void Dispose()

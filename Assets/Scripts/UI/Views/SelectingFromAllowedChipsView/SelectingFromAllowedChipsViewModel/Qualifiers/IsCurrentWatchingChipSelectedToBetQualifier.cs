@@ -7,16 +7,17 @@ namespace UI
     {
         protected override float Score(SelectingFromAllowedChipsViewModelContext context)
         {
+            var canSelectBetChips = context.BetChipsCount.Value < context.NeedBetChipsCount.Value;
             var hasCurrentWatchingChip = context.CurrentWatchingChip != default;
             if (context.IsCurrentWatchingChipSelectedToBet)
             {
                 context.IsCurrentWatchingChipSelectedToBet = false;
-                return hasCurrentWatchingChip
+                return hasCurrentWatchingChip && canSelectBetChips
                     ? 1 
                     : 0;
             }
 
-            if (hasCurrentWatchingChip == false)
+            if (hasCurrentWatchingChip == false || canSelectBetChips == false)
                 return 0;
 
             if (IsEndOfDrag(context, out var chip) == false) 

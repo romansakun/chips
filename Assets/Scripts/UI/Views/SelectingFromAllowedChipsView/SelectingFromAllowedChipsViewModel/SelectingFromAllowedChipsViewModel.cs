@@ -1,5 +1,6 @@
 using Definitions;
 using Factories;
+using Gameplay.Battle;
 using LogicUtility;
 using LogicUtility.Nodes;
 using UnityEngine;
@@ -11,13 +12,16 @@ namespace UI
     public class SelectingFromAllowedChipsViewModel : ViewModel
     {
         [Inject] private LogicBuilderFactory _logicBuilder;
+        [Inject] private BattleController _battleController;
 
         public IReactiveProperty<Vector2> CurrentWatchingChipCanvasPosition => _logicAgent.Context.CurrentWatchingChipCanvasPosition;
+        public IReactiveProperty<int> NeedBetChipsCount => _logicAgent.Context.NeedBetChipsCount;
         public IReactiveProperty<int> BetChipsCount => _logicAgent.Context.BetChipsCount;
         public IReactiveProperty<bool> ShowSkipCurrentChipButton => _logicAgent.Context.ShowSkipCurrentChipButton;
         public IReactiveProperty<bool> ShowSkipBetChipButton => _logicAgent.Context.ShowSkipBetChipButton;
         public IReactiveProperty<bool> ShowMoveSkippedToWatchingChipButton => _logicAgent.Context.ShowMoveSkippedToWatchingChipButton;
         public IReactiveProperty<bool> ShowSelectWatchingChipToBetButton => _logicAgent.Context.ShowSelectWatchingChipToBetButton;
+        public IReactiveProperty<bool> ShowReadyButton => _logicAgent.Context.ShowReadyButton;
 
         private LogicAgent<SelectingFromAllowedChipsViewModelContext> _logicAgent;
         public LogicAgent<SelectingFromAllowedChipsViewModelContext> LogicAgent => _logicAgent;
@@ -119,6 +123,14 @@ namespace UI
 
             _logicAgent.Context.Input = (DragInputType.OnEndDrag, eventData);
             _logicAgent.Execute();
+        }
+
+        public void ReadyButtonClicked()
+        {
+            foreach (var pair in _logicAgent.Context.BetSelectedChips)
+            {
+                _battleController.Context.PlayerBetChipDefs.Add(pair.Item2);
+            }
         }
 
         public override void Dispose()

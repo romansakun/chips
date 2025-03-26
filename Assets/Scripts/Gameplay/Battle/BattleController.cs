@@ -15,13 +15,13 @@ namespace Gameplay.Battle
 
         private LogicAgent<BattleContext> _logicAgent;
 
+        public BattleContext Context => _logicAgent.Context;
+
         private LogicAgent<BattleContext> CreateLogicAgent()
         {
             var builder = _logicBuilder.Create<BattleContext>();
             var selectingChipsForGameAction = builder
-                .AddAction<ShowAllowedPlayerChipsViewAction>()
-                .JoinAction<WaitWhilePlayerSelectChipsAction>()
-                .JoinAction<HideAllowedPlayerChipsAction>()
+                .AddAction<WaitPlayerSelectingBetChipsAction>()
                 .JoinAction<SetPlayersOrderByRockPaperScissorsStateAction>();
 
             var rockPaperScissorsGameAction = builder
@@ -46,15 +46,15 @@ namespace Gameplay.Battle
             return builder.Build();
         }
 
-        public async UniTask ExecuteBattle(List<PlayerData> players)
+        public async UniTask ExecuteBattle(List<string> players)
         {
             _logicAgent ??= CreateLogicAgent();
             var context = _logicAgent.Context;
-
-            context.Players = players;
+            context.Reset();
+            context.Players.AddRange(players);
             context.State = BattleState.SelectingChipsForGame;
 
-            while (context.State != BattleState.Finished)
+            while (context.IsDisposed == false && context.State != BattleState.Finished)
             {
                 await _logicAgent.ExecuteAsync();
                 Debug.Log(_logicAgent.GetLog());
@@ -66,5 +66,6 @@ namespace Gameplay.Battle
             _logicAgent?.Dispose();
             _logicAgent = null;
         }
+
     }
 }

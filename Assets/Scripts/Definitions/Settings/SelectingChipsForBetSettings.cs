@@ -6,6 +6,8 @@ namespace Definitions
     [Serializable]
     public class SelectingChipsForBetSettings : BaseDef
     {
+        public int MaxBetChipsCount { get; set; } = 10;
+
         public float AnimationChipMovingTime { get; set; }
 
         /// <summary>

@@ -1,12 +1,14 @@
 using Definitions;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Zenject;
 
 namespace UI
 {
     public class SelectingFromAllowedChipsView : View, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
+        [SerializeField] private Button _readyButton;
         [SerializeField] private LocalizationText _needToSelectChipsCountText;
         [SerializeField] private LocalizationText _betChipsCountText;
         [SerializeField] private RepeatButton _selectCurrentChipButton;
@@ -29,6 +31,7 @@ namespace UI
             _skipCurrentChipButton.OnClick += OnSkipCurrentChipButtonClicked;
             _skipBetChipButton.OnClick += OnSkipBetChipButtonClicked;
             _moveSkippedToWatchingChipButton.OnClick += OnMoveSkippedToWatchingChipButtonClicked;
+            _readyButton.onClick.AddListener(()=> _viewModel.ReadyButtonClicked());
         }
 
         private void Start()
@@ -45,6 +48,8 @@ namespace UI
             _viewModel.ShowSelectWatchingChipToBetButton.Subscribe(ShowSelectWatchingChipToBetButtonChanged);
             _viewModel.ShowSkipCurrentChipButton.Subscribe(ShowSkipCurrentChipButtonChanged);
             _viewModel.ShowSkipBetChipButton.Subscribe(ShowSkipBetChipButtonChanged);
+            _viewModel.NeedBetChipsCount.Subscribe(OnNeedBetChipsCountChanged);
+            _viewModel.ShowReadyButton.Subscribe(ShowReadyButtonChanged);
             _viewModel.BetChipsCount.Subscribe(OnBetChipsCountChanged);
         }
 
@@ -55,6 +60,8 @@ namespace UI
             _viewModel.ShowSelectWatchingChipToBetButton.Unsubscribe(ShowSelectWatchingChipToBetButtonChanged);
             _viewModel.ShowSkipCurrentChipButton.Unsubscribe(ShowSkipCurrentChipButtonChanged);
             _viewModel.ShowSkipBetChipButton.Unsubscribe(ShowSkipBetChipButtonChanged);
+            _viewModel.NeedBetChipsCount.Unsubscribe(OnNeedBetChipsCountChanged);
+            _viewModel.ShowReadyButton.Unsubscribe(ShowReadyButtonChanged);
             _viewModel.BetChipsCount.Unsubscribe(OnBetChipsCountChanged);
             _viewModel.Dispose();
         }
@@ -67,9 +74,19 @@ namespace UI
             _moveSkippedToWatchingChipRectTransform.anchoredPosition = position + _gameDefs.SelectingChipsForBetSettings.MoveSkippedToWatchingChipButtonOffset;
         }
 
+        private void ShowReadyButtonChanged(bool state)
+        {
+            _readyButton.gameObject.SetActive(state);
+        }
+
         private void ShowSkipCurrentChipButtonChanged(bool state)
         {
             _skipCurrentChipButton.gameObject.SetActive(state);
+        }
+
+        private void OnNeedBetChipsCountChanged(int needCount)
+        {
+            _needToSelectChipsCountText.UpdateText(needCount);
         }
 
         private void OnBetChipsCountChanged(int count = 0)
@@ -133,6 +150,7 @@ namespace UI
             _selectCurrentChipButton.OnClick -= OnSelectCurrentChipButtonClicked;
             _skipCurrentChipButton.OnClick -= OnSkipCurrentChipButtonClicked;
             _skipBetChipButton.OnClick -= OnSkipBetChipButtonClicked;
+            _readyButton.onClick.RemoveAllListeners();
             if (_viewModel != null)
             {
                 ViewModelDispose();

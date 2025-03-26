@@ -177,6 +177,7 @@
     "Id": "GameplaySettings"
   },
   "SelectingChipsForBetSettings": {
+    "MaxBetChipsCount": 10,
     "AnimationChipMovingTime": 0.225,
     "SelectedChipsBetPosition": {
       "x": 0.0,

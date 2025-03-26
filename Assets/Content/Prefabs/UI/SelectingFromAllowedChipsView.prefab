@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverridedSortingOrder: -1
+  _readyButton: {fileID: 6788585939344052720}
   _needToSelectChipsCountText: {fileID: 6498562582776260088}
   _betChipsCountText: {fileID: 4313244297371489205}
   _selectCurrentChipButton: {fileID: 7296258975955260184}

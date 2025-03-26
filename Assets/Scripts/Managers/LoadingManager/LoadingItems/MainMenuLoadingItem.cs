@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Factories;
 using Gameplay.Battle;
@@ -11,16 +12,20 @@ namespace Managers
     {
         [Inject] private GuiManager _guiManager;
         [Inject] private ViewModelFactory _viewModelFactory;
+        [Inject] private BattleController _battleController;
 
         public async UniTask Load()
         {
-            var viewModel = _viewModelFactory.Create<SelectingFromAllowedChipsViewModel>();
-            await _guiManager.ShowAsync<SelectingFromAllowedChipsView, SelectingFromAllowedChipsViewModel>(viewModel);
+            // var viewModel = _viewModelFactory.Create<SelectingFromAllowedChipsViewModel>();
+            // await _guiManager.ShowAsync<SelectingFromAllowedChipsView, SelectingFromAllowedChipsViewModel>(viewModel);
+            //
+            // while (viewModel.LogicAgent.IsExecuting)
+            // {
+            //     await UniTask.Yield();
+            // }
 
-            while (viewModel.LogicAgent.IsExecuting)
-            {
-                await UniTask.Yield();
-            }
+            _battleController.ExecuteBattle(new List<string>() {"Npc1"});
+            await UniTask.Yield();
         }
     }
 }

@@ -17,12 +17,14 @@ namespace UI
             var hasBetChips = context.BetSelectedChips.Count > 0;
             var hasSkippedChips = context.LeftSideChips.Count > 0;
             var hasRightChips = context.RightSideChips.Count > 0;
+            var canSelectBetChips = context.BetChipsCount.Value < context.NeedBetChipsCount.Value;
 
             context.ShowCurrentWatchingChipCount.Value = watchingChipCount > 1;
-            context.ShowSelectWatchingChipToBetButton.Value = hasWatchingChip;
+            context.ShowSelectWatchingChipToBetButton.Value = hasWatchingChip && canSelectBetChips;
             context.ShowSkipBetChipButton.Value = hasBetChips && hasWatchingChip;
             context.ShowSkipCurrentChipButton.Value = hasRightChips;
             context.ShowMoveSkippedToWatchingChipButton.Value = hasSkippedChips;
+            context.ShowReadyButton.Value = context.BetChipsCount.Value == context.NeedBetChipsCount.Value;
         }
     }
 }
