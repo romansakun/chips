@@ -1,5 +1,17 @@
 {
   "Chips": {
+    "Chip11": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_11",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_1_4",
+      "Id": "Chip11"
+    },
+    "Chip14": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_14",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_1_7",
+      "Id": "Chip14"
+    },
     "Chip6": {
       "LocalizationKey": "MORTALCOMBAT_CHIP_6",
       "Material": "MortalCombatChipsMaterial",
@@ -18,6 +30,24 @@
       "Mesh": "ChipMesh_0_1",
       "Id": "Chip1"
     },
+    "Chip15": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_15",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_2_1",
+      "Id": "Chip15"
+    },
+    "Chip10": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_10",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_1_3",
+      "Id": "Chip10"
+    },
+    "Chip7": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_7",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_0_7",
+      "Id": "Chip7"
+    },
     "Chip3": {
       "LocalizationKey": "MORTALCOMBAT_CHIP_3",
       "Material": "MortalCombatChipsMaterial",
@@ -30,11 +60,35 @@
       "Mesh": "ChipMesh_0_2",
       "Id": "Chip2"
     },
+    "Chip12": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_12",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_1_5",
+      "Id": "Chip12"
+    },
     "Chip5": {
       "LocalizationKey": "MORTALCOMBAT_CHIP_5",
       "Material": "MortalCombatChipsMaterial",
       "Mesh": "ChipMesh_0_5",
       "Id": "Chip5"
+    },
+    "Chip8": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_8",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_1_1",
+      "Id": "Chip8"
+    },
+    "Chip13": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_13",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_1_6",
+      "Id": "Chip13"
+    },
+    "Chip9": {
+      "LocalizationKey": "MORTALCOMBAT_CHIP_9",
+      "Material": "MortalCombatChipsMaterial",
+      "Mesh": "ChipMesh_1_2",
+      "Id": "Chip9"
     }
   },
   "Localizations": {
@@ -42,7 +96,10 @@
       "Description": "English",
       "LocalizationText": {
         "START": "Start",
-        "SELECT_BET_CHIPS": "Select your chips for the game"
+        "SELECT_BET_CHIPS": "Select your chips for the game",
+        "SELECTED_CHIPS_COUNT": "Selected chips: {0}",
+        "NEED_TO_SELECT_CHIPS_COUNT": "Need to select: {0}",
+        "READY_TO_BATTLE": "I'm ready!"
       },
       "Id": "English"
     },
@@ -50,7 +107,10 @@
       "Description": "Русский",
       "LocalizationText": {
         "START": "Старт",
-        "SELECT_BET_CHIPS": "Выбери фишки для игры"
+        "SELECT_BET_CHIPS": "Выбери фишки для игры",
+        "SELECTED_CHIPS_COUNT": "Выбрано фишек: {0}",
+        "NEED_TO_SELECT_CHIPS_COUNT": "Нужно выбрать: {0}",
+        "READY_TO_BATTLE": "Готов!"
       },
       "Id": "Russian"
     }
@@ -61,7 +121,17 @@
       "Chip2": 2,
       "Chip3": 2,
       "Chip4": 2,
-      "Chip5": 2
+      "Chip5": 2,
+      "Chip6": 2,
+      "Chip7": 2,
+      "Chip8": 2,
+      "Chip9": 2,
+      "Chip10": 2,
+      "Chip11": 2,
+      "Chip12": 2,
+      "Chip13": 2,
+      "Chip14": 2,
+      "Chip15": 2
     },
     "NpcContexts": {
       "Npc1": {
@@ -105,5 +175,84 @@
     "TimeToShowFailedHit": 0.5,
     "TimeToMoveWinningChipToPlayer": 0.5,
     "Id": "GameplaySettings"
+  },
+  "SelectingChipsForBetSettings": {
+    "AnimationChipMovingTime": 0.225,
+    "SelectedChipsBetPosition": {
+      "x": 0.0,
+      "y": 3.0,
+      "z": -1.0
+    },
+    "SelectedChipsBetRotation": {
+      "x": 0.0,
+      "y": 180.0,
+      "z": 180.0
+    },
+    "SelectedChipsBetPositionOffset": {
+      "x": 0.05,
+      "y": -0.02,
+      "z": 0.0
+    },
+    "LeftSkippedChipsPosition": {
+      "x": -1.5,
+      "y": 3.0,
+      "z": -3.0
+    },
+    "LeftSkippedChipsRotation": {
+      "x": 340.0,
+      "y": 180.0,
+      "z": 240.0
+    },
+    "LeftSkippedChipsPositionOffset": {
+      "x": -0.015,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "RightChipsPosition": {
+      "x": 1.5,
+      "y": 3.0,
+      "z": -3.0
+    },
+    "RightChipsRotation": {
+      "x": 340.0,
+      "y": 180.0,
+      "z": 120.0
+    },
+    "RightChipsPositionOffset": {
+      "x": 0.015,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "CurrentWatchingChipPosition": {
+      "x": 0.0,
+      "y": 3.0,
+      "z": -3.0
+    },
+    "CurrentWatchingChipRotation": {
+      "x": 340.0,
+      "y": 180.0,
+      "z": 180.0
+    },
+    "SelectCurrentChipButtonOffset": {
+      "x": 0.0,
+      "y": 220.0
+    },
+    "SkipCurrentChipButtonOffset": {
+      "x": -220.0,
+      "y": 0.0
+    },
+    "MoveSkippedToWatchingChipButtonOffset": {
+      "x": 220.0,
+      "y": 0.0
+    },
+    "SkipBetChipButtonOffset": {
+      "x": -200.0,
+      "y": 250.0
+    },
+    "BetChipsCountTextOffset": {
+      "x": -300.0,
+      "y": 0.0
+    },
+    "Id": "SelectingChipsForBetSettings"
   }
 }

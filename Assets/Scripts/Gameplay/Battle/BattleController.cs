@@ -15,7 +15,7 @@ namespace Gameplay.Battle
 
         private LogicAgent<BattleContext> _logicAgent;
 
-        private void CreateLogicAgent()
+        private LogicAgent<BattleContext> CreateLogicAgent()
         {
             var builder = _logicBuilder.Create<BattleContext>();
             var selectingChipsForGameAction = builder
@@ -43,14 +43,12 @@ namespace Gameplay.Battle
                 .AddQualifier<IsChipsBattleStateQualifier>(chipsBattleAction)
                 .SetAsRoot();
 
-            _logicAgent = builder.Build();
+            return builder.Build();
         }
 
         public async UniTask ExecuteBattle(List<PlayerData> players)
         {
-            if (_logicAgent == null)
-                CreateLogicAgent();
-
+            _logicAgent ??= CreateLogicAgent();
             var context = _logicAgent.Context;
 
             context.Players = players;
@@ -65,7 +63,7 @@ namespace Gameplay.Battle
 
         public void Dispose()
         {
-            _logicAgent.Dispose();
+            _logicAgent?.Dispose();
             _logicAgent = null;
         }
     }

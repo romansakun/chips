@@ -13,10 +13,10 @@ namespace UI
             Execute(context);
             return Task.CompletedTask;
         }
-        
+
         protected virtual void Execute(SelectingFromAllowedChipsViewModelContext context)
         {
-            
+
         }
     }
 }

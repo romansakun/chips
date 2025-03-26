@@ -6,5 +6,6 @@
     "TimeToMoveWinningChipToPlayer"    : 0.5,
     "SqrRestChipPositionThreshold" : 0.00025,
     "RestChipAngleThreshold" : 2,
-    "FramesToWatchRestChip"  : 60
+    "FramesToWatchRestChip"  : 60,
+    "SelectedChipsBetPosition": {"x":0,"y":3,"z":0}
 }

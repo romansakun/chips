@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
-  m_DefaultGroup: 8b169c4144762564086717225fde27c0
+  m_DefaultGroup: 3abe5b537f2146b48bf8c16a70aca9a0
   m_currentHash:
     serializedVersion: 2
-    Hash: 154f7c21453dbd786153486e0dcbbea5
+    Hash: 722ebcc4031c922303e230af5b8efb35
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -50,10 +50,10 @@ MonoBehaviour:
   m_CheckForContentUpdateRestrictionsOption: 0
   m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
-    m_Id: 
+    m_Id: 3a5aa92b09281944ca26eaeb16a72502
   m_RemoteCatalogLoadPath:
-    m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+    m_Id: a5c01fc178a86fe44a13f6f292e532dc
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
@@ -62,7 +62,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8b5b584868e09c34c8a223a670856758, type: 2}
   - {fileID: 11400000, guid: d72b97caba2d50d4198a1b21ca0083ef, type: 2}
   - {fileID: 11400000, guid: 691754637ec9b0c48a755fb7bfeb66f2, type: 2}
-  - {fileID: 11400000, guid: ab8d98e1110527a46925ba6f065aebac, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
     m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles
@@ -103,16 +102,20 @@ MonoBehaviour:
     m_LabelNames:
     - Prefabs
     - UI
+    - Chips
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 42613c97d804db345988725f659bf64d, type: 2}
-  m_InitializationObjects: []
+  - {fileID: 11400000, guid: e3760914fd594d84ba16defb6a4ac634, type: 2}
+  m_InitializationObjects:
+  - {fileID: 11400000, guid: b12f09a378ca03d45bbb886f26b8ecef, type: 2}
   m_CertificateHandlerType:
     m_AssemblyName: 
     m_ClassName: 
-  m_ActivePlayerDataBuilderIndex: 2
+  m_ActivePlayerDataBuilderIndex: 3
   m_DataBuilders:
   - {fileID: 11400000, guid: 6fd1dfd722641f746be13fa4cc0215ad, type: 2}
   - {fileID: 11400000, guid: 367cc699266d94e4d8fa32237a59b448, type: 2}
   - {fileID: 11400000, guid: 1ee83da26f2932e438d94a5bb7481e73, type: 2}
+  - {fileID: 11400000, guid: b6588216415b6a74c81ec3a1632d2b2d, type: 2}
   m_ActiveProfileId: 6a72618f11475b04f988cea44eaa8c77

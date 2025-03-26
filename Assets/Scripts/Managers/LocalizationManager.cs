@@ -2,6 +2,7 @@ using System;
 using Definitions;
 using UnityEngine;
 using Zenject;
+using Object = UnityEngine.Object;
 
 namespace Managers
 {
@@ -40,12 +41,14 @@ namespace Managers
             }
         }
 
-        public string GetText(string key)
+        public string GetText(string key, Object invoker = null)
         {
             if (_currentLocalization.LocalizationText.TryGetValue(key, out var text))
+            {
                 return text;
+            }
 
-            Debug.LogWarning($"{key} not found in {_currentLocalization.Id} localization");
+            Debug.LogWarning($"{key} not found in {_currentLocalization.Id} localization", invoker);
             return key;
         }
 

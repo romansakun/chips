@@ -58,16 +58,14 @@ namespace UI
 
                     var heightOffset = chipNumber * .25f;
                     var chip = _chipPool.Spawn(_chipPool);
-                    chip.Configure(c =>
-                    {
-                        c.GameObject.SetActive(false);
-                        c.Transform.rotation = Quaternion.identity;
-                        c.Transform.position = new Vector3(0, 6 + heightOffset, 0);
-                        c.Rigidbody.isKinematic = true;
-                        c.Rigidbody.automaticCenterOfMass = true;
-                        c.MeshFilter.sharedMesh = mesh;
-                        c.MeshRenderer.sharedMaterial = material;
-                    });
+                    var chipFacade = chip.Facade;
+                    chipFacade.GameObject.SetActive(false);
+                    chipFacade.Transform.rotation = Quaternion.identity;
+                    chipFacade.Transform.position = new Vector3(0, 6 + heightOffset, 0);
+                    chipFacade.Rigidbody.isKinematic = true;
+                    chipFacade.Rigidbody.automaticCenterOfMass = true;
+                    chipFacade.MeshFilter.sharedMesh = mesh;
+                    chipFacade.MeshRenderer.sharedMaterial = material;
 
                     context.HittingChips.Add(chip);
                     context.HittingChipsAndDefs.Add((chip, chipDef));

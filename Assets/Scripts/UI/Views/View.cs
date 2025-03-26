@@ -12,6 +12,7 @@ namespace UI
     {
         [Inject] protected GuiManager _guiManager;
 
+        public short OverridedSortingOrder = -1;
         public RectTransform RectTransform => GetComponent<RectTransform>();
 
         public abstract void Initialize(ViewModel viewModel);

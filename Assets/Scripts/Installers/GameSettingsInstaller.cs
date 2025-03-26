@@ -1,7 +1,6 @@
 using System;
 using Definitions;
 using Gameplay.Chips;
-using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
 
@@ -10,7 +9,6 @@ namespace Installers
     [CreateAssetMenu(fileName = "GameSettingsInstaller", menuName = "Installers/GameSettingsInstaller")]
     public class GameSettingsInstaller : ScriptableObjectInstaller 
     {
-        [SerializeField] private GameDefsTextAssetProvider _gameDefsTextAssetProvider;
         [SerializeField] private PrefabsSettings _prefabsSettings;
         [SerializeField] private SoundsSettings _soundsSettings;
         [SerializeField] private ColorsSettings _colorsSettings;
@@ -30,20 +28,6 @@ namespace Installers
             Instantiate(_ingameDebugConsolePrefab);
 #endif
         }
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            _gameDefsTextAssetProvider.DefinitionsData = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Content/Definitions.json");
-        }
-#endif
-
-    }
-
-    [Serializable]
-    public class GameDefsTextAssetProvider
-    {
-        public TextAsset DefinitionsData;
     }
 
     [Serializable]

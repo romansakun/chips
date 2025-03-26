@@ -62,10 +62,10 @@ namespace Gameplay
 
         private void CalculateTargetBounds()
         {
-            _targetBounds = new Bounds(_chips[0].transform.position, Vector3.zero);
+            _targetBounds = new Bounds(_chips[0].Facade.Transform.position, Vector3.zero);
             foreach (var target in _chips)
             {
-                _targetBounds.Encapsulate(target.transform.position);
+                _targetBounds.Encapsulate(target.Facade.Transform.position);
             }
             _targetBounds.Expand(_padding);
         }
@@ -81,7 +81,7 @@ namespace Gameplay
                 Mathf.Clamp(targetPosition.x, _minBounds.x, _maxBounds.x),
                 Mathf.Clamp(targetPosition.y, _minBounds.y, _maxBounds.y),
                 Mathf.Clamp(targetPosition.z, _minBounds.z, _maxBounds.z));
-            transform.position = Vector3.SmoothDamp(
+            _transform.position = Vector3.SmoothDamp(
                 _transform.position, 
                 targetPosition, 
                 ref _velocity,

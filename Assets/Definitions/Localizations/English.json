@@ -1,7 +1,10 @@
 {
-    "Description" : "English",
-    "LocalizationText" : {
-        "START" : "Start",
-        "SELECT_BET_CHIPS" : "Select your chips for the game"
+    "Description": "English",
+    "LocalizationText": {
+        "START": "Start",
+        "SELECT_BET_CHIPS": "Select your chips for the game",
+        "SELECTED_CHIPS_COUNT": "Selected chips: {0}",
+        "NEED_TO_SELECT_CHIPS_COUNT": "Need to select: {0}",
+        "READY_TO_BATTLE": "I'm ready!"
     }
 }

@@ -51,14 +51,12 @@ namespace UI
 
             foreach (var chip in chips)
             {
-                chip.Configure(c =>
-                {
-                    c.GameObject.SetActive(true);
-                    c.Rigidbody.isKinematic = false;
-                    c.ResetRestFramesCount();
-                    c.Rigidbody.AddForce(bitForce, forceMode);
-                    c.Rigidbody.AddTorque(torque, forceMode);
-                });
+                var chipFacade = chip.Facade;
+                chipFacade.ResetRestFramesCount();
+                chipFacade.GameObject.SetActive(true);
+                chipFacade.Rigidbody.isKinematic = false;
+                chipFacade.Rigidbody.AddForce(bitForce, forceMode);
+                chipFacade.Rigidbody.AddTorque(torque, forceMode);
             }
         }
     }

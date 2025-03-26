@@ -8,9 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 1acaf4f0b43a7e34ca743e292b70c301
-  - enabled: 0
-    path: Assets/Scenes/SampleScene(with collision bug).unity
-    guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 46c8c0d3c4c757e41aae64b4071a46b1, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 45699ab1da57aa148bc5ec9c5a0bf58d, type: 2}

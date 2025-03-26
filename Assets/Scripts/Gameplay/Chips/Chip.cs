@@ -28,13 +28,8 @@ namespace Gameplay.Chips
 
         private void Awake()
         {
-            _transform = transform;
-        }
-
-        public void Configure(Action<ChipFacade> configureAction)
-        {
-            Facade ??= new ChipFacade(this);
-            configureAction.Invoke(Facade);
+            Facade = new ChipFacade(this);
+            _transform = Facade.Transform;
         }
 
         private void OnCollisionEnter(Collision collision) 

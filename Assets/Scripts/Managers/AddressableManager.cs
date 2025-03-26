@@ -18,6 +18,12 @@ namespace Managers
              var prefabType = typeof(T);
              if (_prefabOperationHandles.TryGetValue(prefabType.Name, out var handle) == false)
              {
+                 // var locations = await Addressables.LoadResourceLocationsAsync(prefabType.Name).Task;
+                 // if (locations == null || locations.Count == 0) 
+                 // {
+                 //     Debug.LogError($"{prefabType.Name} key not found!");
+                 // }
+
                  handle = Addressables.LoadAssetAsync<GameObject>(prefabType.Name);
                  await handle.Task;
 
@@ -33,6 +39,7 @@ namespace Managers
              if (component == null)
                  throw new ArgumentException($"Unable to load prefab from {prefabType.Name}");
 
+             await UniTask.Yield();
              return component;
          }
 
@@ -40,6 +47,12 @@ namespace Managers
          {
              if (_objectOperationHandles.TryGetValue(name, out var handle) == false)
              {
+                 // var locations = await Addressables.LoadResourceLocationsAsync(name).Task;
+                 // if (locations == null || locations.Count == 0) 
+                 // {
+                 //     Debug.LogError($"{name} key not found!");
+                 // }
+
                  handle = Addressables.LoadAssetAsync<Object>(name);
                  await handle.Task;
 
@@ -55,6 +68,7 @@ namespace Managers
              if (result == null)
                  throw new ArgumentException($"Unable to load Object for {name}");
 
+             await UniTask.Yield();
              return result;
          }
 

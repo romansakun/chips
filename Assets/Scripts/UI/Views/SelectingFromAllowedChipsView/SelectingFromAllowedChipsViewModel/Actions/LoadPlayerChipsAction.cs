@@ -16,52 +16,50 @@ namespace UI
         [Inject] private AddressableManager _addressableManager;
         [Inject] private UserContextRepository _userContext;
 
-        private readonly List<Chip> _chips = new List<Chip>();
-
+        private int _asyncInProgressCount;
+        private SelectingFromAllowedChipsViewModelContext _context;
+        
         public override async Task ExecuteAsync(SelectingFromAllowedChipsViewModelContext context)
         {
-            _chips.ForEach(c => c.Dispose());
-            _chips.Clear();
+            _context = context;
+            _context.AllPlayersChips.ForEach(c => c.Item1.Dispose());
+            _context.AllPlayersChips.Clear();
 
-            var processingChipsCount = _userContext.GetAllChipsCount();
             _userContext.ForeachChips(ProcessPlayerChip);
-            while (_chips.Count != processingChipsCount)
+            while (_asyncInProgressCount > 0)
             {
                 await Task.Yield();
             }
-            foreach (var chip in _chips)
-            {
-                chip.Configure(c => c.GameObject.SetActive(true));
-            }
 
-            context.AllPlayersChips.ForEach(c => c.Dispose());
-            context.AllPlayersChips.Clear();
-            context.AllPlayersChips.AddRange(_chips);
+            _context.RightSideChips.Clear();
+            _context.RightSideChips.AddRange(_context.AllPlayersChips);
+            _context.CurrentWatchingChip = _context.RightSideChips[0];
+            _context.BetChipsCount.Value = 0;
+            _context.RightSideChips.RemoveAt(0);
 
-            context.RightSideChips.Clear();
-            context.RightSideChips.AddRange(_chips);
+            _context.AllPlayersChips.ForEach(c => c.Item1.Facade.GameObject.SetActive(true));
         }
 
         private async void ProcessPlayerChip(KeyValuePair<string, int> pair)
         {
+            _asyncInProgressCount++;
             var chipDef = _gameDefs.Chips[pair.Key];
             var mesh = await _addressableManager.LoadAsync<Mesh>(chipDef.Mesh);
             var material = await _addressableManager.LoadAsync<Material>(chipDef.Material);
             for (int i = 0; i < pair.Value; i++)
             {
-                var offset = _chips.Count * .025f;
                 var chip = _chipPool.Spawn(_chipPool);
-                chip.Configure(c =>
+                var chipFacade = chip.Facade;
                 {
-                    c.GameObject.SetActive(false);
-                    c.Transform.rotation = Quaternion.Euler(315, 180, 150);
-                    c.Transform.position = new Vector3(offset, 3, -3);
-                    c.Rigidbody.isKinematic = true;
-                    c.MeshFilter.sharedMesh = mesh;
-                    c.MeshRenderer.sharedMaterial = material;
-                });
-                _chips.Add(chip);
+                    chipFacade.GameObject.SetActive(false);
+                    chipFacade.Rigidbody.isKinematic = true;
+                    chipFacade.MeshFilter.sharedMesh = mesh;
+                    chipFacade.MeshRenderer.sharedMaterial = material;
+                }
+                _context.AllPlayersChips.Add((chip, chipDef));
             }
+            _asyncInProgressCount--;
         }
+
     }
 }

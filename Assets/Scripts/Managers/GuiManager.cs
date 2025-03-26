@@ -15,8 +15,6 @@ namespace Managers
         private readonly RectTransform _canvasRectTransform;
         private readonly List<View> _instancedViews = new();
 
-        public int TopViewSortingOrder => _instancedViews.Count;
-
         public GuiManager(DiContainer container, AddressableManager addressableManager, Canvas canvas)
         {
             _diContainer = container;
@@ -40,8 +38,12 @@ namespace Managers
         {
             var viewCanvas = viewInstance.GetComponent<Canvas>();
             var viewRectTransform = viewInstance.GetComponent<RectTransform>();
-            viewCanvas.sortingOrder = _instancedViews.Count;
             viewRectTransform.anchoredPosition = Vector2.zero;
+            viewCanvas.pixelPerfect = true;
+            viewCanvas.overrideSorting = true;
+            viewCanvas.sortingOrder = viewInstance.OverridedSortingOrder > 0 
+                ? viewInstance.OverridedSortingOrder 
+                : _instancedViews.Count;
         }
 
         public bool TryGetView<T>(out T view) where T : View
@@ -75,7 +77,7 @@ namespace Managers
             }
         }
 
-        public void Close(View view)
+        public void Close(View view, bool onlyTopView = false)
         {
             for (int i = _instancedViews.Count - 1; i >= 0; i--)
             {
@@ -85,7 +87,9 @@ namespace Managers
 
                 Object.Destroy(viewInstance.gameObject);
                 _instancedViews.RemoveAt(i);
-                break;
+
+                if (onlyTopView)
+                    break;
             }
         }
 
@@ -100,6 +104,17 @@ namespace Managers
                 Object.Destroy(viewInstance.gameObject);
             }
             _instancedViews.Clear();
+        }
+
+        public Vector2 ScreenPointToLocalPoint(Vector2 screenPoint)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                _canvasRectTransform,
+                screenPoint,
+                null,
+                out var localPoint
+            );
+            return localPoint;
         }
 
         public void Dispose()

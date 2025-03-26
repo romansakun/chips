@@ -1,7 +1,11 @@
 {
     "Description" : "Русский",
-    "LocalizationText" : {
+    "LocalizationText" : 
+    {
         "START" : "Старт",
-        "SELECT_BET_CHIPS" : "Выбери фишки для игры"
+        "SELECT_BET_CHIPS" : "Выбери фишки для игры",
+        "SELECTED_CHIPS_COUNT" : "Выбрано фишек: {0}",
+        "NEED_TO_SELECT_CHIPS_COUNT" : "Нужно выбрать: {0}",
+        "READY_TO_BATTLE": "Готов!"
     }
 }

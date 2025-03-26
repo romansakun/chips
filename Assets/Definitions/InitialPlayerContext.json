@@ -4,7 +4,17 @@
         "Chip2" : 2,
         "Chip3" : 2,
         "Chip4" : 2,
-        "Chip5" : 2
+        "Chip5" : 2,
+        "Chip6" : 2,
+        "Chip7" : 2,
+        "Chip8" : 2,
+        "Chip9" : 2,
+        "Chip10" : 2,
+        "Chip11" : 2,
+        "Chip12" : 2,
+        "Chip13" : 2,
+        "Chip14" : 2,
+        "Chip15" : 2
     },
     "NpcContexts" : {
         "Npc1" : {

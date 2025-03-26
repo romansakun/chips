@@ -17,6 +17,11 @@ namespace Managers
 
             var settings = new JsonSerializerSettings
             {
+                Converters = new JsonConverter[]
+                {
+                    new Vector3Converter(),
+                    new Vector2Converter()
+                },
                 ObjectCreationHandling = ObjectCreationHandling.Replace,
                 NullValueHandling = NullValueHandling.Include
             };

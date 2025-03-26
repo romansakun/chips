@@ -11,6 +11,7 @@ namespace UI
         [Inject] private LocalizationManager _localizationManager;
 
         public string LocalizationKey;
+        public object[] Args;
 
         private TextMeshProUGUI _textMeshPro;
 
@@ -21,21 +22,49 @@ namespace UI
 
         private void Start()
         {
-            _localizationManager.OnLocalizationChanged += UpdateText;
-            UpdateText();
+            _localizationManager.OnLocalizationChanged += UpdateTextInternal;
+            UpdateText(LocalizationKey);
         }
 
-        private void UpdateText()
+        public void UpdateText(string localizationKey)
+        {
+            if (string.IsNullOrEmpty(localizationKey))
+                return;
+
+            LocalizationKey = localizationKey;
+            UpdateTextInternal();
+        }
+
+        public void UpdateText(string localizationKey, params object[] args)
+        {
+            if (string.IsNullOrEmpty(localizationKey))
+                return;
+
+            LocalizationKey = localizationKey;
+            Args = args;
+            UpdateTextInternal();
+        }   
+
+        public void UpdateText(params object[] args)
         {
             if (string.IsNullOrEmpty(LocalizationKey))
                 return;
 
-            _textMeshPro.text = _localizationManager.GetText(LocalizationKey);
+            Args = args;
+            UpdateTextInternal();
+        }
+
+        private void UpdateTextInternal()
+        {
+            if (Args == null || Args.Length == 0)
+                _textMeshPro.text = _localizationManager.GetText(LocalizationKey, this);
+            else
+                _textMeshPro.text = string.Format(_localizationManager.GetText(LocalizationKey, this), Args);
         }
 
         private void OnDestroy()
         {
-            _localizationManager.OnLocalizationChanged -= UpdateText;
+            _localizationManager.OnLocalizationChanged -= UpdateTextInternal;
         }
     }
 }

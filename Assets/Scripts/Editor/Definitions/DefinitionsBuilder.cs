@@ -29,6 +29,15 @@ namespace EditorDefinitions
             var definitionPaths = AssetDatabase.GetAllAssetPaths().ToList();
             definitionPaths.RemoveAll(p => !p.StartsWith("Assets/Definitions/"));
 
+            var settings = new JsonSerializerSettings
+            {
+                Converters = new JsonConverter[]
+                {
+                    new Vector3Converter(),
+                    new Vector2Converter()
+                }
+            };
+
             var dictFieldTypes = new Dictionary<string, (FieldInfo, Type)>();
             var propertyTypes = new Dictionary<string, (PropertyInfo, Type)>();
             foreach (var fieldInfo in fields)
@@ -53,8 +62,8 @@ namespace EditorDefinitions
                 if (dictFieldTypes.TryGetValue(dirName, out var dictField))
                 {
                     var textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(definitionPath);
-                    if (JsonConvert.DeserializeObject(textAsset.text, dictField.Item2) is not BaseDef loadedDef)
-                        throw new Exception($"Failed to load {fileName} from {definitionPath}");
+                    if (JsonConvert.DeserializeObject(textAsset.text, dictField.Item2, settings) is not BaseDef loadedDef)
+                        throw new Exception($"Failed to load {fileName} from {definitionPath} - it is not BaseDef type");
 
                     loadedDef.Id = fileName;
 
@@ -66,15 +75,15 @@ namespace EditorDefinitions
                 else if (propertyTypes.TryGetValue(fileName, out var property))
                 {
                     var textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(definitionPath);
-                    if (JsonConvert.DeserializeObject(textAsset.text, property.Item2) is not BaseDef loadedDef)
-                        throw new Exception($"Failed to load {fileName} from {definitionPath}");
+                    if (JsonConvert.DeserializeObject(textAsset.text, property.Item2, settings) is not BaseDef loadedDef)
+                        throw new Exception($"Failed to load {fileName} from {definitionPath} - it is not BaseDef type");
 
                     loadedDef.Id = fileName;
                     property.Item1.SetValue(gameDefs, loadedDef);
                 }
             }
 
-            var json = JsonConvert.SerializeObject(gameDefs, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(gameDefs, Formatting.Indented, settings);
             Debug.Log($"{json}");
 
             File.WriteAllText(DefinitionsFilePath, json);

@@ -1,0 +1,407 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Chips
+  m_EditorClassIdentifier: 
+  m_GroupName: Chips
+  m_GUID: 1d4b5f7eb85acdb43b2bf633339dfb5b
+  m_SerializeEntries:
+  - m_GUID: 0385e36c45763794483d939ad9c67ff0
+    m_Address: ChipMesh_3_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0412e3c9e786b7e49a476ddbac5d3086
+    m_Address: ChipMesh_5_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b38aa2f67a541548bc7a9af6769a598
+    m_Address: ChipMesh_1_0
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0db964bfac37b2e42801cb8cbd12d061
+    m_Address: ChipMesh_3_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 109baedf38f718c49a9c8851bdad775b
+    m_Address: ChipMesh_6_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 12273b76c15c0ae48b55ecbeee20d1af
+    m_Address: ChipMesh_6_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15e59c533532fe14f9e64f6d794fb734
+    m_Address: ChipMesh_7_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 16503286eb6bab74f971034443601f0f
+    m_Address: ChipMesh_5_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1dcd393de4efd9a4c8fb0f85bc86579a
+    m_Address: ChipMesh_7_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 20b4640e26d4e61478d446553cab507e
+    m_Address: ChipMesh_5_7
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a28ff63dc06ce8458f4040342f83635
+    m_Address: ChipMesh_1_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ee395ccc9d20dd46860f85f4c325c42
+    m_Address: ChipMesh_1_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 404c75dd3d788694c82802f514af6982
+    m_Address: ChipMesh_5_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42766cd34403798488cded0147ee24f3
+    m_Address: ChipMesh_1_7
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44760667ef084d341b4b21416bb28ea4
+    m_Address: ChipMesh_7_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 45b42227961dcb6409f905996328df70
+    m_Address: ChipMesh_5_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 499fb4bd7ee989647b614fe8540e7d5d
+    m_Address: ChipMesh_4_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49e7ce92499c29344b84e8743c4441fd
+    m_Address: ChipMesh_0_4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5390484c1eebae64c9c8521ff3a38169
+    m_Address: ChipMesh_3_4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55ed7f0a24a996f41872dea3499ebc65
+    m_Address: ChipMesh_2_0
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d6e1df54c15b2e4fbfbdddacc11b9af
+    m_Address: ChipMesh_5_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e722f1ccf094d64fa8be4bb24823239
+    m_Address: ChipMesh_0_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f6dc70609e9cda468b817f9c3548121
+    m_Address: ChipMesh_0_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61f49d1bf00504a4eafdff95950fd98c
+    m_Address: ChipMesh_3_7
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 651bb2693698be645be0339d8c0ee8c2
+    m_Address: ChipMesh_7_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66b3184fbd077b44d8ea7cfeacad9c63
+    m_Address: ChipMesh_2_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d706056b9593a1478b5089aa4e2bfb8
+    m_Address: ChipMesh_0_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a3ac5df2323f9445a4dacdc0b307c32
+    m_Address: MortalCombatChipsMaterial
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a5522a5c4d644b4ba47878aae33b066
+    m_Address: ChipMesh_1_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ce8619894205c043a7c5e31015351df
+    m_Address: ChipMesh_3_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d6821d5851388641ab55335cc3310a7
+    m_Address: ChipMesh_6_4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81de25e00ed0cbd4eb6dc6440bbf7521
+    m_Address: ChipMesh_2_7
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81fbdc99bc9c3114083bc6b24204ea1a
+    m_Address: ChipMesh_4_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8392ca09540f9bc40898a8b8204ee83b
+    m_Address: ChipMesh_4_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 851297aad9fb51c4b9e213741a74982f
+    m_Address: ChipMesh_4_0
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 862b6ed0b24978d469ff7606d62658ab
+    m_Address: ChipMesh_6_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 94b14d4e9163c644bad33ff577f8ccb1
+    m_Address: ChipMesh_0_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97f514021492b4f42ab966d1c8ec6ae9
+    m_Address: ChipMesh_7_0
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9d9755d4a0dd181418b24d43f8f39789
+    m_Address: ChipMesh_0_7
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e16bf34af1d8e445b5de84a77501145
+    m_Address: ChipMesh_2_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0e2bb1aeefeacc45ba12ef41daa0b2e
+    m_Address: ChipMesh_5_0
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a19c5f8471ea8f84fbe45dc080eed16d
+    m_Address: ChipMesh_5_4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a29a782ae791b7140bb6b4ba869363a6
+    m_Address: ChipMesh_1_4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a80d5eec13e3c3e4384cd39f7fa255bb
+    m_Address: ChipMesh_0_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab0049924f6617a44abe87b46c257279
+    m_Address: ChipMesh_6_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad3171a2477ab6747913e35c58dc70e0
+    m_Address: ChipMesh_4_7
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aef389540b7347f4bac4ab7e3b51984e
+    m_Address: ChipMesh_4_4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b175d27a61e85a5419eea99ee655ce68
+    m_Address: ChipMesh_3_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b65896fd78c9f0248ac3e5ce9788c435
+    m_Address: ChipMesh_4_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7bf2b6f67f165a4aa8e37c50b0647dc
+    m_Address: ChipMesh_2_4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc1a01cf48226bb478ca5684d534439f
+    m_Address: ChipMesh_3_0
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bdeb0a5b54c586a49b14da41a7d03a50
+    m_Address: ChipMesh_7_4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: beea86e0cc8f08941aef42d7d0e9a092
+    m_Address: ChipMesh_1_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd2f3d8687db71244a8537f89ecbb8b0
+    m_Address: ChipMesh_6_7
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cdcd929b4a5314a45a5cae1ea9601f8b
+    m_Address: ChipMesh_4_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d825a979a023bc04a8f5f57b5bf2d07a
+    m_Address: ChipMesh_3_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de4e2a1982808e34d8a285a70bb9098a
+    m_Address: ChipMesh_6_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e078f0af7d498e84794382ae434e95d7
+    m_Address: ChipMesh_2_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0de5d24364379843af076048ea289b1
+    m_Address: ChipMesh_1_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e311709668670f2489c870a9613cd774
+    m_Address: ChipMesh_6_0
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e82d5a3f2af33d84da258938a9abde3d
+    m_Address: ChipMesh_7_7
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eee3eebddf3897b4a8bdcf5f73faa351
+    m_Address: ChipMesh_2_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f55243f6ab5fd5a4094802ebb9356507
+    m_Address: ChipMesh_7_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f98fe0c6a0c5afe468a104562f3f8414
+    m_Address: ChipMesh_2_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 8627585a5c85ad84db22aa08868cdd1c, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: aa82469b9a4fcea49803910311da6fc8, type: 2}
+    - {fileID: 11400000, guid: aec33fb0297379b4aa708f08d271a867, type: 2}
