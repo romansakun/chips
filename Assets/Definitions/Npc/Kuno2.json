@@ -1,0 +1,11 @@
+{
+    "NickLocalizationKey": "KUNO",
+    "AvatarSprite": "kuno[kuno]",
+    "ChipsCount": {
+        "Chip1": 2,
+        "Chip2": 2,
+        "Chip3": 2,
+        "Chip4": 2,
+        "Chip5": 2
+    }
+}

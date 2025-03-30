@@ -38,7 +38,31 @@ namespace Model
         public int GetChipsCount(string chipId) => _userContext.ChipsCount.GetValueOrDefault(chipId, 0);
         public void ForeachFinishedStories(Action<int> action) => _userContext.StoryProgress.FinishedStories.ForEach(action);
 
-        public NpcContextRepository GetNpcContext(string npcId) => _npcContextRepositories.GetValueOrDefault(npcId, null);
+        public void AddNpcContext(string npcDefId)
+        {
+            if (_gameDefs.Npc.TryGetValue(npcDefId, out NpcDef npcDef) == false)
+                throw new Exception($"There is no npc with id: {npcDefId}");
+
+            // над таким созданием контекста стоит еще подумать,
+            // т.к. могут быть ошибки в именах полей у двух разных классов
+            var json = JsonConvert.SerializeObject(npcDef);
+            var npcContext = JsonConvert.DeserializeObject<NpcContext>(json);
+            _userContext.NpcContexts.Add(npcDefId, npcContext);
+
+            var npcContextRepository = new NpcContextRepository(npcContext);
+            npcContextRepository.OnNpcContextChanged += OnNpcContextChanged;
+            _npcContextRepositories.Add(npcDefId, npcContextRepository);
+
+            Save();
+        }
+
+        public NpcContextRepository GetNpcContext(string npcId)
+        {
+            if (_npcContextRepositories.ContainsKey(npcId) == false)
+                AddNpcContext(npcId);
+
+            return _npcContextRepositories[npcId];
+        }
 
         public int GetAllChipsCount() 
         { 

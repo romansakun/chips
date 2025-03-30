@@ -21,6 +21,16 @@ namespace UI
 
         private T _value;
 
+        public ReactiveProperty()
+        {
+            
+        }
+
+        public ReactiveProperty(T value)
+        {
+            _value = value;
+        }
+
         public void Subscribe(Action<T> action, bool withForceAction = true)
         {
             _onChanged += action;

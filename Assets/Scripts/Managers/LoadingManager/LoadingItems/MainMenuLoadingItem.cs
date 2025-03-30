@@ -14,7 +14,7 @@ namespace Managers
         [Inject] private ViewModelFactory _viewModelFactory;
         [Inject] private BattleController _battleController;
 
-        public async UniTask Load()
+        public UniTask Load()
         {
             // var viewModel = _viewModelFactory.Create<SelectingFromAllowedChipsViewModel>();
             // await _guiManager.ShowAsync<SelectingFromAllowedChipsView, SelectingFromAllowedChipsViewModel>(viewModel);
@@ -24,8 +24,8 @@ namespace Managers
             //     await UniTask.Yield();
             // }
 
-            _battleController.ExecuteBattle(new List<string>() {"Npc1"});
-            await UniTask.Yield();
+            _battleController.ExecuteBattle(new List<string>() {"Kuno1", "Kuno2"}).Forget();
+            return UniTask.CompletedTask;
         }
     }
 }

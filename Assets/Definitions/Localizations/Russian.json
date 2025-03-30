@@ -6,6 +6,11 @@
         "SELECT_BET_CHIPS" : "Выбери фишки для игры",
         "SELECTED_CHIPS_COUNT" : "Выбрано фишек: {0}",
         "NEED_TO_SELECT_CHIPS_COUNT" : "Нужно выбрать: {0}",
-        "READY_TO_BATTLE": "Готов!"
+        "READY_TO_BATTLE": "Готов!",
+        "ROCK_PAPER_SCISSORS_VIEW_TITLE": "Камень, ножницы, бумага!",
+        "ROCK_PAPER_SCISSORS_FIRST_PLAYER": "Я первый!",
+        "ROCK_PAPER_SCISSORS_SECOND_PLAYER": "Второй",
+        "ROCK_PAPER_SCISSORS_THIRD_PLAYER": "Последний",
+        "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND": "Дальше.."
     }
 }

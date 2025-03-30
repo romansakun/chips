@@ -18,20 +18,22 @@ MonoBehaviour:
   - m_GUID: 3aa52891dc3c383499c47dca45492912
     m_Address: SelectingFromAllowedChipsView
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4c2664ffe8a4f1745badf082b399d758
     m_Address: GameplayView
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71439acb695628e4bb53e13a68f92cca
+    m_Address: RockPaperScissorsView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ea900d321e2b12741b5d941e067c3720
     m_Address: LoadingView
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8627585a5c85ad84db22aa08868cdd1c, type: 2}

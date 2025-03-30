@@ -44,6 +44,5 @@ namespace Definitions
         public Vector2 SkipCurrentChipButtonOffset { get; set; } = new Vector2(-220, 0);
         public Vector2 MoveSkippedToWatchingChipButtonOffset { get; set; } = new Vector2(220, 0);
         public Vector2 SkipBetChipButtonOffset { get; set; } = new Vector2(-200, 250);
-        public Vector2 BetChipsCountTextOffset { get; set; } = new Vector2(-300, 0);
     }
 }

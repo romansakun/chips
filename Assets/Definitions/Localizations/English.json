@@ -1,10 +1,16 @@
 {
     "Description": "English",
-    "LocalizationText": {
+    "LocalizationText": 
+    {
         "START": "Start",
         "SELECT_BET_CHIPS": "Select your chips for the game",
         "SELECTED_CHIPS_COUNT": "Selected chips: {0}",
         "NEED_TO_SELECT_CHIPS_COUNT": "Need to select: {0}",
-        "READY_TO_BATTLE": "I'm ready!"
+        "READY_TO_BATTLE": "I'm ready!",
+        "ROCK_PAPER_SCISSORS_VIEW_TITLE": "Rock, paper, scissors!",
+        "ROCK_PAPER_SCISSORS_FIRST_PLAYER": "I'm first!",
+        "ROCK_PAPER_SCISSORS_SECOND_PLAYER": "Second",
+        "ROCK_PAPER_SCISSORS_THIRD_PLAYER": "Last",
+        "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND": "Continue.."
     }
 }

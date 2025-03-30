@@ -11,6 +11,8 @@ namespace Gameplay.Battle
         public List<string> Players { get; } = new List<string>();
 
         public List<int> PlayersOrder { get; } = new List<int>();
+        public string LeftPlayer { get; set; }
+        public string RightPlayer { get; set; }
 
         public List<ChipDef> CurrentChipsStack { get; } = new List<ChipDef>();
         public int NeedBetChipsCount { get; set; }

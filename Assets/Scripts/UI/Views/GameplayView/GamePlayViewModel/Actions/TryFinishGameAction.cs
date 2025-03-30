@@ -1,4 +1,4 @@
-using Gameplay.Battle;
+using Definitions;
 using Model;
 using UnityEngine;
 using Zenject;
@@ -16,7 +16,7 @@ namespace UI
 
             foreach (var player in context.Players)
             {
-                var playerContextRepository = player.PlayerType == PlayerType.User 
+                var playerContextRepository = player.PlayerType == PlayerType.MyPlayer 
                     ? (IPlayerContextRepository) _userContext 
                     : _userContext.GetNpcContext(player.Id);
 

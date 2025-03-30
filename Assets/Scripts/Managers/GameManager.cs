@@ -23,7 +23,7 @@ namespace Managers
            // var viewModel = _viewModelFactory.Create<GameplayViewModel>();
            // var view = await _guiManager.ShowAsync<GameplayView, GameplayViewModel>(viewModel);
            
-           await _battleController.ExecuteBattle(new List<string>() {"Npc1"});
+           await _battleController.ExecuteBattle(new List<string>() {"Kuno1", "Kuno2"});
         }
 
         public void Dispose()

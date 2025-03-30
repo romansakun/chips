@@ -52,6 +52,10 @@ namespace Gameplay.Battle
             var context = _logicAgent.Context;
             context.Reset();
             context.Players.AddRange(players);
+            context.RightPlayer = players[0];
+            context.LeftPlayer = players.Count > 1 
+                ? players[1] 
+                : string.Empty;
             context.State = BattleState.SelectingChipsForGame;
 
             while (context.IsDisposed == false && context.State != BattleState.Finished)

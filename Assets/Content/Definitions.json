@@ -1,4 +1,30 @@
 {
+  "Npc": {
+    "Kuno1": {
+      "ChipsCount": {
+        "Chip1": 1,
+        "Chip2": 1,
+        "Chip3": 1,
+        "Chip4": 1,
+        "Chip5": 1
+      },
+      "NickLocalizationKey": "KUNO",
+      "AvatarSprite": "kuno[kuno]",
+      "Id": "Kuno1"
+    },
+    "Kuno2": {
+      "ChipsCount": {
+        "Chip1": 2,
+        "Chip2": 2,
+        "Chip3": 2,
+        "Chip4": 2,
+        "Chip5": 2
+      },
+      "NickLocalizationKey": "KUNO",
+      "AvatarSprite": "kuno[kuno]",
+      "Id": "Kuno2"
+    }
+  },
   "Chips": {
     "Chip11": {
       "LocalizationKey": "MORTALCOMBAT_CHIP_11",
@@ -99,7 +125,12 @@
         "SELECT_BET_CHIPS": "Select your chips for the game",
         "SELECTED_CHIPS_COUNT": "Selected chips: {0}",
         "NEED_TO_SELECT_CHIPS_COUNT": "Need to select: {0}",
-        "READY_TO_BATTLE": "I'm ready!"
+        "READY_TO_BATTLE": "I'm ready!",
+        "ROCK_PAPER_SCISSORS_VIEW_TITLE": "Rock, paper, scissors!",
+        "ROCK_PAPER_SCISSORS_FIRST_PLAYER": "I'm first!",
+        "ROCK_PAPER_SCISSORS_SECOND_PLAYER": "Second",
+        "ROCK_PAPER_SCISSORS_THIRD_PLAYER": "Last",
+        "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND": "Continue.."
       },
       "Id": "English"
     },
@@ -110,7 +141,12 @@
         "SELECT_BET_CHIPS": "Выбери фишки для игры",
         "SELECTED_CHIPS_COUNT": "Выбрано фишек: {0}",
         "NEED_TO_SELECT_CHIPS_COUNT": "Нужно выбрать: {0}",
-        "READY_TO_BATTLE": "Готов!"
+        "READY_TO_BATTLE": "Готов!",
+        "ROCK_PAPER_SCISSORS_VIEW_TITLE": "Камень, ножницы, бумага!",
+        "ROCK_PAPER_SCISSORS_FIRST_PLAYER": "Я первый!",
+        "ROCK_PAPER_SCISSORS_SECOND_PLAYER": "Второй",
+        "ROCK_PAPER_SCISSORS_THIRD_PLAYER": "Последний",
+        "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND": "Дальше.."
       },
       "Id": "Russian"
     }
@@ -132,36 +168,6 @@
       "Chip13": 2,
       "Chip14": 2,
       "Chip15": 2
-    },
-    "NpcContexts": {
-      "Npc1": {
-        "ChipsCount": {
-          "Chip1": 1,
-          "Chip2": 2,
-          "Chip3": 2,
-          "Chip4": 2,
-          "Chip5": 2
-        },
-        "DefId": null,
-        "Stats": {
-          "BattleWins": 0,
-          "BattleLoses": 0,
-          "HitChipsCount": 0
-        }
-      },
-      "Npc2": {
-        "ChipsCount": {
-          "Chip1": 1,
-          "Chip2": 2,
-          "Chip3": 2
-        },
-        "DefId": null,
-        "Stats": {
-          "BattleWins": 0,
-          "BattleLoses": 0,
-          "HitChipsCount": 0
-        }
-      }
     },
     "Id": "InitialPlayerContext"
   },
@@ -250,10 +256,23 @@
       "x": -200.0,
       "y": 250.0
     },
-    "BetChipsCountTextOffset": {
-      "x": -300.0,
-      "y": 0.0
-    },
     "Id": "SelectingChipsForBetSettings"
+  },
+  "RockPaperScissorsSettings": {
+    "ShakingHandsTime": 3.0,
+    "ShowRoundResultsTime": 1.5,
+    "HandSprites": {
+      "Rock": "hands[rock]",
+      "Paper": "hands[paper]",
+      "Scissors": "hands[scissors]"
+    },
+    "PlayerOrderLocalizationKeys": {
+      "0": "ROCK_PAPER_SCISSORS_FIRST_PLAYER",
+      "1": "ROCK_PAPER_SCISSORS_SECOND_PLAYER",
+      "2": "ROCK_PAPER_SCISSORS_THIRD_PLAYER"
+    },
+    "SelectHandLocalizationKey": "ROCK_PAPER_SCISSORS_SELECT_HAND",
+    "NeedNextRoundLocalizationKey": "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND",
+    "Id": "RockPaperScissorsSettings"
   }
 }

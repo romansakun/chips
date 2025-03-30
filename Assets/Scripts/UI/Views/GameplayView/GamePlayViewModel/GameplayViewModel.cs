@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Definitions;
 using Factories;
 using Gameplay.Battle;
 using LogicUtility;
@@ -129,8 +130,8 @@ namespace UI
         private async Task FinishGame(bool isUserNeedBeWinner)
         {
             _logicAgent.Context.HittingPlayerIndex = _logicAgent.Context.Players.FindIndex(p => isUserNeedBeWinner 
-                ? p.PlayerType == PlayerType.User
-                : p.PlayerType != PlayerType.User);
+                ? p.PlayerType == PlayerType.MyPlayer
+                : p.PlayerType != PlayerType.MyPlayer);
             var prepareAction = _diContainer.Instantiate<PrepareChipsStackAction>();
             var successHitAction = _diContainer.Instantiate<SetSuccessHitStateAction>();
             var collectChipsAction = _diContainer.Instantiate<CollectWinningChips>();

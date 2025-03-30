@@ -47,7 +47,7 @@ namespace Model
 
         private void Save()
         {
-            OnNpcContextChanged?.Invoke(_npcContext.DefId);
+            OnNpcContextChanged?.Invoke(_npcContext.Id);
         }
 
         public void Dispose()

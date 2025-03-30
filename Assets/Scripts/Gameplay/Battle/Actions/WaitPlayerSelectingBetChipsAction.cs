@@ -20,14 +20,19 @@ namespace Gameplay.Battle
         {
             CalcBetChipsCount(context);
 
-            var viewModel = _viewModelFactory.Create<SelectingFromAllowedChipsViewModel>();
-            var view = await _guiManager.ShowAsync<SelectingFromAllowedChipsView, SelectingFromAllowedChipsViewModel>(viewModel);
-            while (context.PlayerBetChipDefs.Count < context.NeedBetChipsCount)
-            {
-                await Task.Yield();
-            }
-
-            _guiManager.Close(view);
+            // var viewModel = _viewModelFactory.Create<SelectingFromAllowedChipsViewModel>();
+            // var view = await _guiManager.ShowAsync<SelectingFromAllowedChipsView, SelectingFromAllowedChipsViewModel>(viewModel);
+            // while (context.PlayerBetChipDefs.Count < context.NeedBetChipsCount)
+            // {
+            //     await Task.Yield();
+            // }
+            //
+            // _guiManager.Close(view);
+            
+            //добавь сюда фишек для проверки логики потом..
+            //context.PlayerBetChipDefs.Add();
+            
+            await Task.Yield();
         }
 
         private void CalcBetChipsCount(BattleContext context)

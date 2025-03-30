@@ -31,9 +31,9 @@ namespace UI
             var chipsDestination = Vector3.positiveInfinity;
             switch (hittingPlayer.PlayerType)
             {
-                case PlayerType.User: chipsDestination = _destinations.MyPlayerChipDestination.position; break;
-                case PlayerType.LeftNpc: chipsDestination = _destinations.LeftPlayerChipDestination.position; break;
-                case PlayerType.RightNpc: chipsDestination = _destinations.RightPlayerChipDestination.position; break;
+                case PlayerType.MyPlayer: chipsDestination = _destinations.MyPlayerChipDestination.position; break;
+                case PlayerType.LeftPlayer: chipsDestination = _destinations.LeftPlayerChipDestination.position; break;
+                case PlayerType.RightPlayer: chipsDestination = _destinations.RightPlayerChipDestination.position; break;
             }
 
             foreach (var chipAndDef in context.HitWinningChipsAndDefs)
