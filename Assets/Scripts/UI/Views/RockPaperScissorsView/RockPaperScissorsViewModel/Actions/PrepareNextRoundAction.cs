@@ -26,7 +26,7 @@ namespace UI
         private async Task SetPlayer(NpcViewBitModelContext playerContext, bool hasPlayerForRound)
         {
             playerContext.VisibleInfoText.Value = hasPlayerForRound == false;
-            playerContext.VisibleCommunicationSprite.Value = hasPlayerForRound;
+            playerContext.VisibleCommunicationSprite.Value = false;
             await Task.Yield();
         }
     }

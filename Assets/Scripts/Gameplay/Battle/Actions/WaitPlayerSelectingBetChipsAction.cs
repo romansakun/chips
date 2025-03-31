@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Definitions;
 using Factories;
@@ -18,35 +19,19 @@ namespace Gameplay.Battle
 
         public override async Task ExecuteAsync(BattleContext context)
         {
-            CalcBetChipsCount(context);
+            var viewModel = _viewModelFactory.Create<SelectingFromAllowedChipsViewModel>();
+            viewModel.SetSharedBattleContext(context.Shared);
 
-            // var viewModel = _viewModelFactory.Create<SelectingFromAllowedChipsViewModel>();
-            // var view = await _guiManager.ShowAsync<SelectingFromAllowedChipsView, SelectingFromAllowedChipsViewModel>(viewModel);
-            // while (context.PlayerBetChipDefs.Count < context.NeedBetChipsCount)
-            // {
-            //     await Task.Yield();
-            // }
-            //
-            // _guiManager.Close(view);
+            var view = await _guiManager.ShowAsync<SelectingFromAllowedChipsView, SelectingFromAllowedChipsViewModel>(viewModel);
+
+            // var myPlayer = context.Players.Find(p => p.PlayerType == PlayerType.MyPlayer);
+            // myPlayer.BetChips = context.PlayerBetChipDefs.Select(c => c.Id).ToList();
             
-            //добавь сюда фишек для проверки логики потом..
-            //context.PlayerBetChipDefs.Add();
             
-            await Task.Yield();
+            //_guiManager.Close(view);
         }
 
-        private void CalcBetChipsCount(BattleContext context)
-        {
-            var betCount = _gameDefs.SelectingChipsForBetSettings.MaxBetChipsCount;
-            foreach (var player in context.Players)
-            {
-                var playerContext = _userContext.GetNpcContext(player);
-                var allPlayerChipsCount = playerContext.GetAllChipsCount();
-                betCount = Mathf.Min(betCount, allPlayerChipsCount);
-            }
-            betCount = Mathf.Min(betCount, _userContext.GetAllChipsCount());
-            context.NeedBetChipsCount = betCount;
-        }
+    
 
     }
 }

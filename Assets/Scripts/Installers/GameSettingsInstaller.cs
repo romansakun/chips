@@ -24,6 +24,9 @@ namespace Installers
             Container.Bind<ColorsSettings>().FromInstance(_colorsSettings).AsSingle();
             Container.Bind<GameDefs>().AsSingle();
             Container.Bind<LayersSettings>().AsSingle();
+
+            SignalsInstaller.Install(Container);
+
 #if WITH_CHEATS
             Instantiate(_ingameDebugConsolePrefab);
 #endif
@@ -49,6 +52,7 @@ namespace Installers
         public Color DefaultCircleColor;
         public Color FailedHitCircleColor;
         public Color SuccessHitCircleColor;
+        public Color WhiteTextColor;
     }
 
     public class LayersSettings

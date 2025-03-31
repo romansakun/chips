@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Definitions;
+using Gameplay.Battle;
 using LogicUtility;
 using UnityEngine;
 
@@ -22,11 +23,10 @@ namespace UI
         public ReactiveProperty<Sprite> PaperButtonSprite { get; } = new();
         public ReactiveProperty<Sprite> ScissorsButtonSprite { get; } = new();
 
-        public List<PlayerType> Players { get; } = new();
+        public SharedBattleContext Shared { get; set; }
         public List<PlayerType> RoundPlayers { get; } = new();
         public Dictionary<PlayerType, RockPaperScissorsHand> RoundPlayersHands { get; } = new ();
         public Dictionary<PlayerType, int> PlayersResults { get; } = new ();
-
         public bool WasFirstExecuting { get; set; }
         public bool IsDisposed { get; private set; }
 

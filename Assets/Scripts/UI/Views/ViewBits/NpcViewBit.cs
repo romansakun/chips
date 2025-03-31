@@ -101,9 +101,9 @@ namespace UI
 
     public class NpcViewBitModelContext: IDisposable
     {
-        public ReactiveProperty<bool> Visible { get; } = new ReactiveProperty<bool>(true);
-        public ReactiveProperty<bool> VisibleCommunicationSprite { get; } = new ReactiveProperty<bool>(true);
-        public ReactiveProperty<bool> VisibleInfoText { get; } = new ReactiveProperty<bool>(true);
+        public ReactiveProperty<bool> Visible { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<bool> VisibleCommunicationSprite { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<bool> VisibleInfoText { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<Sprite> AvatarSprite { get; } = new ReactiveProperty<Sprite>();
         public ReactiveProperty<Sprite> CommunicationSprite { get; } = new ReactiveProperty<Sprite>();
         public ReactiveProperty<Vector3> CommunicationImageScale { get; } = new ReactiveProperty<Vector3>();

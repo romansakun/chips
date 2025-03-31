@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Definitions;
 using DG.Tweening;
 using Gameplay;
-using Gameplay.Battle;
 using UnityEngine;
 using Zenject;
 
@@ -27,9 +26,9 @@ namespace UI
             });
             _cameraController.CancelFollowing();
 
-            var hittingPlayer = context.Players[context.HittingPlayerIndex];
+            var hittingPlayer = context.HittingPlayer;
             var chipsDestination = Vector3.positiveInfinity;
-            switch (hittingPlayer.PlayerType)
+            switch (hittingPlayer.Type)
             {
                 case PlayerType.MyPlayer: chipsDestination = _destinations.MyPlayerChipDestination.position; break;
                 case PlayerType.LeftPlayer: chipsDestination = _destinations.LeftPlayerChipDestination.position; break;
@@ -42,7 +41,7 @@ namespace UI
                 var chipDef = chipAndDef.Item2;
 
                 context.HittingChipsAndDefs.Remove(chipAndDef);
-                hittingPlayer.WinningChips.Add(chipDef.Id);
+                hittingPlayer.WinningChips.Add(chipDef);
 
                 _collectionSequence
                     .AppendCallback(() => chip.Facade.Rigidbody.isKinematic = true)

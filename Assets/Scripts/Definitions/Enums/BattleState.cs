@@ -1,4 +1,4 @@
-namespace Gameplay.Battle
+namespace Definitions
 {
     public enum BattleState
     {

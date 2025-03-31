@@ -1,33 +1,51 @@
 using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+using Definitions;
+using Extensions;
 using Factories;
 using LogicUtility;
 using LogicUtility.Nodes;
+using Managers;
 using UnityEngine;
 using Zenject;
 
 namespace Gameplay.Battle
 {
-    public class BattleController: IDisposable
+    public class BattleController: IInitializable, IDisposable
     {
         [Inject] private LogicBuilderFactory _logicBuilder;
+        [Inject] private GuiManager _guiManager;
+        [Inject] private SignalBus _signalBus;
 
         private LogicAgent<BattleContext> _logicAgent;
 
-        public BattleContext Context => _logicAgent.Context;
+        public void Initialize()
+        {
+            Subscribes();
+            _logicAgent = CreateLogicAgent();
+        }
+
+        private void Subscribes()
+        {
+            _signalBus.Subscribe<PlayersBetChipsSetSignal>(OnPlayersBetChipsSetSignal);
+            _signalBus.Subscribe<PlayersMoveOrderSetSignal>(OnPlayersMoveOrderSetSignal);
+        }
+
+        private void Unsubscribes()
+        {
+            _signalBus.Unsubscribe<PlayersBetChipsSetSignal>(OnPlayersBetChipsSetSignal);
+            _signalBus.Unsubscribe<PlayersMoveOrderSetSignal>(OnPlayersMoveOrderSetSignal);
+        }
 
         private LogicAgent<BattleContext> CreateLogicAgent()
         {
             var builder = _logicBuilder.Create<BattleContext>();
             var selectingChipsForGameAction = builder
-                .AddAction<WaitPlayerSelectingBetChipsAction>()
-                .JoinAction<SetPlayersOrderByRockPaperScissorsStateAction>();
+                .AddAction<WaitPlayerSelectingBetChipsAction>();
+                //.JoinAction<SetPlayersOrderByRockPaperScissorsStateAction>();
 
             var rockPaperScissorsGameAction = builder
-                .AddAction<ShowRockPaperScissorsViewAction>()
-                .JoinAction<WaitWhilePlayerRockPaperScissorsAction>()
-                .JoinAction<HideRockPaperScissorsViewAction>()
+                .AddAction<WaitRockPaperScissorsViewAction>()
                 .JoinAction<SetChipsBattleStateAction>();
 
             var chipsBattleAction = builder
@@ -46,29 +64,53 @@ namespace Gameplay.Battle
             return builder.Build();
         }
 
-        public async UniTask ExecuteBattle(List<string> players)
+        private void OnPlayersBetChipsSetSignal()
         {
-            _logicAgent ??= CreateLogicAgent();
-            var context = _logicAgent.Context;
-            context.Reset();
-            context.Players.AddRange(players);
-            context.RightPlayer = players[0];
-            context.LeftPlayer = players.Count > 1 
-                ? players[1] 
-                : string.Empty;
-            context.State = BattleState.SelectingChipsForGame;
+            _guiManager.CloseAll();
+            _logicAgent.Context.State = BattleState.SetPlayersOrderByRockPaperScissors;
+            _logicAgent.Execute();
+        }
 
-            while (context.IsDisposed == false && context.State != BattleState.Finished)
+        private void OnPlayersMoveOrderSetSignal()
+        {
+            _guiManager.CloseAll();
+            _logicAgent.Context.State = BattleState.ChipsBattle;
+            _logicAgent.Execute();
+        }
+
+        public void StartBattle(IEnumerable<string> opponentPlayerIds)
+        {
+            _logicAgent.Context.Shared = CreateSharedContext(opponentPlayerIds);
+            _logicAgent.Context.State = BattleState.SelectingChipsForGame;
+            _logicAgent.Execute();
+            
+            Debug.Log(_logicAgent.GetLog());
+        }
+
+        private SharedBattleContext CreateSharedContext(IEnumerable<string> opponentPlayerIds)
+        {
+            var result = new SharedBattleContext();
+            var npcIds = new List<string>(opponentPlayerIds);
+            foreach (var playerType in PlayerTypeExt.AllPlayers)
             {
-                await _logicAgent.ExecuteAsync();
-                Debug.Log(_logicAgent.GetLog());
+                var isPlayer = playerType == PlayerType.MyPlayer;
+                var isNpc = isPlayer == false && npcIds.Count > 0;
+                if (isNpc || isPlayer)
+                {
+                    result.Players.Add(new PlayerSharedContext()
+                    {
+                        Id = isNpc ? npcIds.GetAndRemove(0) : string.Empty,
+                        Type = playerType
+                    });
+                }
             }
+            return result;
         }
 
         public void Dispose()
         {
-            _logicAgent?.Dispose();
-            _logicAgent = null;
+            Unsubscribes();
+            _logicAgent.Dispose();
         }
 
     }

@@ -8,27 +8,23 @@ namespace Gameplay.Battle
     {
         public BattleState State { get; set; }
 
-        public List<string> Players { get; } = new List<string>();
+        public SharedBattleContext Shared { get; set; }
 
-        public List<int> PlayersOrder { get; } = new List<int>();
+        public bool IsPlayerBetChipsSet { get; set; }
         public string LeftPlayer { get; set; }
         public string RightPlayer { get; set; }
 
-        public List<ChipDef> CurrentChipsStack { get; } = new List<ChipDef>();
-        public int NeedBetChipsCount { get; set; }
-        public List<ChipDef> PlayerBetChipDefs { get; } = new List<ChipDef>();
+        //public List<ChipDef> CurrentChipsStack { get; } = new ();
+        public List<ChipDef> PlayerBetChipDefs { get; } = new ();
 
         public bool IsDisposed { get; private set; }
 
         public void Reset()
         {
             State = BattleState.SelectingChipsForGame;
-            Players.Clear();
-            PlayersOrder.Clear();
-            CurrentChipsStack.Clear();
+            //SharedContext = new BattleSharedContext();
+            //CurrentChipsStack.Clear();
             PlayerBetChipDefs.Clear();
-            NeedBetChipsCount = 0;
-            IsDisposed = false;
         }
 
         public void Dispose()

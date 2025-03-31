@@ -1,13 +1,17 @@
 using System.Threading.Tasks;
 using Definitions;
 using DG.Tweening;
+using Installers;
 using UnityEngine;
+using Zenject;
 
 namespace UI
 {
     public class WaitShakingHandsAction :  BaseRockPaperScissorsViewModelAction
     {
         private Sequence _sequence;
+
+        [Inject] private ColorsSettings _colorsSettings;
 
         public override async Task ExecuteAsync(RockPaperScissorsViewModelContext context)
         {
@@ -16,6 +20,8 @@ namespace UI
 
             var rockHandSprite = await GetHandSprite(RockPaperScissorsHand.Rock);
             context.PlayerChosenHandSprite.Value = rockHandSprite;
+            context.LeftNpcViewBitModelContext.VisibleCommunicationSprite.Value = context.RoundPlayers.Contains(PlayerType.LeftPlayer);
+            context.RightNpcViewBitModelContext.VisibleCommunicationSprite.Value = context.RoundPlayers.Contains(PlayerType.RightPlayer);
             context.LeftNpcViewBitModelContext.CommunicationSprite.Value = rockHandSprite;
             context.RightNpcViewBitModelContext.CommunicationSprite.Value = rockHandSprite;
 
@@ -53,8 +59,9 @@ namespace UI
                     }, 2f, 1f))
                     .Join(DOTween.To(() => 1f, x =>
                     {
-                        var value = 200 / 255f;
-                        timerContext.Color.Value = new Color(value, value, value, x);
+                        var color = _colorsSettings.WhiteTextColor;
+                        color.a = x;
+                        timerContext.Color.Value = color;
                     }, 0f, 1f))
                     .JoinCallback(() => timerContext.TimerText.Value = $"{currentTime}");
             }

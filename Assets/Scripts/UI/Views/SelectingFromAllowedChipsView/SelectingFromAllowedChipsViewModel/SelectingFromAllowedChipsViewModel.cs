@@ -1,8 +1,10 @@
 using Definitions;
+using Extensions;
 using Factories;
 using Gameplay.Battle;
 using LogicUtility;
 using LogicUtility.Nodes;
+using Model;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
@@ -12,7 +14,9 @@ namespace UI
     public class SelectingFromAllowedChipsViewModel : ViewModel
     {
         [Inject] private LogicBuilderFactory _logicBuilder;
-        [Inject] private BattleController _battleController;
+        [Inject] private UserContextRepository _userContext;
+        [Inject] private GameDefs _gameDefs;
+        [Inject] private SignalBus _signalBus;
 
         public IReactiveProperty<Vector2> CurrentWatchingChipCanvasPosition => _logicAgent.Context.CurrentWatchingChipCanvasPosition;
         public IReactiveProperty<int> NeedBetChipsCount => _logicAgent.Context.NeedBetChipsCount;
@@ -24,13 +28,13 @@ namespace UI
         public IReactiveProperty<bool> ShowReadyButton => _logicAgent.Context.ShowReadyButton;
 
         private LogicAgent<SelectingFromAllowedChipsViewModelContext> _logicAgent;
-        public LogicAgent<SelectingFromAllowedChipsViewModelContext> LogicAgent => _logicAgent;
 
         public override void Initialize()
         {
             var builder = _logicBuilder.Create<SelectingFromAllowedChipsViewModelContext>();
             var createAllowedChipsAction = builder
-                .AddAction<LoadPlayerChipsAction>()
+                .AddAction<CalcBetChipsCountAction>()
+                .JoinAction<LoadPlayerChipsAction>()
                 .JoinAction<MovingAndRotationAllChipsAction>()
                 .JoinAction<CalcWatchingChipCanvasPositionAction>()
                 .JoinAction<SetVisibleStateCanvasObjectsAction>();
@@ -59,7 +63,6 @@ namespace UI
             returnToRightChipAction.DirectTo(animateChipsMovingAction);
 
             _logicAgent = builder.Build();
-            _logicAgent.Execute();
         }
 
         public void SelectCurrentChipButtonClicked()
@@ -125,11 +128,42 @@ namespace UI
             _logicAgent.Execute();
         }
 
+        public void SetSharedBattleContext(SharedBattleContext contextShared)
+        {
+            _logicAgent.Context.Shared = contextShared;
+            _logicAgent.Execute();
+        }
+
         public void ReadyButtonClicked()
         {
+            SetPlayersBetChips();
+
+            _signalBus.Fire<PlayersBetChipsSetSignal>();
+        }
+
+        private void SetPlayersBetChips()
+        {
+            var needBetCount = _logicAgent.Context.Shared.NeedBetChipsCount;
+            var players = _logicAgent.Context.Shared.Players;
+            var myPlayer = players.Find(p => p.Type == PlayerType.MyPlayer);
             foreach (var pair in _logicAgent.Context.BetSelectedChips)
             {
-                _battleController.Context.PlayerBetChipDefs.Add(pair.Item2);
+                myPlayer.BetChips.Add(pair.Item2);
+            }
+            foreach (var player in players)
+            {
+                if (player.Type == PlayerType.MyPlayer) 
+                    continue;
+
+                var npcContext = _userContext.GetNpcContext(player.Id);
+                npcContext.ForeachChips(pair =>
+                {
+                    if (player.BetChips.Count < needBetCount && pair.Value > 0)
+                    {
+                        var chipDef = _gameDefs.Chips[pair.Key];
+                        player.BetChips.AddManyTimes(chipDef, pair.Value);
+                    }
+                });
             }
         }
 

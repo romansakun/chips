@@ -1,3 +1,5 @@
+using Definitions;
+
 namespace Gameplay.Battle
 {
     public class SetFinishedStateAction : BaseBattleLogicAction

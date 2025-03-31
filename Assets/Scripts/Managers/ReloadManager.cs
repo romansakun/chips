@@ -13,7 +13,6 @@ namespace Managers
         [Inject] private GuiManager _guiManager;
         [Inject] private GameManager _gameManager;
         [Inject] private AddressableManager _addressableManager;
-        [Inject] private BattleController _battleController;
 
         public void Initialize()
         {
@@ -26,7 +25,6 @@ namespace Managers
         {
             _guiManager.Dispose();
             _gameManager.Dispose();
-            _battleController.Dispose();
             _addressableManager.Dispose();
             _container.UnbindAll();
 

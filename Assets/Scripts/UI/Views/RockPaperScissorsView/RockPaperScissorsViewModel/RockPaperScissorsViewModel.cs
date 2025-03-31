@@ -1,5 +1,6 @@
 using Definitions;
 using Factories;
+using Gameplay.Battle;
 using LogicUtility;
 using LogicUtility.Nodes;
 using UnityEngine;
@@ -14,7 +15,6 @@ namespace UI
         public NpcViewBitModel LeftNpcViewBitModel { get; } = new();
         public NpcViewBitModel RightNpcViewBitModel { get; } = new();
         public TimerViewBitModel TimerViewBitModel { get; } = new();
-
         public IReactiveProperty<bool> ShowTitleInfoText => _logicAgent.Context.TitleInfoTextVisible;
         public IReactiveProperty<bool> ShowPlayerInfoText => _logicAgent.Context.PlayerInfoTextVisible;
         public IReactiveProperty<bool> ShowHandsButtons => _logicAgent.Context.HandButtonsVisible;
@@ -33,12 +33,12 @@ namespace UI
         {
              var builder = _logicBuilder.Create<RockPaperScissorsViewModelContext>();
 
+             var prepareFirstRoundAction = builder
+                 .AddAction<PrepareAction>();
              var startAndWaitRoundAction = builder
                  .AddAction<WaitShakingHandsAction>()
                  .JoinAction<SetHandsAction>()
                  .JoinAction<ProcessRoundResultAction>();
-             var prepareFirstRoundAction = builder
-                 .AddAction<PrepareAction>();
              var prepareNextRoundAction = builder
                  .AddAction<PrepareNextRoundAction>();
 
@@ -53,7 +53,6 @@ namespace UI
 
              _logicAgent = builder.Build();
              _logicAgent.OnFinished += OnLogicExecutionFinished;
-             _logicAgent.Execute();
 
              InitializeProperties();
         }
@@ -75,20 +74,20 @@ namespace UI
             _logicAgent.Execute();
         }
 
+        public void SetSharedContext(SharedBattleContext sharedBattleContext)
+        {
+            _logicAgent.Context.Shared = sharedBattleContext;
+            _logicAgent.Execute();
+        }
+
         private void OnLogicExecutionFinished(RockPaperScissorsViewModelContext context)
         {
-            Debug.Log($"{_logicAgent.GetLog()}");
-            var isNeedContinue = context.RoundPlayers.Count > 1 && context.RoundPlayers.Contains(PlayerType.MyPlayer) == false;
+            var isOverForMyPlayer = context.RoundPlayers.Contains(PlayerType.MyPlayer) == false;
+            var isNeedNextRound = context.RoundPlayers.Count > 1;
+            var isNeedContinue = isNeedNextRound && isOverForMyPlayer;
             if (isNeedContinue)
             {
                 _logicAgent.Execute();
-            }
-            else
-            {
-                foreach (var pair in context.PlayersResults)
-                {
-                    Debug.Log($"{pair.Key} - {pair.Value}");
-                }
             }
         }
 
@@ -97,6 +96,5 @@ namespace UI
             _logicAgent.OnFinished -= OnLogicExecutionFinished;
             _logicAgent.Dispose();
         }
-
     }
 }

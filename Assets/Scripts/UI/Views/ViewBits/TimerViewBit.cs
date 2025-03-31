@@ -72,7 +72,7 @@ namespace UI
         public ReactiveProperty<Color> Color { get; } = new ReactiveProperty<Color>();
         public ReactiveProperty<Vector3> Scale { get; } = new ReactiveProperty<Vector3>();
         public ReactiveProperty<string> TimerText { get; } = new ReactiveProperty<string>();
-        public ReactiveProperty<bool> Visible { get; } = new ReactiveProperty<bool>(true);
+        public ReactiveProperty<bool> Visible { get; } = new ReactiveProperty<bool>();
 
         public void Dispose()
         {

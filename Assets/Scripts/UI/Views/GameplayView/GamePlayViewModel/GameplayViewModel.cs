@@ -60,11 +60,10 @@ namespace UI
             _logicAgent = builder.Build();
         }
 
-        public GameplayViewModel SetPlayers(List<PlayerData> contextPlayers)
+        public GameplayViewModel SetSharedContext(SharedBattleContext sharedBattleContext)
         {
-            _logicAgent.Context.Players = contextPlayers;
-            _logicAgent.Context.HittingPlayerIndex = 0;
-            _logicAgent.Context.Players.Sort((p1, p2) => p1.MovementOrder > p2.MovementOrder ? 1 : -1);
+            _logicAgent.Context.Shared = sharedBattleContext;
+            _logicAgent.Context.HittingPlayer = sharedBattleContext.FirstMovePlayer;
             return this;
         }
 
@@ -129,9 +128,9 @@ namespace UI
 
         private async Task FinishGame(bool isUserNeedBeWinner)
         {
-            _logicAgent.Context.HittingPlayerIndex = _logicAgent.Context.Players.FindIndex(p => isUserNeedBeWinner 
-                ? p.PlayerType == PlayerType.MyPlayer
-                : p.PlayerType != PlayerType.MyPlayer);
+            _logicAgent.Context.HittingPlayer = _logicAgent.Context.Shared.Players.Find(p => isUserNeedBeWinner 
+                ? p.Type == PlayerType.MyPlayer
+                : p.Type != PlayerType.MyPlayer);
             var prepareAction = _diContainer.Instantiate<PrepareChipsStackAction>();
             var successHitAction = _diContainer.Instantiate<SetSuccessHitStateAction>();
             var collectChipsAction = _diContainer.Instantiate<CollectWinningChips>();

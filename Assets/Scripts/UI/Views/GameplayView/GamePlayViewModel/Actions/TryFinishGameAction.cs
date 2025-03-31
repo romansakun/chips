@@ -14,25 +14,25 @@ namespace UI
             if (context.HittingChipsAndDefs.Count != 0) 
                 return;
 
-            foreach (var player in context.Players)
+            foreach (var player in context.Shared.Players)
             {
-                var playerContextRepository = player.PlayerType == PlayerType.MyPlayer 
+                var playerContextRepository = player.Type == PlayerType.MyPlayer 
                     ? (IPlayerContextRepository) _userContext 
                     : _userContext.GetNpcContext(player.Id);
 
-                foreach (var chipId in player.BetChips)
+                foreach (var chipDef in player.BetChips)
                 {
-                    var chipCount = playerContextRepository.GetChipsCount(chipId);
-                    playerContextRepository.UpdateChipsCount(chipId, Mathf.Clamp(chipCount - 1, 0, int.MaxValue));
+                    var chipCount = playerContextRepository.GetChipsCount(chipDef.Id);
+                    playerContextRepository.UpdateChipsCount(chipDef.Id, Mathf.Clamp(chipCount - 1, 0, int.MaxValue));
                 }
-                foreach (var chipId in player.WinningChips)
+                foreach (var chipDef in player.WinningChips)
                 {
-                    var chipCount = playerContextRepository.GetChipsCount(chipId);
-                    playerContextRepository.UpdateChipsCount(chipId, Mathf.Clamp(chipCount + 1, 0, int.MaxValue));
+                    var chipCount = playerContextRepository.GetChipsCount(chipDef.Id);
+                    playerContextRepository.UpdateChipsCount(chipDef.Id, Mathf.Clamp(chipCount + 1, 0, int.MaxValue));
                 }
             }
 
-            foreach (var player in context.Players)
+            foreach (var player in context.Shared.Players)
             {
                 player.BetChips.Clear();
                 player.WinningChips.Clear();

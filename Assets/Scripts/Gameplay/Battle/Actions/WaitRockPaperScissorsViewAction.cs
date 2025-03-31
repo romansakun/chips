@@ -3,12 +3,11 @@ using Factories;
 using Managers;
 using Model;
 using UI;
-using UnityEngine;
 using Zenject;
 
 namespace Gameplay.Battle
 {
-    public class ShowRockPaperScissorsViewAction : BaseBattleLogicAction
+    public class WaitRockPaperScissorsViewAction : BaseBattleLogicAction
     {
         [Inject] private GuiManager _guiManager;
         [Inject] private ViewModelFactory _viewModelFactory;
@@ -16,10 +15,11 @@ namespace Gameplay.Battle
 
         public override async Task ExecuteAsync (BattleContext context)
         {
-            Debug.Log(nameof(ShowRockPaperScissorsViewAction));
-            
             var viewModel = _viewModelFactory.Create<RockPaperScissorsViewModel>();
-            await _guiManager.ShowAsync<RockPaperScissorsView, RockPaperScissorsViewModel>(viewModel);
+            viewModel.SetSharedContext(context.Shared);
+            var view = await _guiManager.ShowAsync<RockPaperScissorsView, RockPaperScissorsViewModel>(viewModel);
+
+            //_guiManager.Close(view);
         }
     }
 }

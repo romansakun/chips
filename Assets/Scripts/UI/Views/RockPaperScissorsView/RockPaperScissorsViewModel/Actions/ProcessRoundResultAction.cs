@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Definitions;
 using DG.Tweening;
+using Extensions;
 using Managers;
 using Zenject;
 
@@ -10,6 +11,7 @@ namespace UI
     public class ProcessRoundResultAction :  BaseRockPaperScissorsViewModelAction
     {
         [Inject] private LocalizationManager _localizationManager;
+        [Inject] private SignalBus _signalBus;
 
         public override async Task ExecuteAsync(RockPaperScissorsViewModelContext context)
         {
@@ -18,7 +20,7 @@ namespace UI
             {
                 ProcessResults(context);
             }
-            else if (roundPlayersCount == 2)
+            else
             {
                 foreach (var playerType in context.RoundPlayers)
                 {
@@ -27,10 +29,11 @@ namespace UI
                 var onePlayerResult = context.PlayersResults[context.RoundPlayers[0]];
                 var otherPlayerResult = context.PlayersResults[context.RoundPlayers[1]];
                 if (onePlayerResult != otherPlayerResult)
+                {
                     context.RoundPlayers.Clear();
+                    SetPlayersMoveOrder(context);
+                }
             }
-
-            context.Players.Sort((p1, p2) => context.PlayersResults[p2].CompareTo(context.PlayersResults[p1]));
 
             context.LeftNpcViewBitModelContext.VisibleInfoText.Value = true;
             context.RightNpcViewBitModelContext.VisibleInfoText.Value = true;
@@ -45,10 +48,18 @@ namespace UI
 
         private string GetPlayerInfoText(RockPaperScissorsViewModelContext context, PlayerType playerType)
         {
-            var localizationKey = context.RoundPlayers.Contains(playerType)
-                ? _gameDefs.RockPaperScissorsSettings.NeedNextRoundLocalizationKey
-                : _gameDefs.RockPaperScissorsSettings.PlayerOrderLocalizationKeys[context.Players.IndexOf(playerType)];
-            return _localizationManager.GetText(localizationKey);
+            if (context.RoundPlayers.Contains(playerType))
+                return _localizationManager.GetText(_gameDefs.RockPaperScissorsSettings.NeedNextRoundLocalizationKey);
+
+            var loserPair = context.PlayersResults.GetMinByValue();
+            if (loserPair.Key == playerType)
+                return _localizationManager.GetText(_gameDefs.RockPaperScissorsSettings.LoserLocalizationKey);
+
+            var winnerPair = context.PlayersResults.GetMaxByValue();
+            if (winnerPair.Key == playerType)
+                return _localizationManager.GetText(_gameDefs.RockPaperScissorsSettings.WinnerLocalizationKey);
+
+            return _localizationManager.GetText(_gameDefs.RockPaperScissorsSettings.SecondPlayerLocalizationKey);
         }
 
         private void ProcessResults(RockPaperScissorsViewModelContext context)
@@ -85,6 +96,25 @@ namespace UI
                     result--;
             }
             context.PlayersResults[playerType] = result;
+        }
+
+        private void SetPlayersMoveOrder(RockPaperScissorsViewModelContext context)
+        {
+            var playersResults = new Dictionary<PlayerType, int>(context.PlayersResults);
+            var pair = playersResults.GetMaxByValue();
+            playersResults.Remove(pair.Key);
+            context.Shared.FirstMovePlayer = context.Shared.Players.Find(p => p.Type == pair.Key);
+            var player = context.Shared.FirstMovePlayer;
+            while (playersResults.Count > 0)
+            {
+                pair = playersResults.GetMaxByValue();
+                playersResults.Remove(pair.Key);
+                player.NextPlayerTypeInTurn = pair.Key;
+                player = context.Shared.Players.Find(p => p.Type == pair.Key);
+            }
+            player.NextPlayerTypeInTurn = context.Shared.FirstMovePlayer.Type;
+
+            _signalBus.Fire<PlayersMoveOrderSetSignal>();
         }
     }
 }

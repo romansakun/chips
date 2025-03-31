@@ -13,7 +13,6 @@ namespace UI
     {
         [Inject] private Chip.Pool _chipPool;
         [Inject] private CameraController _cameraController;
-        [Inject] private GameDefs _gameDefs;
         [Inject] private AddressableManager _addressableManager;
 
         private readonly Dictionary<ChipDef, int> _chipsCount = new Dictionary<ChipDef, int>();
@@ -32,12 +31,11 @@ namespace UI
             }
             else
             {
-                foreach (var pair in context.Players)
+                foreach (var pair in context.Shared.Players)
                 {
                     var chips = pair.BetChips;
-                    foreach (var chip in chips)
+                    foreach (var chipDef in chips)
                     {
-                        var chipDef = _gameDefs.Chips[chip];
                         if (_chipsCount.TryAdd(chipDef, 1) == false)
                             _chipsCount[chipDef]++;
                     }

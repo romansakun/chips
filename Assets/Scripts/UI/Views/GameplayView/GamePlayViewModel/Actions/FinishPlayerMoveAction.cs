@@ -13,7 +13,8 @@ namespace UI
         {
             _gameplayObjects.AllowedScatterCircleSpriteRenderer.color = _colorsSettings.DefaultCircleColor;
 
-            context.HittingPlayerIndex = (context.HittingPlayerIndex + 1) % context.Players.Count;
+            var nextPlayerType = context.HittingPlayer.NextPlayerTypeInTurn;
+            context.HittingPlayer = context.Shared.Players.Find(p=>p.Type == nextPlayerType);
             context.IsHitSuccess.Value = false;
             context.IsHitFailed.Value = false;
         }

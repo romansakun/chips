@@ -266,13 +266,11 @@
       "Paper": "hands[paper]",
       "Scissors": "hands[scissors]"
     },
-    "PlayerOrderLocalizationKeys": {
-      "0": "ROCK_PAPER_SCISSORS_FIRST_PLAYER",
-      "1": "ROCK_PAPER_SCISSORS_SECOND_PLAYER",
-      "2": "ROCK_PAPER_SCISSORS_THIRD_PLAYER"
-    },
-    "SelectHandLocalizationKey": "ROCK_PAPER_SCISSORS_SELECT_HAND",
+    "SelectHandTitleLocalizationKey": "ROCK_PAPER_SCISSORS_SELECT_HAND",
     "NeedNextRoundLocalizationKey": "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND",
+    "LoserLocalizationKey": "ROCK_PAPER_SCISSORS_THIRD_PLAYER",
+    "SecondPlayerLocalizationKey": "ROCK_PAPER_SCISSORS_THIRD_PLAYER",
+    "WinnerLocalizationKey": "ROCK_PAPER_SCISSORS_THIRD_PLAYER",
     "Id": "RockPaperScissorsSettings"
   }
 }

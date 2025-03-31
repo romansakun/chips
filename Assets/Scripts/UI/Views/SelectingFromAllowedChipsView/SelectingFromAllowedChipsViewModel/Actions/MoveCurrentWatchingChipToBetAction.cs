@@ -1,12 +1,7 @@
-using Model;
-using Zenject;
-
 namespace UI
 {
     public class MoveCurrentWatchingChipToBetAction : BaseSelectingFromAllowedChipsViewModelAction
     {
-        [Inject] UserContextRepository _userContext;
-
         protected override void Execute(SelectingFromAllowedChipsViewModelContext context)
         {
             if (context.CurrentWatchingChip == default)
@@ -26,5 +21,6 @@ namespace UI
                 context.LeftSideChips.RemoveAt(0);
             }
         }
+
     }
 }

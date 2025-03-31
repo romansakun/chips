@@ -36,7 +36,7 @@ namespace UI
             _context.RightSideChips.Clear();
             _context.RightSideChips.AddRange(_context.AllPlayersChips);
             _context.CurrentWatchingChip = _context.RightSideChips[0];
-            _context.NeedBetChipsCount.Value = _battleController.Context.NeedBetChipsCount;
+            _context.NeedBetChipsCount.Value = _context.Shared.NeedBetChipsCount;
             _context.BetChipsCount.Value = 0;
             _context.RightSideChips.RemoveAt(0);
 

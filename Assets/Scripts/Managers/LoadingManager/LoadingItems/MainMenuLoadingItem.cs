@@ -24,7 +24,8 @@ namespace Managers
             //     await UniTask.Yield();
             // }
 
-            _battleController.ExecuteBattle(new List<string>() {"Kuno1", "Kuno2"}).Forget();
+            //_battleController.ExecuteBattle(new List<string>() {"Kuno1", "Kuno2"}).Forget();
+            _battleController.StartBattle(new List<string>() {"Kuno1", "Kuno2"});
             return UniTask.CompletedTask;
         }
     }

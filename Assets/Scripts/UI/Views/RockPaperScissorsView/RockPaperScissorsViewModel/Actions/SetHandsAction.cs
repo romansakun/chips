@@ -27,10 +27,10 @@ namespace UI
                 context.RightNpcViewBitModelContext.CommunicationSprite.Value = await GetHandSprite(rightNpcHand);
             }
 
-            foreach (var playerType in context.Players)
+            foreach (var player in context.Shared.Players)
             {
-                if (context.RoundPlayers.Contains(playerType) == false)
-                    context.RoundPlayersHands.Remove(playerType);
+                if (context.RoundPlayers.Contains(player.Type) == false)
+                    context.RoundPlayersHands.Remove(player.Type);
             }
         }
 

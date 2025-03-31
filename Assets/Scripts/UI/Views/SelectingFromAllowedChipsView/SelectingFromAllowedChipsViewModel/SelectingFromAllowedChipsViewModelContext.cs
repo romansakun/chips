@@ -4,6 +4,7 @@ using LogicUtility;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Definitions;
+using Gameplay.Battle;
 
 namespace UI
 {
@@ -25,6 +26,7 @@ namespace UI
         public List<(Chip, ChipDef)> LeftSideChips { get; } = new List<(Chip, ChipDef)>();
         public List<(Chip, ChipDef)> BetSelectedChips { get; } = new List<(Chip, ChipDef)>();
         public (Chip, ChipDef) CurrentWatchingChip { get; set; }
+        public SharedBattleContext Shared { get; set; }
 
         public (DragInputType, PointerEventData) Input { get; set; }
         public Vector2 StartSwipePosition { get; set; }

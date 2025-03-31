@@ -22,9 +22,9 @@ namespace Installers
             Container.Bind<AddressableManager>().AsSingle();
             Container.Bind<GuiManager>().AsSingle();
             Container.Bind<GameManager>().AsSingle();
-            Container.Bind<BattleController>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<ReloadManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<BattleController>().AsSingle();
             Container.BindInterfacesAndSelfTo<LocalizationManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<UserContextRepository>().AsSingle();
             Container.BindInterfacesAndSelfTo<LoadingManager>().AsSingle();

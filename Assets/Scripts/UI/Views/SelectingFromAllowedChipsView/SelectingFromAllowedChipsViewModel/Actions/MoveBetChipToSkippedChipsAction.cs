@@ -9,7 +9,7 @@ namespace UI
 
             var chip = context.BetSelectedChips[0];
             context.BetSelectedChips.RemoveAt(0);
-            context.LeftSideChips.Insert(0,chip);
+            context.LeftSideChips.Insert(0, chip);
             context.BetChipsCount.Value = context.BetSelectedChips.Count;
         }
     }

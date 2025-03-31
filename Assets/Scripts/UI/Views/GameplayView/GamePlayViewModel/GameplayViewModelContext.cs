@@ -15,8 +15,8 @@ namespace UI
         public List<(Chip, ChipDef)> HitWinningChipsAndDefs { get; set; } = new List<(Chip, ChipDef)>();
         public List<(Chip, ChipDef)> HittingChipsAndDefs { get; set; } = new List<(Chip, ChipDef)>();
         public List<Chip> HittingChips { get; set; } = new List<Chip>();
-        public List<PlayerData> Players { get; set; } = new List<PlayerData>();
-        public int HittingPlayerIndex { get; set; }
+        public PlayerSharedContext HittingPlayer { get; set; }
+        public SharedBattleContext Shared { get; set; }
         public bool IsBitButtonPressed { get; set; }
         public bool IsPrepareChipsButtonPressed { get; set; }
         public bool IsPlayerCannotCollectWinningsChips { get; set; }
