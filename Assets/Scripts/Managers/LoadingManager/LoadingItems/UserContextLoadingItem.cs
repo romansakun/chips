@@ -14,7 +14,6 @@ namespace Managers
             {
                 _userContext.CreateNewPlayerContext();
             }
-
             await UniTask.Yield();
         }
     }

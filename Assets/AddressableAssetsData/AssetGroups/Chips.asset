@@ -333,6 +333,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Chips
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c39203c343948c544956db30d45c6327
+    m_Address: Chip
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Chips
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cd2f3d8687db71244a8537f89ecbb8b0
     m_Address: ChipMesh_6_7
     m_ReadOnly: 0

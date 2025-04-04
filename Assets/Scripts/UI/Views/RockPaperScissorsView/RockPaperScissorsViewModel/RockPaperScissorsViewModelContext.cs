@@ -8,9 +8,9 @@ namespace UI
 {
     public class RockPaperScissorsViewModelContext : IContext
     {
-        public TimerViewBitModelContext TimerViewBitModelContext { get; } = new();
-        public NpcViewBitModelContext LeftNpcViewBitModelContext { get; } = new();
-        public NpcViewBitModelContext RightNpcViewBitModelContext { get; } = new();
+        public TimerViewPartModelContext TimerViewPartModelContext { get; } = new();
+        public NpcViewPartModelContext LeftNpcViewComponentModelContext { get; } = new();
+        public NpcViewPartModelContext RightNpcViewComponentModelContext { get; } = new();
         public ReactiveProperty<Sprite> PlayerChosenHandSprite { get; } = new();
         public ReactiveProperty<Vector3> PlayerChosenHandScale { get; } = new();
         public ReactiveProperty<string> TitleInfoText { get; } = new();
@@ -32,9 +32,9 @@ namespace UI
 
         public void Dispose()
         {
-            TimerViewBitModelContext.Dispose();
-            LeftNpcViewBitModelContext.Dispose();
-            RightNpcViewBitModelContext.Dispose();
+            TimerViewPartModelContext.Dispose();
+            LeftNpcViewComponentModelContext.Dispose();
+            RightNpcViewComponentModelContext.Dispose();
             PlayerChosenHandSprite.Dispose();
             PlayerChosenHandScale.Dispose();
             PlayerInfoText.Dispose();

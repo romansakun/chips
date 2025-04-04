@@ -6,7 +6,6 @@ using Definitions;
 using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
-using Random = System.Random;
 
 namespace Model
 {
@@ -19,7 +18,6 @@ namespace Model
 
         private UserContext _userContext;
         private Dictionary<string, NpcContextRepository> _npcContextRepositories;
-        private Random _playerRandom;
         private string _playerContextPath;
         private bool _willSave = false;
 
@@ -28,23 +26,24 @@ namespace Model
             _playerContextPath = $"{Application.persistentDataPath}/PlayerContext.json";
         }
 
-        public int RandomSeed() => _userContext.RandomSeed;
-        public float RandomRange(float min, float max) => _playerRandom.Next((int)(min * 10000), (int)(max * 10000)) / 10000f;
-        public int GetRandomRange(int min, int max) => _playerRandom.Next(min, max);
         public string GetLocalizationLanguage() => _userContext.GameSettings.Language;
+
+        public float GetPreparingForce() => _userContext.GameplayControl.PreparedForce;
+        public float GetPreparingHeight() => _userContext.GameplayControl.PreparedHeight;
+        public float GetPreparingAngle() => _userContext.GameplayControl.PreparedAngle;
+        public float GetPreparingTorque() => _userContext.GameplayControl.PreparedTorque;
+
         public int GetBattleWinsCount() => _userContext.Stats.BattleWins;
         public int GetBattleLosesCount() => _userContext.Stats.BattleLoses;
         public int GetHitChipsCount() => _userContext.Stats.HitChipsCount;
         public int GetChipsCount(string chipId) => _userContext.ChipsCount.GetValueOrDefault(chipId, 0);
         public void ForeachFinishedStories(Action<int> action) => _userContext.StoryProgress.FinishedStories.ForEach(action);
 
-        public void AddNpcContext(string npcDefId)
+        private void AddNpcContext(string npcDefId)
         {
             if (_gameDefs.Npc.TryGetValue(npcDefId, out NpcDef npcDef) == false)
                 throw new Exception($"There is no npc with id: {npcDefId}");
 
-            // над таким созданием контекста стоит еще подумать,
-            // т.к. могут быть ошибки в именах полей у двух разных классов
             var json = JsonConvert.SerializeObject(npcDef);
             var npcContext = JsonConvert.DeserializeObject<NpcContext>(json);
             _userContext.NpcContexts.Add(npcDefId, npcContext);
@@ -79,22 +78,65 @@ namespace Model
             }
         }
 
-        public void UpdateChipsCount(string chipId, int newCount) { _userContext.ChipsCount[chipId] = newCount; Save(); }
+        public void UpdateChipsCount(string chipId, int newCount)
+        {
+            _userContext.ChipsCount[chipId] = newCount; 
+            Save();
+        }
+
         public void UpdateBattleWinsCount(int battleWins)
         {
             _userContext.Stats.BattleWins = battleWins;
             OnBattleWinsCountChanged?.Invoke(battleWins);
             Save();
         }
-        public void UpdateBattleLosesCount(int battleLoses) { _userContext.Stats.BattleLoses = battleLoses; Save(); }
-        public void UpdateHitChipsCount(int hitChipsCount) { _userContext.Stats.HitChipsCount = hitChipsCount; Save(); }
-        public void AddFinishedStory(int finishedStory) { _userContext.StoryProgress.FinishedStories.Add(finishedStory); Save(); }
+
+        public void UpdateBattleLosesCount(int battleLoses)
+        {
+            _userContext.Stats.BattleLoses = battleLoses; 
+            Save();
+        }
+
+        public void UpdateHitChipsCount(int hitChipsCount)
+        {
+            _userContext.Stats.HitChipsCount = hitChipsCount; 
+            Save();
+        }
+
+        public void AddFinishedStory(int finishedStory)
+        {
+            _userContext.StoryProgress.FinishedStories.Add(finishedStory); 
+            Save();
+        }
+
+        public void UpdatePreparedForce(float force)
+        {
+            _userContext.GameplayControl.PreparedForce = force;
+            Save();
+        }
+
+        public void UpdatePreparedHeight(float height)
+        {
+            _userContext.GameplayControl.PreparedHeight = height;
+            Save();
+        }
+
+        public void UpdatePreparedAngle(float angle)
+        {
+            _userContext.GameplayControl.PreparedAngle = angle;
+            Save();
+        }
+
+        public void UpdatePreparedTorque(float torque)
+        {
+            _userContext.GameplayControl.PreparedTorque = torque;
+            Save();
+        }
 
         public void CreateNewPlayerContext()
         {
             var json = JsonConvert.SerializeObject(_gameDefs.InitialPlayerContext);
             _userContext = JsonConvert.DeserializeObject<UserContext>(json);
-            _userContext.RandomSeed = UnityEngine.Random.Range(0, int.MaxValue);
             ProcessingPlayerContext();
             Save();
         }
@@ -128,7 +170,6 @@ namespace Model
 
         private void ProcessingPlayerContext()
         {
-            _playerRandom = new Random(_userContext.RandomSeed);
             _npcContextRepositories = new Dictionary<string, NpcContextRepository>(_userContext.NpcContexts.Count);
             foreach (var pair in _userContext.NpcContexts)
             {

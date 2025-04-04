@@ -1,12 +1,10 @@
-using System.Collections.Generic;
 using Gameplay;
-using Gameplay.Chips;
 using Managers;
 using Model;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.Gameplay
 {
     public class BitChipsStackAction : BaseGameplayViewModelAction
     {
@@ -16,48 +14,29 @@ namespace UI
 
         protected override void Execute(GameplayViewModelContext context)
         {
-            //_chipsStack.Bit(new Vector3(Random.Range(-0.25f, 0.25f), -2f, Random.Range(-0.25f, 0.25f)), ForceMode.Impulse); //хорошо для стопок 6 шт
-
-            context.IsPlayerCannotCollectWinningsChips = false;
             _audioManager.PrepareForGroundChipsHitSound();
 
-            Bit(context.HittingChips);
+            context.IsPlayerCannotCollectWinningsChips = false;
+            Bit(context);
 
             _cameraController.FollowByChips(context.HittingChips);
         }
 
-        private void Bit(List<Chip> chips, ForceMode forceMode = ForceMode.Impulse)
+        private void Bit(GameplayViewModelContext context, ForceMode forceMode = ForceMode.Impulse)
         {
-            // // Вектор отскока (нормаль к поверхности столкновения)
-            // Vector3 bounceDirection = collision.contacts[0].normal;
-            //
-            // // Добавляем случайный боковой вектор для изменения угла
-            // Vector3 randomDirection = Quaternion.Euler(0, Random.Range(-45f, 45f), 0) * bounceDirection;
-            //
-            // // Применяем силу отскока
-            // _rigidbody.AddForce(randomDirection * 5, ForceMode.Impulse);
-            //
-            // // Добавляем случайный крутящий момент для вращения
-            var bitForce = new Vector3(
-                _userContext.RandomRange(-0.25f, 0.25f),
-                -2.5f,
-                _userContext.RandomRange(-0.25f, 0.25f));
-            var torque = new Vector3(
-                _userContext.RandomRange(-.05f, .05f),
-                _userContext.RandomRange(-.5f, .5f),
-                _userContext.RandomRange(-.05f, .05f));
-
-            Debug.Log($"bitForce: {bitForce} torque: {torque}");
-
-            foreach (var chip in chips)
+            var bitForce = context.PlayerHitForce;
+            var bitTorque = context.PlayerHitTorque;
+            foreach (var chip in context.HittingChips)
             {
                 var chipFacade = chip.Facade;
                 chipFacade.ResetRestFramesCount();
                 chipFacade.GameObject.SetActive(true);
                 chipFacade.Rigidbody.isKinematic = false;
                 chipFacade.Rigidbody.AddForce(bitForce, forceMode);
-                chipFacade.Rigidbody.AddTorque(torque, forceMode);
+                chipFacade.Rigidbody.AddTorque(bitTorque, forceMode);
             }
+
+            Debug.Log($"bitForce: {bitForce} torque: {bitTorque}");
         }
     }
 }

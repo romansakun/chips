@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using LogicUtility;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public abstract class BaseSelectingFromAllowedChipsViewModelAction : IAction<SelectingFromAllowedChipsViewModelContext> 
     {

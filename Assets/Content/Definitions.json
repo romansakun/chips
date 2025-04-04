@@ -173,13 +173,52 @@
   },
   "GameplaySettings": {
     "AllowedScatterRadius": 10.0,
-    "AllowedSlopeAngle": 30.0,
-    "MaxTimeToWaitHitResult": 15.0,
+    "AllowedSlopeAngle": 61.0,
+    "MaxTimeToWaitHitResult": 10.0,
+    "FirstTimeToWaitHitResult": 5.0,
     "SqrRestChipPositionThreshold": 0.00025,
     "RestChipAngleThreshold": 2.0,
     "FramesToWatchRestChip": 60,
     "TimeToShowFailedHit": 0.5,
     "TimeToMoveWinningChipToPlayer": 0.5,
+    "PrepareForceRange": [
+      1.05,
+      2.5
+    ],
+    "PrepareTorqueRange": [
+      0.0,
+      1.75
+    ],
+    "PrepareHeightRange": [
+      1.25,
+      4.0
+    ],
+    "PrepareAngleRange": [
+      60.0,
+      90.0
+    ],
+    "PrepareForceInfoSprites": [
+      "PrepareForceInfo1",
+      "PrepareForceInfo2",
+      "PrepareForceInfo3"
+    ],
+    "PrepareTorqueInfoSprites": [
+      "PrepareTorqueInfo1",
+      "PrepareTorqueInfo2",
+      "PrepareTorqueInfo3"
+    ],
+    "PrepareHeightInfoSprites": [
+      "PrepareHeightInfo1",
+      "PrepareHeightInfo2",
+      "PrepareHeightInfo3"
+    ],
+    "PrepareAngleInfoSprites": [
+      "PrepareAngleInfo1",
+      "PrepareAngleInfo2",
+      "PrepareAngleInfo3"
+    ],
+    "Deviation": 0.005,
+    "ChipSpacing": 0.0215,
     "Id": "GameplaySettings"
   },
   "SelectingChipsForBetSettings": {
@@ -259,7 +298,7 @@
     "Id": "SelectingChipsForBetSettings"
   },
   "RockPaperScissorsSettings": {
-    "ShakingHandsTime": 3.0,
+    "ShakingHandsTime": 1.0,
     "ShowRoundResultsTime": 1.5,
     "HandSprites": {
       "Rock": "hands[rock]",
@@ -269,8 +308,8 @@
     "SelectHandTitleLocalizationKey": "ROCK_PAPER_SCISSORS_SELECT_HAND",
     "NeedNextRoundLocalizationKey": "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND",
     "LoserLocalizationKey": "ROCK_PAPER_SCISSORS_THIRD_PLAYER",
-    "SecondPlayerLocalizationKey": "ROCK_PAPER_SCISSORS_THIRD_PLAYER",
-    "WinnerLocalizationKey": "ROCK_PAPER_SCISSORS_THIRD_PLAYER",
+    "SecondPlayerLocalizationKey": "ROCK_PAPER_SCISSORS_SECOND_PLAYER",
+    "WinnerLocalizationKey": "ROCK_PAPER_SCISSORS_FIRST_PLAYER",
     "Id": "RockPaperScissorsSettings"
   }
 }

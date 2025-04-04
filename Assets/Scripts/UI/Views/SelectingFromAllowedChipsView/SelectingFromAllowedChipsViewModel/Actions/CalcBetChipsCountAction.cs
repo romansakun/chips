@@ -3,7 +3,7 @@ using Model;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class CalcBetChipsCountAction : BaseSelectingFromAllowedChipsViewModelAction
     {

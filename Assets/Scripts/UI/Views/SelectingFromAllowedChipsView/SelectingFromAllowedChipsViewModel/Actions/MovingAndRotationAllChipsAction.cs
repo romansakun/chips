@@ -2,7 +2,7 @@ using Definitions;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class MovingAndRotationAllChipsAction : BaseSelectingFromAllowedChipsViewModelAction
     {

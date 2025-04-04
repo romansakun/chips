@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using Definitions;
 using Model;
 using UnityEngine;
 using Zenject;
@@ -10,7 +9,6 @@ namespace Managers
     {
         [Inject] private UserContextRepository _userContext;
         [Inject] private LocalizationManager _localizationManager;
-        [Inject] private GameDefs _gameDefs;
 
         public async UniTask Load()
         {

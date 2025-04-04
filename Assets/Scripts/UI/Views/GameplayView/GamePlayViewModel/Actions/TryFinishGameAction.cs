@@ -3,7 +3,7 @@ using Model;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.Gameplay
 {
     public class TryFinishGameAction : BaseGameplayViewModelAction
     {
@@ -11,7 +11,7 @@ namespace UI
 
         protected override void Execute(GameplayViewModelContext context)
         {
-            if (context.HittingChipsAndDefs.Count != 0) 
+            if (context.HittingChipsAndDefs.Count != 0)
                 return;
 
             foreach (var player in context.Shared.Players)

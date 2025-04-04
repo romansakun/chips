@@ -1,6 +1,6 @@
 using Factories;
 using Managers;
-using UI;
+using UI.Gameplay;
 using Zenject;
 
 namespace Gameplay.Battle
@@ -10,12 +10,11 @@ namespace Gameplay.Battle
         [Inject] private ViewModelFactory _viewModelFactory;
         [Inject] private GuiManager _guiManager;
 
-        protected override void Execute(BattleContext context)
+        protected override async void Execute(BattleContext context)
         {
-            var viewModel = _viewModelFactory.Create<GameplayViewModel>()
-                .SetSharedContext(context.Shared);
-            
-            var view = _guiManager.ShowAsync<GameplayView, GameplayViewModel>(viewModel);
+            var viewModel = _viewModelFactory.Create<GameplayViewModel>();
+            viewModel.SetSharedContext(context.Shared); 
+            await _guiManager.ShowAsync<GameplayView, GameplayViewModel>(viewModel);
         }
     }
 }

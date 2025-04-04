@@ -6,7 +6,7 @@ using Extensions;
 using Managers;
 using Zenject;
 
-namespace UI
+namespace UI.RockPaperScissors
 {
     public class ProcessRoundResultAction :  BaseRockPaperScissorsViewModelAction
     {
@@ -35,15 +35,21 @@ namespace UI
                 }
             }
 
-            context.LeftNpcViewBitModelContext.VisibleInfoText.Value = true;
-            context.RightNpcViewBitModelContext.VisibleInfoText.Value = true;
-            context.LeftNpcViewBitModelContext.InfoText.Value = GetPlayerInfoText(context, PlayerType.LeftPlayer);
-            context.RightNpcViewBitModelContext.InfoText.Value = GetPlayerInfoText(context, PlayerType.RightPlayer);
+            context.LeftNpcViewComponentModelContext.VisibleInfoText.Value = true;
+            context.RightNpcViewComponentModelContext.VisibleInfoText.Value = true;
+            context.LeftNpcViewComponentModelContext.InfoText.Value = GetPlayerInfoText(context, PlayerType.LeftPlayer);
+            context.RightNpcViewComponentModelContext.InfoText.Value = GetPlayerInfoText(context, PlayerType.RightPlayer);
             context.PlayerInfoText.Value = GetPlayerInfoText(context, PlayerType.MyPlayer);
 
             var interval = _gameDefs.RockPaperScissorsSettings.ShowRoundResultsTime;
             var intervalTween = DOTween.To(() => 0f, x => {}, 1f, interval);
             await intervalTween.AsyncWaitForCompletion();
+
+            //todo: it need to replace to next action
+            if (context.RoundPlayers.Count == 0)
+            {
+                _signalBus.Fire<PlayersMoveOrderSetSignal>();
+            }
         }
 
         private string GetPlayerInfoText(RockPaperScissorsViewModelContext context, PlayerType playerType)
@@ -113,8 +119,6 @@ namespace UI
                 player = context.Shared.Players.Find(p => p.Type == pair.Key);
             }
             player.NextPlayerTypeInTurn = context.Shared.FirstMovePlayer.Type;
-
-            _signalBus.Fire<PlayersMoveOrderSetSignal>();
         }
     }
 }

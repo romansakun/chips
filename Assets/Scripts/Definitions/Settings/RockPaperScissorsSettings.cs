@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UI;
 
 namespace Definitions
 {
@@ -19,7 +18,7 @@ namespace Definitions
         public string SelectHandTitleLocalizationKey { get; set; } = "ROCK_PAPER_SCISSORS_SELECT_HAND";
         public string NeedNextRoundLocalizationKey { get; set; } = "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND";
         public string LoserLocalizationKey { get; set; } = "ROCK_PAPER_SCISSORS_THIRD_PLAYER";
-        public string SecondPlayerLocalizationKey { get; set; } = "ROCK_PAPER_SCISSORS_THIRD_PLAYER";
-        public string WinnerLocalizationKey { get; set; } = "ROCK_PAPER_SCISSORS_THIRD_PLAYER";
+        public string SecondPlayerLocalizationKey { get; set; } = "ROCK_PAPER_SCISSORS_SECOND_PLAYER";
+        public string WinnerLocalizationKey { get; set; } = "ROCK_PAPER_SCISSORS_FIRST_PLAYER";
     }
 }

@@ -43,9 +43,19 @@ namespace UI
             _onChanged -= action;
         }
 
-        public void SetWithForceChange(T value)
+        public void SetWithForceChangeInvoke(T value)
         {
             _value = value;
+            _onChanged?.Invoke(_value);
+        }
+
+        public void SetWithoutChangeInvoke(T value)
+        {
+            _value = value;
+        }
+
+        public void Touch()
+        {
             _onChanged?.Invoke(_value);
         }
 

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Managers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,14 +16,14 @@ namespace UI
         public short OverridedSortingOrder = -1;
         public RectTransform RectTransform => GetComponent<RectTransform>();
 
-        public abstract void Initialize(ViewModel viewModel);
+        public abstract UniTask Initialize(ViewModel viewModel);
 
         protected void UpdateViewModel<T>(ref T oldViewModel, ViewModel newViewModel) where T : ViewModel
         {
             oldViewModel?.Dispose();
             oldViewModel = (T) newViewModel;
         }
-        
+
         [ContextMenu("Close")]
         public void Close()
         {

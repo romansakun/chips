@@ -5,7 +5,7 @@ using Managers;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.RockPaperScissors
 {
     public abstract class BaseRockPaperScissorsViewModelAction : IAction<RockPaperScissorsViewModelContext> 
     {
@@ -33,6 +33,7 @@ namespace UI
             return handSprite;
         }
 
+        //todo: replace it to other helper class
         protected async Task<Sprite> GetAvatarSprite(string npcDefId)
         {
             var avatarSpriteId = _gameDefs.Npc[npcDefId].AvatarSprite;

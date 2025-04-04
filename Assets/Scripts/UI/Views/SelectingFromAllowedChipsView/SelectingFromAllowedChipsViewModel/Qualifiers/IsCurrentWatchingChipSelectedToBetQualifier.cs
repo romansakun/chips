@@ -1,7 +1,7 @@
 using Definitions;
 using UnityEngine;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class IsCurrentWatchingChipSelectedToBetQualifier : BaseSelectingFromAllowedChipsViewModelQualifier
     {

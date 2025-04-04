@@ -1,14 +1,12 @@
 using System.Threading.Tasks;
 using Definitions;
-using Gameplay.Battle;
 using Managers;
 using Zenject;
 
-namespace UI
+namespace UI.RockPaperScissors
 {
     public class PrepareAction : BaseRockPaperScissorsViewModelAction
     {
-        [Inject] private BattleController _battleController;
         [Inject] private LocalizationManager _localizationManager;
 
         public override async Task ExecuteAsync(RockPaperScissorsViewModelContext context)
@@ -19,13 +17,13 @@ namespace UI
 
                 if (player.Type == PlayerType.LeftPlayer)
                 {
-                    context.LeftNpcViewBitModelContext.Visible.Value = true;
-                    context.LeftNpcViewBitModelContext.AvatarSprite.Value = await GetAvatarSprite(player.Id);
+                    context.LeftNpcViewComponentModelContext.AvatarSprite.Value = await GetAvatarSprite(player.Id);
+                    context.LeftNpcViewComponentModelContext.Visible.Value = true;
                 }
                 else if (player.Type == PlayerType.RightPlayer)
                 {
-                    context.RightNpcViewBitModelContext.Visible.Value = true;
-                    context.RightNpcViewBitModelContext.AvatarSprite.Value = await GetAvatarSprite(player.Id);
+                    context.RightNpcViewComponentModelContext.AvatarSprite.Value = await GetAvatarSprite(player.Id);
+                    context.RightNpcViewComponentModelContext.Visible.Value = true;
                 }
             }
 
@@ -35,7 +33,8 @@ namespace UI
             context.PlayerInfoTextVisible.Value = false;
             context.HandButtonsVisible.Value = true;
             context.TitleInfoTextVisible.Value = true;
-            context.TitleInfoText.Value = _localizationManager.GetText(_gameDefs.RockPaperScissorsSettings.SelectHandTitleLocalizationKey);
+            var localizationKey = _gameDefs.RockPaperScissorsSettings.SelectHandTitleLocalizationKey;
+            context.TitleInfoText.Value = _localizationManager.GetText(localizationKey);
         }
     }
 }

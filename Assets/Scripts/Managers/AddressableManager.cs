@@ -13,25 +13,25 @@ namespace Managers
          private readonly Dictionary<string, AsyncOperationHandle<GameObject>> _prefabOperationHandles = new();
          private readonly Dictionary<string, AsyncOperationHandle<Object>> _objectOperationHandles = new();
 
-         public async UniTask<T> LoadPrefabAsync<T> () where T : MonoBehaviour
+         public async UniTask<T> LoadPrefabAsync<T> (string name = null) where T : MonoBehaviour
          {
-             var prefabType = typeof(T);
-             if (_prefabOperationHandles.TryGetValue(prefabType.Name, out var handle) == false)
+             var prefabName = name ?? typeof(T).Name;
+             if (_prefabOperationHandles.TryGetValue(prefabName, out var handle) == false)
              {
-                 handle = Addressables.LoadAssetAsync<GameObject>(prefabType.Name);
+                 handle = Addressables.LoadAssetAsync<GameObject>(prefabName);
                  await handle.Task;
 
                  if (handle.Status != AsyncOperationStatus.Succeeded)
-                     throw new ArgumentException($"Unable to load prefab from {prefabType.Name}\n{handle.OperationException}");
+                     throw new ArgumentException($"Unable to load prefab from {prefabName}\n{handle.OperationException}");
 
-                 _prefabOperationHandles.TryAdd(prefabType.Name, handle);
+                 _prefabOperationHandles.TryAdd(prefabName, handle);
              }
              if (handle.Result == null)
-                 throw new ArgumentException($"Unable to load prefab from {prefabType.Name}");
+                 throw new ArgumentException($"Unable to load prefab from {prefabName}");
 
              var component = handle.Result.GetComponent<T>();
              if (component == null)
-                 throw new ArgumentException($"Unable to load prefab from {prefabType.Name}");
+                 throw new ArgumentException($"Unable to load prefab from {prefabName}. {handle.Result.GetType()} don't contains {typeof(T)}");
 
              return component;
          }

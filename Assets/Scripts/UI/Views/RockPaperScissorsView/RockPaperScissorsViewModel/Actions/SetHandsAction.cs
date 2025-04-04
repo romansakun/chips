@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Definitions;
 
-namespace UI
+namespace UI.RockPaperScissors
 {
     public class SetHandsAction :  BaseRockPaperScissorsViewModelAction
     {
@@ -18,13 +18,13 @@ namespace UI
             {
                 var leftNpcHand = RockPaperScissorsHandExt.Random();
                 context.RoundPlayersHands[PlayerType.LeftPlayer] = leftNpcHand;
-                context.LeftNpcViewBitModelContext.CommunicationSprite.Value = await GetHandSprite(leftNpcHand);
+                context.LeftNpcViewComponentModelContext.CommunicationSprite.Value = await GetHandSprite(leftNpcHand);
             }
             if (context.RoundPlayers.Contains(PlayerType.RightPlayer))
             {
                 var rightNpcHand = RockPaperScissorsHandExt.Random();
                 context.RoundPlayersHands[PlayerType.RightPlayer] = rightNpcHand;
-                context.RightNpcViewBitModelContext.CommunicationSprite.Value = await GetHandSprite(rightNpcHand);
+                context.RightNpcViewComponentModelContext.CommunicationSprite.Value = await GetHandSprite(rightNpcHand);
             }
 
             foreach (var player in context.Shared.Players)

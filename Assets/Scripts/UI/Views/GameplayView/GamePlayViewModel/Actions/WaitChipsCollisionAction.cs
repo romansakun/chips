@@ -1,18 +1,22 @@
 using System.Threading.Tasks;
 using Definitions;
+using Gameplay;
+using Installers;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.Gameplay
 {
     public class WaitChipsCollisionAction : BaseGameplayViewModelAction
     {
         [Inject] private GameDefs _gameDefs;
+        [Inject] private ColorsSettings _colorsSettings;
+        [Inject] private CameraController _cameraController;
 
         public override async Task ExecuteAsync(GameplayViewModelContext context)
         {
-            context.ShowHitTimer.Value = true;
-
+            context.HitTimerContext.Visible.Value = false;
+            context.HitTimerContext.Color.Value = _colorsSettings.WhiteTextColor;
             var allowedScatterRadius = _gameDefs.GameplaySettings.AllowedScatterRadius;
             var sqrAllowedScatterRadius = allowedScatterRadius * allowedScatterRadius;
             var waitingTime = _gameDefs.GameplaySettings.MaxTimeToWaitHitResult;
@@ -34,7 +38,7 @@ namespace UI
                     }
                 }
 
-                context.HitTimer.Value = waitingTime;
+                ProcessHitTimer(context, waitingTime);
 
                 if (canFinishedWaiting)
                     waitingTime = 0;
@@ -44,7 +48,24 @@ namespace UI
                 await Task.Yield();
             }
 
-            context.ShowHitTimer.Value = false;
+            _cameraController.CancelFollowing();
+            context.HitTimerContext.Visible.Value = false;
+        }
+
+        private void ProcessHitTimer(GameplayViewModelContext context, float waitingTime)
+        {
+            if (context.HitTimerContext.Visible.Value == false)
+            {
+                var timeDiff = _gameDefs.GameplaySettings.MaxTimeToWaitHitResult - waitingTime;
+                var needTimer = timeDiff > _gameDefs.GameplaySettings.FirstTimeToWaitHitResult;
+                if (needTimer)
+                    context.HitTimerContext.Visible.Value = true;
+                else
+                    return;
+            }
+
+            var value = Mathf.CeilToInt(waitingTime).ToString();
+            context.HitTimerContext.TimerText.Value = value;
         }
 
         private static bool CanWait(GameplayViewModelContext context)

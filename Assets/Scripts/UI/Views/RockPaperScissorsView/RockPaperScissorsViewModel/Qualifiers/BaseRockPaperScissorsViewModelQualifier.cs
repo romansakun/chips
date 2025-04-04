@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using LogicUtility;
 
-namespace UI
+namespace UI.RockPaperScissors
 {
     public abstract class BaseRockPaperScissorsViewModelQualifier : IQualifier<RockPaperScissorsViewModelContext> 
     {

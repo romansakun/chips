@@ -6,6 +6,7 @@ using Factories;
 using LogicUtility;
 using LogicUtility.Nodes;
 using Managers;
+using Model;
 using UnityEngine;
 using Zenject;
 
@@ -23,6 +24,10 @@ namespace Gameplay.Battle
         {
             Subscribes();
             _logicAgent = CreateLogicAgent();
+            
+#if WITH_CHEATS
+            AddDebugCommands();
+#endif
         }
 
         private void Subscribes()
@@ -40,26 +45,22 @@ namespace Gameplay.Battle
         private LogicAgent<BattleContext> CreateLogicAgent()
         {
             var builder = _logicBuilder.Create<BattleContext>();
-            var selectingChipsForGameAction = builder
-                .AddAction<WaitPlayerSelectingBetChipsAction>();
-                //.JoinAction<SetPlayersOrderByRockPaperScissorsStateAction>();
+            var selectingChipsForGameAction = builder.AddAction<ShowPlayerSelectingBetChipsViewAction>();
+            var rockPaperScissorsGameAction = builder.AddAction<ShowRockPaperScissorsViewAction>();
 
-            var rockPaperScissorsGameAction = builder
-                .AddAction<WaitRockPaperScissorsViewAction>()
-                .JoinAction<SetChipsBattleStateAction>();
-
+            //todo: rework it
             var chipsBattleAction = builder
                 .AddAction<ShowGameplayViewAction>()
                 .JoinAction<WaitWhileOnePlayerWinAction>()
                 .JoinAction<HideGameplayViewAction>()
                 .JoinAction<SetFinishedStateAction>();
-
             var rootSelector = builder
                 .AddSelector<FirstScoreSelector<BattleContext>>()
                 .AddQualifier<IsSelectingChipsForGameStateQualifier>(selectingChipsForGameAction)
                 .AddQualifier<IsSetPlayersOrderByRockPaperScissorsStateQualifier>(rockPaperScissorsGameAction)
                 .AddQualifier<IsChipsBattleStateQualifier>(chipsBattleAction)
                 .SetAsRoot();
+            //
 
             return builder.Build();
         }
@@ -81,9 +82,14 @@ namespace Gameplay.Battle
         public void StartBattle(IEnumerable<string> opponentPlayerIds)
         {
             _logicAgent.Context.Shared = CreateSharedContext(opponentPlayerIds);
+            if (_logicAgent.Context.Shared.Players.Count < 2)
+            {
+                Debug.LogError("Not enough players!");
+                return;
+            }
             _logicAgent.Context.State = BattleState.SelectingChipsForGame;
             _logicAgent.Execute();
-            
+
             Debug.Log(_logicAgent.GetLog());
         }
 
@@ -95,13 +101,25 @@ namespace Gameplay.Battle
             {
                 var isPlayer = playerType == PlayerType.MyPlayer;
                 var isNpc = isPlayer == false && npcIds.Count > 0;
-                if (isNpc || isPlayer)
+                if (isPlayer)
                 {
                     result.Players.Add(new PlayerSharedContext()
                     {
-                        Id = isNpc ? npcIds.GetAndRemove(0) : string.Empty,
                         Type = playerType
                     });
+                }
+                else if (isNpc)
+                {
+                    var npcId = npcIds.GetAndRemove(0);
+                    var npcContext = _userContext.GetNpcContext(npcId);
+                    if (npcContext.GetAllChipsCount() > 0)
+                    {
+                        result.Players.Add(new PlayerSharedContext()
+                        {
+                            Id = npcId,
+                            Type = playerType
+                        });
+                    }
                 }
             }
             return result;
@@ -111,7 +129,60 @@ namespace Gameplay.Battle
         {
             Unsubscribes();
             _logicAgent.Dispose();
+
+#if WITH_CHEATS
+            RemoveDebugCommands();
+#endif
         }
+
+#if WITH_CHEATS
+
+        [Inject] private UserContextRepository _userContext;
+        [Inject] private GameDefs _gameDefs;
+
+        public void GoToChipsBattle()
+        {
+            _guiManager.CloseAll();
+
+            SetPlayersBetChips();
+            var myPlayer = _logicAgent.Context.Shared.Players.Find(p => p.Type == PlayerType.MyPlayer);
+            myPlayer.NextPlayerTypeInTurn = PlayerType.MyPlayer;
+            _logicAgent.Context.Shared.FirstMovePlayer = myPlayer;
+            _logicAgent.Context.State = BattleState.ChipsBattle;
+            _logicAgent.Execute();
+        }
+
+        private void SetPlayersBetChips()
+        {
+            var needBetCount = 3;
+            var players = _logicAgent.Context.Shared.Players;
+            foreach (var player in players)
+            {
+                if (player.Type == PlayerType.MyPlayer) 
+                    continue;
+
+                var npcContext = _userContext.GetNpcContext(player.Id);
+                npcContext.ForeachChips(pair =>
+                {
+                    if (player.BetChips.Count < needBetCount && pair.Value > 0)
+                    {
+                        var chipDef = _gameDefs.Chips[pair.Key];
+                        player.BetChips.AddManyTimes(chipDef, pair.Value);
+                    }
+                });
+            }
+        }
+
+        private void AddDebugCommands()
+        {
+            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(GoToChipsBattle).ToLower(), string.Empty, GoToChipsBattle);
+        }
+
+        private void RemoveDebugCommands()
+        {
+            IngameDebugConsole.DebugLogConsole.RemoveCommand(GoToChipsBattle);
+        }
+#endif
 
     }
 }

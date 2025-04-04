@@ -1,8 +1,9 @@
+using Definitions;
 using Gameplay;
 using Installers;
 using Zenject;
 
-namespace UI
+namespace UI.Gameplay
 {
     public class FinishPlayerMoveAction : BaseGameplayViewModelAction
     {
@@ -11,10 +12,9 @@ namespace UI
 
         protected override void Execute(GameplayViewModelContext context)
         {
-            _gameplayObjects.AllowedScatterCircleSpriteRenderer.color = _colorsSettings.DefaultCircleColor;
-
             var nextPlayerType = context.HittingPlayer.NextPlayerTypeInTurn;
-            context.HittingPlayer = context.Shared.Players.Find(p=>p.Type == nextPlayerType);
+            context.HittingPlayer = context.Shared.Players.Find(p=> p.Type == nextPlayerType);
+            context.IsPlayerCanHitNow.Value = context.HittingPlayer.Type == PlayerType.MyPlayer;
             context.IsHitSuccess.Value = false;
             context.IsHitFailed.Value = false;
         }

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -7,6 +8,8 @@ namespace UI
 {
     public class LoadingView : View
     {
+        private const float AnimationDuration = 0.25f;
+
         [SerializeField] private Image _loadingProgressImage;
         [SerializeField] private TextMeshProUGUI _loadingProgressText;
 
@@ -14,10 +17,11 @@ namespace UI
         private Sequence _animation;
         private LoadingViewModel _viewModel;
 
-        public override void Initialize(ViewModel viewModel)
+        public override UniTask Initialize(ViewModel viewModel)
         {
             UpdateViewModel(ref _viewModel, viewModel);
             _viewModel.LoadingProgress.Subscribe(OnLoadingProgressChanged);
+            return UniTask.CompletedTask;
         }
 
         private void ViewModelDispose()
@@ -30,12 +34,12 @@ namespace UI
         {
             _animation?.Kill();
             _animation = DOTween.Sequence()
-                .Append(_loadingProgressImage.DOFillAmount(progress / 100f, 0.25f))
+                .Append(_loadingProgressImage.DOFillAmount(progress / 100f, AnimationDuration))
                 .Join(DOTween.To(() => _currentProgress, (x) =>
                 {
                     _currentProgress = x;
                     _loadingProgressText.text = $"{x}%";
-                }, progress, 0.25f))
+                }, progress, AnimationDuration))
                 .OnComplete(() => _animation = null);
         }
 

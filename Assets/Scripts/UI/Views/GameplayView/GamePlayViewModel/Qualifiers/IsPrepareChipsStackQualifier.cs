@@ -1,4 +1,4 @@
-namespace UI
+namespace UI.Gameplay
 {
     public class IsPrepareChipsStackQualifier : BaseGameplayViewModelQualifier
     {

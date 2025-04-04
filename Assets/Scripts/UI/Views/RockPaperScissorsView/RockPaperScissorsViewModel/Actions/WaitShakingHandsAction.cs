@@ -5,13 +5,13 @@ using Installers;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.RockPaperScissors
 {
     public class WaitShakingHandsAction :  BaseRockPaperScissorsViewModelAction
     {
-        private Sequence _sequence;
-
         [Inject] private ColorsSettings _colorsSettings;
+
+        private Sequence _sequence;
 
         public override async Task ExecuteAsync(RockPaperScissorsViewModelContext context)
         {
@@ -20,12 +20,12 @@ namespace UI
 
             var rockHandSprite = await GetHandSprite(RockPaperScissorsHand.Rock);
             context.PlayerChosenHandSprite.Value = rockHandSprite;
-            context.LeftNpcViewBitModelContext.VisibleCommunicationSprite.Value = context.RoundPlayers.Contains(PlayerType.LeftPlayer);
-            context.RightNpcViewBitModelContext.VisibleCommunicationSprite.Value = context.RoundPlayers.Contains(PlayerType.RightPlayer);
-            context.LeftNpcViewBitModelContext.CommunicationSprite.Value = rockHandSprite;
-            context.RightNpcViewBitModelContext.CommunicationSprite.Value = rockHandSprite;
+            context.LeftNpcViewComponentModelContext.VisibleCommunicationSprite.Value = context.RoundPlayers.Contains(PlayerType.LeftPlayer);
+            context.RightNpcViewComponentModelContext.VisibleCommunicationSprite.Value = context.RoundPlayers.Contains(PlayerType.RightPlayer);
+            context.LeftNpcViewComponentModelContext.CommunicationSprite.Value = rockHandSprite;
+            context.RightNpcViewComponentModelContext.CommunicationSprite.Value = rockHandSprite;
 
-            var timerContext = context.TimerViewBitModelContext;
+            var timerContext = context.TimerViewPartModelContext;
             timerContext.Visible.Value = true;
             context.TitleInfoTextVisible.Value = false;
 
@@ -39,6 +39,7 @@ namespace UI
                 }
             });
 
+            //todo: it's not nice, you should think about it some more
             var seconds = _gameDefs.RockPaperScissorsSettings.ShakingHandsTime;
             while (seconds > 0)
             {
@@ -53,8 +54,8 @@ namespace UI
                         x /= 2f;
                         var handScaleValue = x + 1f;
                         var handScale = new Vector3(handScaleValue, handScaleValue, handScaleValue);
-                        context.LeftNpcViewBitModelContext.CommunicationImageScale.Value = handScale;
-                        context.RightNpcViewBitModelContext.CommunicationImageScale.Value = handScale;
+                        context.LeftNpcViewComponentModelContext.CommunicationImageScale.Value = handScale;
+                        context.RightNpcViewComponentModelContext.CommunicationImageScale.Value = handScale;
                         context.PlayerChosenHandScale.Value = handScale;
                     }, 2f, 1f))
                     .Join(DOTween.To(() => 1f, x =>
@@ -68,8 +69,8 @@ namespace UI
  
             await _sequence.AsyncWaitForCompletion();
 
-            context.LeftNpcViewBitModelContext.CommunicationImageScale.Value = Vector3.one;
-            context.RightNpcViewBitModelContext.CommunicationImageScale.Value = Vector3.one;
+            context.LeftNpcViewComponentModelContext.CommunicationImageScale.Value = Vector3.one;
+            context.RightNpcViewComponentModelContext.CommunicationImageScale.Value = Vector3.one;
             context.PlayerChosenHandScale.Value = Vector3.one;
             timerContext.Visible.Value = false;
         }

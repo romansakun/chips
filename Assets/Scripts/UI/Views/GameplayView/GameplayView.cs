@@ -1,78 +1,108 @@
-using TMPro;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Gameplay
 {
     public class GameplayView : View, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerClickHandler
     {
-        [SerializeField] private GameObject _successMessage;
-        [SerializeField] private GameObject _failMessage;
-        [SerializeField] private GameObject _hitTimer;
-        [SerializeField] private TextMeshProUGUI _hitTimerText;
-        [SerializeField] private Button _prepareButton;
         [SerializeField] private Button _bitButton;
+        [SerializeField] private Button _prepareForceButton;
+        [SerializeField] private Button _prepareTorqueButton;
+        [SerializeField] private Button _prepareHeightButton;
+        [SerializeField] private Button _prepareAngleButton;
+        [SerializeField] private GameObject _preparingButtonsContainer;
+        [SerializeField] private RectTransform _preparingHitViewPartContainer;
+        [SerializeField] private RectTransform _hitTimerContainer;
+        [SerializeField] private RectTransform _leftNpcContainer;
+        [SerializeField] private RectTransform _rightNpcContainer;
+
+        //todo: remove it after tests
         [SerializeField] private Button _reloadButton;
 
+        private TimerViewPart _hitTimer;
+        private NpcViewPart _leftNpc;
+        private NpcViewPart _rightNpc;
+        private PreparingHitViewPart _preparingHit;
         private GameplayViewModel _viewModel;
 
         private void Awake()
         {
-            _prepareButton.onClick.AddListener(()=>_viewModel.OnPrepareButtonClick());
             _bitButton.onClick.AddListener(()=>_viewModel.OnBitButtonClick());
+            _prepareForceButton.onClick.AddListener(()=>_viewModel.OnPrepareForceButtonClick());
+            _prepareTorqueButton.onClick.AddListener(()=>_viewModel.OnPrepareTorqueButtonClick());
+            _prepareHeightButton.onClick.AddListener(()=>_viewModel.OnPrepareHeightButtonClick());
+            _prepareAngleButton.onClick.AddListener(()=>_viewModel.OnPrepareAngleButtonClick());
+
             _reloadButton.onClick.AddListener(()=>_viewModel.OnReloadButtonClick());
         }
 
-        private void Start()
-        {
-#if WITH_CHEATS
-            AddDebugCommands();
-#endif
-        }
-
-        public override void Initialize(ViewModel viewModel)
+        public override async UniTask Initialize(ViewModel viewModel)
         {
             UpdateViewModel(ref _viewModel, viewModel);
-            _viewModel.ShowHitTimer.Subscribe(ShowHitTimerChanged);
-            _viewModel.HitTimer.Subscribe(HitTimerChanged);
-            _viewModel.IsHitFailed.Subscribe(IsHitFailedChanged);
-            _viewModel.IsHitSuccess.Subscribe(IsHitSuccessChanged);
+
+            _leftNpc = await _guiManager.CreateViewPart<NpcViewPart>(_leftNpcContainer, _leftNpcContainer.name);
+            _rightNpc = await _guiManager.CreateViewPart<NpcViewPart>(_rightNpcContainer, _rightNpcContainer.name);
+            _hitTimer = await _guiManager.CreateViewPart<TimerViewPart>(_hitTimerContainer);
+            _preparingHit = await _guiManager.CreateViewPart<PreparingHitViewPart>(_preparingHitViewPartContainer);
+
+            _leftNpc.Subscribes(_viewModel.LeftNpc);
+            _rightNpc.Subscribes(_viewModel.RightNpc);
+            _hitTimer.Subscribes(_viewModel.HitTimer);
+            _preparingHit.Subscribes(_viewModel.PreparingForceHit);
+            _preparingHit.Subscribes(_viewModel.PreparingTorqueHit);
+            _preparingHit.Subscribes(_viewModel.PreparingAngleHit);
+            _preparingHit.Subscribes(_viewModel.PreparingHeightHit);
+            _viewModel.ShowPreparingViewPart.Subscribe(IsPreparingViewPartVisibleChanged);
+            _viewModel.ShowPreparingButtons.Subscribe(OnShowPreparingButtonsChanged);
+            _viewModel.IsHitStarted.Subscribe(OnHitStarted);
+            _viewModel.IsPlayerCanHitNow.Subscribe(OnPlayerCanHitNow);
+            _viewModel.ProcessFirstPlayerMove();
         }
 
         private void ViewModelDispose()
         {
-            _viewModel.ShowHitTimer.Unsubscribe(ShowHitTimerChanged);
-            _viewModel.HitTimer.Unsubscribe(HitTimerChanged);
-            _viewModel.IsHitFailed.Unsubscribe(IsHitFailedChanged);
-            _viewModel.IsHitSuccess.Unsubscribe(IsHitSuccessChanged);
+            _leftNpc.Unsubscribes(_viewModel.LeftNpc);
+            _rightNpc.Unsubscribes(_viewModel.RightNpc);
+            _hitTimer.Unsubscribes(_viewModel.HitTimer);
+            _preparingHit.Unsubscribes(_viewModel.PreparingForceHit);
+            _preparingHit.Unsubscribes(_viewModel.PreparingTorqueHit);
+            _preparingHit.Unsubscribes(_viewModel.PreparingAngleHit);
+            _preparingHit.Unsubscribes(_viewModel.PreparingHeightHit);
+            _viewModel.ShowPreparingViewPart.Subscribe(IsPreparingViewPartVisibleChanged);
+            _viewModel.IsHitStarted.Unsubscribe(OnHitStarted);
+            _viewModel.IsPlayerCanHitNow.Unsubscribe(OnPlayerCanHitNow);
+            _viewModel.ShowPreparingButtons.Unsubscribe(OnShowPreparingButtonsChanged);
             _viewModel.Dispose();
         }
 
-        private void IsHitSuccessChanged(bool state)
+        private void IsPreparingViewPartVisibleChanged(bool state)
         {
-            _successMessage.SetActive(state);
+            _preparingHitViewPartContainer.gameObject.SetActive(state);
+        }
+
+        private void OnShowPreparingButtonsChanged(bool state)
+        {
+            _preparingButtonsContainer.gameObject.SetActive(state);
+        }
+
+        private void OnPlayerCanHitNow(bool state)
+        {
             if (state == false)
-                _bitButton.gameObject.SetActive(true);
+                return;
+
+            _bitButton.gameObject.SetActive(true);
+            _preparingButtonsContainer.SetActive(true);
         }
 
-        private void IsHitFailedChanged(bool state)
+        private void OnHitStarted(bool state)
         {
-            _failMessage.SetActive(state);
             if (state == false)
-                _bitButton.gameObject.SetActive(true);
-        }
+                return;
 
-        private void ShowHitTimerChanged(bool state)
-        {
-            _hitTimer.SetActive(state);
-            if (state)
-                _bitButton.gameObject.SetActive(false);
-        }
-
-        private void HitTimerChanged(float value)
-        {
-            _hitTimerText.SetText(Mathf.CeilToInt(value).ToString());
+            _bitButton.gameObject.SetActive(false);
+            _preparingButtonsContainer.SetActive(false);
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -97,42 +127,17 @@ namespace UI
 
         private void OnDestroy()
         {
-            _prepareButton.onClick.RemoveAllListeners();
             _bitButton.onClick.RemoveAllListeners();
             _reloadButton.onClick.RemoveAllListeners();
+            _prepareForceButton.onClick.RemoveAllListeners();
+            _prepareTorqueButton.onClick.RemoveAllListeners();
+            _prepareHeightButton.onClick.RemoveAllListeners();
+            _prepareAngleButton.onClick.RemoveAllListeners();
             if (_viewModel != null)
             {
                 ViewModelDispose();
             }
-
-#if WITH_CHEATS
-            RemoveDebugCommands();
-#endif
         }
-
-#if WITH_CHEATS
-        private void AddDebugCommands()
-        {
-            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(WinGame).ToLower(), string.Empty, WinGame);
-            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(LoseGame).ToLower(), string.Empty, LoseGame);
-        }
-
-        private void RemoveDebugCommands()
-        {
-            IngameDebugConsole.DebugLogConsole.RemoveCommand(WinGame);
-            IngameDebugConsole.DebugLogConsole.RemoveCommand(LoseGame);
-        }
-
-        private void WinGame()
-        {
-            _viewModel.WinGame();
-        }
-
-        private void LoseGame()
-        {
-            _viewModel.LoseGame();
-        }
-#endif
 
     }
 }

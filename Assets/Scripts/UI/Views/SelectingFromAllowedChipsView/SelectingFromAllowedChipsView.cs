@@ -1,10 +1,11 @@
+using Cysharp.Threading.Tasks;
 using Definitions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class SelectingFromAllowedChipsView : View, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
@@ -40,7 +41,7 @@ namespace UI
             _needToSelectChipsCountText.UpdateText("NEED_TO_SELECT_CHIPS_COUNT", 0);
         }
 
-        public override void Initialize(ViewModel viewModel)
+        public override UniTask Initialize(ViewModel viewModel)
         {
             UpdateViewModel(ref _viewModel, viewModel);
             _viewModel.ShowMoveSkippedToWatchingChipButton.Subscribe(ShowMoveSkippedToWatchingChipButtonChanged);
@@ -51,6 +52,7 @@ namespace UI
             _viewModel.NeedBetChipsCount.Subscribe(OnNeedBetChipsCountChanged);
             _viewModel.ShowReadyButton.Subscribe(ShowReadyButtonChanged);
             _viewModel.BetChipsCount.Subscribe(OnBetChipsCountChanged);
+            return UniTask.CompletedTask;
         }
 
         private void ViewModelDispose()

@@ -5,10 +5,10 @@ namespace Managers
 {
     public class CompositeLoadingItem : ILoadingItem
     {
-        private readonly IEnumerable<FakeLoadingItem> _loadingItems;
+        private readonly IEnumerable<ILoadingItem> _loadingItems;
         private readonly List<UniTask> _loadingTasks = new();
 
-        public CompositeLoadingItem(IEnumerable<FakeLoadingItem> loadingItems)
+        public CompositeLoadingItem(IEnumerable<ILoadingItem> loadingItems)
         {
             _loadingItems = loadingItems;
         }

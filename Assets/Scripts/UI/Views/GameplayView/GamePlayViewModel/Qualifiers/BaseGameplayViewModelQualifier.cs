@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using LogicUtility;
 
-namespace UI
+namespace UI.Gameplay
 {
     public abstract class BaseGameplayViewModelQualifier : IQualifier<GameplayViewModelContext> 
     {

@@ -3,7 +3,7 @@ using Definitions;
 using DG.Tweening;
 using Zenject;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class AnimateMovingAndRotationAllChipsAction : BaseSelectingFromAllowedChipsViewModelAction
     {

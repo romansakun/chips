@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace Managers
 {
+    //todo: rework it when there are sounds
     public class AudioManager : MonoBehaviour
     {
         [SerializeField] private AudioSource _hitAudioSource;

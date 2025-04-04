@@ -5,12 +5,11 @@ using Gameplay;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.Gameplay
 {
     public class CollectWinningChips : BaseGameplayViewModelAction
     {
         [Inject] private GameDefs _gameDefs;
-        [Inject] private CameraController _cameraController;
         [Inject] private GameplayObjectsHolder _destinations;
 
         private Sequence _collectionSequence;
@@ -24,7 +23,6 @@ namespace UI
                 if (context.IsDisposed)
                     _collectionSequence.Kill();
             });
-            _cameraController.CancelFollowing();
 
             var hittingPlayer = context.HittingPlayer;
             var chipsDestination = Vector3.positiveInfinity;

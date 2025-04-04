@@ -1,6 +1,6 @@
+using DG.Tweening;
 using Factories;
 using Gameplay.Battle;
-using Gameplay.Chips;
 using Managers;
 using Model;
 using UnityEngine;
@@ -10,11 +10,10 @@ namespace Installers
 {
     public class MainInstaller : MonoInstaller
     {
-        [Inject] private PrefabsSettings _prefabsSettings;
-
         private void Awake()
         {
             Application.targetFrameRate = 60;
+            DOTween.SetTweensCapacity(1000,50);
         }
 
         public override void InstallBindings()
@@ -31,10 +30,6 @@ namespace Installers
 
             Container.Bind<ViewModelFactory>().AsSingle();
             Container.Bind<LogicBuilderFactory>().AsSingle();
-            Container.BindMemoryPool<Chip, Chip.Pool>()
-                .WithInitialSize(10)
-                .FromComponentInNewPrefab(_prefabsSettings.ChipPrefab)
-                .AsSingle();
         }
 
     }

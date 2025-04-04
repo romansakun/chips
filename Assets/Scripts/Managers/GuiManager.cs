@@ -29,7 +29,7 @@ namespace Managers
 
             _instancedViews.Add(view);
             PrepareToShow(view);
-            view.Initialize(viewModel);
+            await view.Initialize(viewModel);
 
             return view;
         }
@@ -44,6 +44,15 @@ namespace Managers
             viewCanvas.sortingOrder = viewInstance.OverridedSortingOrder > 0 
                 ? viewInstance.OverridedSortingOrder 
                 : _instancedViews.Count;
+        }
+
+        public async UniTask<T> CreateViewPart<T>(RectTransform parent, string partPrefabName = null) where T : MonoBehaviour
+        {
+            var partPrefab = await _addressableManager.LoadPrefabAsync<T>(partPrefabName);
+            var part = _diContainer.InstantiatePrefabForComponent<T>(partPrefab, parent);
+            var partRectTransform = part.GetComponent<RectTransform>();
+            partRectTransform.SetParent(parent, false);
+            return part;
         }
 
         public bool TryGetView<T>(out T view) where T : View

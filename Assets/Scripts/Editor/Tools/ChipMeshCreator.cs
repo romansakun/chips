@@ -9,23 +9,23 @@ namespace Tools
     public class ChipMeshCreator : EditorUtility 
     {
         // [MenuItem("Tools/Add Position (x,z) to selected")]
-        // public static void AddPositionsToNames() 
-        // {
-        //     GameObject[] selected = Selection.gameObjects;
-        //     if (selected.Length == 0) {
-        //         Debug.LogError("Нет выделенных объектов!");
-        //         return;
-        //     }
-        //
-        //     foreach (var obj in selected)
-        //     {
-        //         var pos = obj.transform.position;
-        //         string newName = obj.name + " - " + new Vector2(pos.x, pos.z).ToString();
-        //         obj.name = newName;
-        //     }
-        // }
-        
-        [MenuItem("Tools/Create Chip Meshes")]
+        public static void AddPositionsToNames() 
+        {
+            GameObject[] selected = Selection.gameObjects;
+            if (selected.Length == 0) {
+                Debug.LogError("Нет выделенных объектов!");
+                return;
+            }
+
+            foreach (var obj in selected)
+            {
+                var pos = obj.transform.position;
+                string newName = obj.name + " - " + new Vector2(pos.x, pos.z).ToString();
+                obj.name = newName;
+            }
+        }
+
+        //[MenuItem("Tools/Create Chip Meshes")]
         public static void CreateChipMeshes()
         {
             var cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
@@ -37,7 +37,6 @@ namespace Tools
                 for (int column = 0; column < 8; column++)
                 { 
                     Mesh chipMesh = new Mesh();
-                    // Вершины
                     var vertices = new List<Vector3>();
                     for (int i = 0; i < cylinderMesh.vertices.Length; i++)
                     {
@@ -45,8 +44,7 @@ namespace Tools
                         vertices.Add(new Vector3(v.x, v.y / 100f, v.z));
                     }
                     chipMesh.vertices = vertices.ToArray();
-                    
-                    // Треугольники (индексы вершин) - прокатит как есть
+
                     int[] triangles = new int[cylinderMesh.triangles.Length];
                     for (int i = 0; i < cylinderMesh.triangles.Length; i++)
                     {
@@ -101,15 +99,14 @@ namespace Tools
                         
                         secondHeadOffset + (new Vector2(0.75f, .25f) + firstHeadOffset) / 4f, //центр решки //40
                         new Vector2(0.25f, .25f)/4f, //центр орла  //41
-                   
-                        //дальше хренота, надо аккуратно по каждой позиции..
+
                         new Vector2(0.005f, 0f),
                         new Vector2(0.005f, 0.005f),
                         new Vector2(0f, 0f),
                         new Vector2(0f, 0.005f),
                         new Vector2(0.005f, 0f),
                         new Vector2(0.005f, 0.005f), //47
-         
+
                         //решка:
                         secondHeadOffset + (new Vector2(.55f, .4f)  + firstHeadOffset) / 4f ,
                         secondHeadOffset + (new Vector2(.51f, .33f) + firstHeadOffset) / 4f,
@@ -154,39 +151,29 @@ namespace Tools
                         (new Vector2(.5f, .25f))/4f,  //87
                         
                     };
-
                     Debug.Log($"verts.Length - {vertices.Count}");
                     Debug.Log($"uv.Length - {uvs.Length}");
-                    
-                    // UV-координаты
-                    chipMesh.uv = uvs;
 
-                    // UV-координаты - надо увеличить орел и решку, а ребро сжать до нескольких пикселей
-                    //chipMesh.uv = cylinderMesh.uv2; 
-                    // Нормали (опционально) - вроде норм и так
-                    
+                    chipMesh.uv = uvs;
                     chipMesh.RecalculateNormals();
 
-                    // Сохранение mesh как ассета
                     AssetDatabase.CreateAsset(chipMesh, $"Assets/ChipMesh_{row}_{column}.asset");
         
                 }
             }
-          
+
             AssetDatabase.SaveAssets();
-            
-            GameObject.DestroyImmediate(cylinder);
+
+            Object.DestroyImmediate(cylinder);
         }
 
-
-        [MenuItem("Tools/Create Simple Chip Mesh")]
+        //[MenuItem("Tools/Create Simple Chip Mesh")]
         public static void CreateSimpleChipMesh()
         {
             var cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             var cylinderMesh = cylinder.GetComponent<MeshFilter>().sharedMesh;
 
             Mesh chipMesh = new Mesh();
-            // Вершины
             var duplicates = new Dictionary<int, int>();
             var usedVertices = new List<Vector3>();
 
@@ -205,8 +192,7 @@ namespace Tools
                 }
             }
             chipMesh.vertices = vertices.ToArray();
-            
-            // Треугольники
+
             int[] triangles = new int[cylinderMesh.triangles.Length];
             for (int i = 0; i < cylinderMesh.triangles.Length; i++)
             {
@@ -222,17 +208,15 @@ namespace Tools
                 }
             }
             chipMesh.triangles = triangles;
-            
+
             Debug.Log($"verts.Length - {vertices.Count}");
 
             chipMesh.RecalculateNormals();
 
-            // Сохранение mesh как ассета
             AssetDatabase.CreateAsset(chipMesh, $"Assets/ChipSimpleMesh.asset");
-            
-            GameObject.DestroyImmediate(cylinder);
+
+            Object.DestroyImmediate(cylinder);
         }
-            
 
     }
 }

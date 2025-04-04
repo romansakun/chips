@@ -1,6 +1,6 @@
 using Definitions;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class IsSkipBetChipQualifier : BaseSelectingFromAllowedChipsViewModelQualifier
     {

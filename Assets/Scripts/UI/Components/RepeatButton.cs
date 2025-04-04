@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace UI
 {
     [RequireComponent(typeof(Image))]
-    public class RepeatButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler//, IPointerMoveHandler
+    public class RepeatButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         private const float ClickSecondsThreshold = 1f;
         private const float ClickSecondsInterval = .16f; // 6-7 times per second
@@ -66,15 +66,6 @@ namespace UI
             _isPressed = true;
             _pressedTimer = 0f;
         }
-
-        // public void OnPointerMove(PointerEventData eventData)
-        // {
-        //     if (_isPressed == false)
-        //         return;
-        //
-        //     RectTransformUtility.ScreenPointToLocalPointInRectangle(_rectTransform, eventData.position, null, out var localPoint);
-        //     _isPressed = _rectTransform.rect.Contains(localPoint);
-        // }
 
         public void OnPointerUp(PointerEventData eventData)
         {

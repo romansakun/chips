@@ -1,4 +1,4 @@
-namespace UI
+namespace UI.RockPaperScissors
 {
     public class IsFirstExecutingQualifier : BaseRockPaperScissorsViewModelQualifier
     {

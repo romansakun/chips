@@ -5,7 +5,7 @@ using Installers;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.Gameplay
 {
     public class SetFailHitStateAction : BaseGameplayViewModelAction
     {

@@ -1,11 +1,17 @@
 {
     "AllowedScatterRadius"   : 10.0,
-    "AllowedSlopeAngle"      : 30.0,
-    "MaxTimeToWaitHitResult" : 15.0,
+    "AllowedSlopeAngle"      : 61.0,
+    "MaxTimeToWaitHitResult" : 10.0,
+    "FirstTimeToWaitHitResult" : 5.0,
     "TimeToShowFailedHit"    : 0.5,
     "TimeToMoveWinningChipToPlayer"    : 0.5,
+    "Deviation"    : 0.005,
+    "ChipSpacing"    : 0.0215,
     "SqrRestChipPositionThreshold" : 0.00025,
     "RestChipAngleThreshold" : 2,
     "FramesToWatchRestChip"  : 60,
-    "SelectedChipsBetPosition": {"x":0,"y":3,"z":0}
+    "PrepareForceRange": [1.05, 2.5],
+    "PrepareTorqueRange": [0.0, 1.75],
+    "PrepareHeightRange": [1.25, 4.0],
+    "PrepareAngleRange": [60.0, 90.0]
 }

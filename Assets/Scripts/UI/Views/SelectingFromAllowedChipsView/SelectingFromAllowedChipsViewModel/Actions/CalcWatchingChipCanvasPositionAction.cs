@@ -3,7 +3,7 @@ using Gameplay;
 using Managers;
 using Zenject;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class CalcWatchingChipCanvasPositionAction : BaseSelectingFromAllowedChipsViewModelAction
     {

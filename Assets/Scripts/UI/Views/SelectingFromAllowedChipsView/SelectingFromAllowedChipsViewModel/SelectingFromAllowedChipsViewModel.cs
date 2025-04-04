@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class SelectingFromAllowedChipsViewModel : ViewModel
     {

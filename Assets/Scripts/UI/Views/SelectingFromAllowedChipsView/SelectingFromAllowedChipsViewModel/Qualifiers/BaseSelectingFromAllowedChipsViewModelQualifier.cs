@@ -7,7 +7,7 @@ using LogicUtility;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public abstract class BaseSelectingFromAllowedChipsViewModelQualifier : IQualifier<SelectingFromAllowedChipsViewModelContext> 
     {

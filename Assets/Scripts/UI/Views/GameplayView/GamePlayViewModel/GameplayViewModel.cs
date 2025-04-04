@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Definitions;
 using Factories;
@@ -6,24 +5,39 @@ using Gameplay.Battle;
 using LogicUtility;
 using LogicUtility.Nodes;
 using Managers;
-using UnityEngine;
+using Model;
 using UnityEngine.EventSystems;
 using Zenject;
 
-namespace UI
+namespace UI.Gameplay
 {
+    //todo: replace cheats
     public class GameplayViewModel : ViewModel
     {
         [Inject] private LogicBuilderFactory _logicBuilder;
         [Inject] private ReloadManager _reloadManager;
-        [Inject]private DiContainer _diContainer;
+        [Inject] private DiContainer _diContainer;
+        [Inject] private GameDefs _gameDefs;
+        [Inject] private UserContextRepository _userContext;
 
-        public IReactiveProperty<float> HitTimer => _logicAgent.Context.HitTimer;
-        public IReactiveProperty<bool> ShowHitTimer => _logicAgent.Context.ShowHitTimer;
-        public IReactiveProperty<bool> IsHitSuccess => _logicAgent.Context.IsHitSuccess;
-        public IReactiveProperty<bool> IsHitFailed => _logicAgent.Context.IsHitFailed;
+        public NpcViewPartModel LeftNpc { get; } = new();
+        public NpcViewPartModel RightNpc { get; } = new();
+        public TimerViewPartModel HitTimer { get;} = new();
+        public PreparingHitViewPartModel PreparingForceHit { get; } = new();
+        public PreparingHitViewPartModel PreparingTorqueHit { get; } = new();
+        public PreparingHitViewPartModel PreparingAngleHit { get; } = new();
+        public PreparingHitViewPartModel PreparingHeightHit { get; } = new();
+      
+        public IReactiveProperty<bool> IsHitStarted => _logicAgent.Context.IsHitStarted;
+        public IReactiveProperty<bool> IsPlayerCanHitNow => _logicAgent.Context.IsPlayerCanHitNow;
+
+        private readonly ReactiveProperty<bool> _showPreparingButtons = new();
+        private readonly ReactiveProperty<bool> _showPreparingViewPart = new();
+        public IReactiveProperty<bool> ShowPreparingButtons => _showPreparingButtons;
+        public IReactiveProperty<bool> ShowPreparingViewPart => _showPreparingViewPart;
 
         private LogicAgent<GameplayViewModelContext> _logicAgent;
+
 
         public override void Initialize()
         {
@@ -49,7 +63,7 @@ namespace UI
 
             builder
                 .AddSelector<FirstScoreSelector<GameplayViewModelContext>>()
-                .AddQualifier<IsBitChipsStackQualifier>(hitChipsAction)
+                .AddQualifier<IsHitChipsStackQualifier>(hitChipsAction)
                 .AddQualifier<IsPrepareChipsStackQualifier>(prepareStackAction)
                 .SetAsRoot();
 
@@ -58,64 +72,237 @@ namespace UI
             setSuccessHitState.DirectTo(finishMove);
 
             _logicAgent = builder.Build();
+            _logicAgent.OnFinished += OnLogicFinished;
+            InitializeProperties();
+
+#if WITH_CHEATS
+            AddDebugCommands();
+#endif
         }
 
-        public GameplayViewModel SetSharedContext(SharedBattleContext sharedBattleContext)
+        private void InitializeProperties()
+        {
+            var context = _logicAgent.Context;
+            LeftNpc.SetContext(context.LeftNpcContext);
+            RightNpc.SetContext(context.RightNpcContext);
+            HitTimer.SetContext(context.HitTimerContext);
+            PreparingForceHit.SetContext(context.PreparingForceContext);
+            PreparingAngleHit.SetContext(context.PreparingAngleContext);
+            PreparingTorqueHit.SetContext(context.PreparingTorqueContext);
+            PreparingHeightHit.SetContext(context.PreparingHeightContext);
+
+            PreparingForceHit.OnSliderValueChanged += OnPreparingForceHitSliderValueChanged;
+            PreparingAngleHit.OnSliderValueChanged += OnPreparingAngleHitSliderValueChanged;
+            PreparingTorqueHit.OnSliderValueChanged += OnPreparingTorqueHitSliderValueChanged;
+            PreparingHeightHit.OnSliderValueChanged += OnPreparingHeightHitSliderValueChanged;
+
+            SetVisiblePreparingViewParts(true);
+            OnPreparingForceHitSliderValueChanged(_userContext.GetPreparingForce());
+            OnPreparingAngleHitSliderValueChanged(_userContext.GetPreparingAngle());
+            OnPreparingTorqueHitSliderValueChanged(_userContext.GetPreparingTorque());
+            OnPreparingHeightHitSliderValueChanged(_userContext.GetPreparingHeight());
+            SetVisiblePreparingViewParts(false);
+        }
+
+        private void OnPreparingHeightHitSliderValueChanged(float value)
+        {
+            var heightContext = _logicAgent.Context.PreparingHeightContext;
+            if (heightContext.Visible.Value == false)
+                return;
+
+            var valuesRange = _gameDefs.GameplaySettings.PrepareHeightRange;
+            ProcessPreparingHitSliderValue(heightContext, valuesRange, value);
+        }
+
+        private void OnPreparingTorqueHitSliderValueChanged(float value)
+        {
+            var torqueContext = _logicAgent.Context.PreparingTorqueContext;
+            if (torqueContext.Visible.Value == false)
+                return;
+
+            var valuesRange = _gameDefs.GameplaySettings.PrepareTorqueRange;
+            ProcessPreparingHitSliderValue(torqueContext, valuesRange, value);
+        }
+
+        private void OnPreparingAngleHitSliderValueChanged(float value)
+        {
+            var angleContext = _logicAgent.Context.PreparingAngleContext;
+            if (angleContext.Visible.Value == false)
+                return;
+
+            var valuesRange = _gameDefs.GameplaySettings.PrepareAngleRange;
+            ProcessPreparingHitSliderValue(angleContext, valuesRange, value);
+        }
+
+        private void OnPreparingForceHitSliderValueChanged(float value)
+        {
+            var forceContext = _logicAgent.Context.PreparingForceContext;
+            if (forceContext.Visible.Value == false)
+                return;
+
+            var valuesRange = _gameDefs.GameplaySettings.PrepareForceRange;
+            ProcessPreparingHitSliderValue(forceContext, valuesRange, value);
+        }
+
+        private void ProcessPreparingHitSliderValue(PreparingHitViewPartModelContext preparingContext, float[] valuesRange, float value)
+        {
+            preparingContext.ValueSlider.SetWithoutChangeInvoke(value);
+            var min = valuesRange[0];
+            var max = valuesRange[1];
+            var oneThird = (max - min) / 3;
+            var needValue = (max-min) * value + min;
+            preparingContext.NeedValue = needValue;
+            var isMinimal = needValue < oneThird + min;
+            var isMedium = needValue >= oneThird + min && needValue <= max - oneThird;
+            var isMaximum = needValue > max - oneThird;
+
+            //todo: change info sprites in preparingContext
+            if (isMinimal)
+            {
+            }
+            else if (isMedium)
+            {
+            }
+            else if (isMaximum)
+            {
+            }
+            //
+        }
+
+        public void SetSharedContext(SharedBattleContext sharedBattleContext)
         {
             _logicAgent.Context.Shared = sharedBattleContext;
             _logicAgent.Context.HittingPlayer = sharedBattleContext.FirstMovePlayer;
-            return this;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            Debug.Log("OnBeginDrag GameplayViewModel");
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("OnPointerClick GameplayViewModel");
+            _showPreparingViewPart.Value = false;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            Debug.Log("OnDrag GameplayViewModel");
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Debug.Log("OnEndDrag GameplayViewModel");
         }
 
         public void OnPrepareButtonClick()
         {
-            if (_logicAgent.IsExecuting) 
-                return;
-
-            _logicAgent.Context.IsPrepareChipsButtonPressed = true;
-            _logicAgent.Execute();
+            _showPreparingButtons.Value = !_showPreparingButtons.Value;
         }
 
         public void OnBitButtonClick()
         {
+            _showPreparingViewPart.Value = false;
             if (_logicAgent.IsExecuting) 
                 return;
 
-            _logicAgent.Context.IsBitButtonPressed = true;
+            _logicAgent.Context.IsTimeToHitChips = true;
             _logicAgent.Execute();
+        }
+
+        public void OnPrepareForceButtonClick()
+        {
+            SetVisiblePreparingViewParts(false);
+            TouchPreparingHitContext(_logicAgent.Context.PreparingForceContext);
+        }
+
+        public void OnPrepareTorqueButtonClick()
+        {
+            SetVisiblePreparingViewParts(false);
+            TouchPreparingHitContext(_logicAgent.Context.PreparingTorqueContext);
+        }
+
+        public void OnPrepareHeightButtonClick()
+        {
+            SetVisiblePreparingViewParts(false);
+            TouchPreparingHitContext(_logicAgent.Context.PreparingHeightContext);
+        }
+
+        public void OnPrepareAngleButtonClick()
+        {
+            SetVisiblePreparingViewParts(false);
+            TouchPreparingHitContext(_logicAgent.Context.PreparingAngleContext);
+        }
+
+        private void SetVisiblePreparingViewParts(bool state)
+        {
+            _logicAgent.Context.PreparingForceContext.Visible.Value = state;
+            _logicAgent.Context.PreparingTorqueContext.Visible.Value = state;
+            _logicAgent.Context.PreparingHeightContext.Visible.Value = state;
+            _logicAgent.Context.PreparingAngleContext.Visible.Value = state;
+        }
+
+        private void TouchPreparingHitContext(PreparingHitViewPartModelContext context)
+        {
+            context.ValueSlider.Touch();
+            context.InfoSprite.Touch();
+            context.Visible.Value = true;
+            OnPreparingForceHitSliderValueChanged(context.ValueSlider.Value);
+            _showPreparingViewPart.Value = true;
         }
 
         public void OnReloadButtonClick()
         {
+            _showPreparingViewPart.Value = false;
             _reloadManager.ReloadGame();
+        }
+
+        public void ProcessFirstPlayerMove()
+        {
+            if (_logicAgent.Context.Shared.FirstMovePlayer.Type != PlayerType.MyPlayer)
+            {
+                _logicAgent.Context.IsTimeToHitChips = true;
+                _logicAgent.Execute();
+            }
+        }
+
+        private void OnLogicFinished(GameplayViewModelContext context)
+        {
+            var nextPlayerType = context.HittingPlayer.Type;
+            if (nextPlayerType != PlayerType.MyPlayer)
+            {
+                _logicAgent.Context.IsTimeToHitChips = true;
+                _logicAgent.Execute();
+            }
         }
 
         public override void Dispose()
         {
+            PreparingForceHit.OnSliderValueChanged -= OnPreparingForceHitSliderValueChanged;
+            PreparingAngleHit.OnSliderValueChanged -= OnPreparingAngleHitSliderValueChanged;
+            PreparingTorqueHit.OnSliderValueChanged -= OnPreparingTorqueHitSliderValueChanged;
+            PreparingHeightHit.OnSliderValueChanged -= OnPreparingHeightHitSliderValueChanged;
+
+            _logicAgent.OnFinished -= OnLogicFinished;
             _logicAgent.Dispose();
+
+#if WITH_CHEATS
+            RemoveDebugCommands();
+#endif
         }
 
 #if WITH_CHEATS
+        private void AddDebugCommands()
+        {
+            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(WinGame).ToLower(), string.Empty, WinGame);
+            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(LoseGame).ToLower(), string.Empty, LoseGame);
+            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(PrepareChipsHit).ToLower(), string.Empty, PrepareChipsHit);
+        }
+
+        private void RemoveDebugCommands()
+        {
+            IngameDebugConsole.DebugLogConsole.RemoveCommand(WinGame);
+            IngameDebugConsole.DebugLogConsole.RemoveCommand(LoseGame);
+            IngameDebugConsole.DebugLogConsole.RemoveCommand(PrepareChipsHit);
+        }
+
         public async void WinGame()
         {
             await FinishGame(true);
@@ -124,6 +311,12 @@ namespace UI
         public async void LoseGame()
         {
             await FinishGame(false);
+        }        
+
+        public async void PrepareChipsHit()
+        {
+            var prepareAction = _diContainer.Instantiate<PrepareChipsStackAction>();
+            await prepareAction.ExecuteAsync(_logicAgent.Context);
         }
 
         private async Task FinishGame(bool isUserNeedBeWinner)

@@ -16,7 +16,6 @@ namespace Managers
         {
             var viewModel = _viewModelFactory.Create<LoadingViewModel>();
             var view = await _guiManager.ShowAsync<LoadingView, LoadingViewModel>(viewModel);
-
             await viewModel.LoadItems(GetLoadingItems());
             while (view.CanNotBeClosed())
             {
@@ -27,17 +26,19 @@ namespace Managers
 
         private Queue<ILoadingItem> GetLoadingItems()
         {
-            var gameDefsLoading = _diContainer.Instantiate<GameDefsLoadingItem>();
-            var userContextLoading = _diContainer.Instantiate<UserContextLoadingItem>();
-            var localizationLoading = _diContainer.Instantiate<LocalizationLoadingItem>();
-            var mainMenuLoading = _diContainer.Instantiate<MainMenuLoadingItem>();
-
             var result = new Queue<ILoadingItem>();
-            result.Enqueue(gameDefsLoading);
-            result.Enqueue(userContextLoading);
-            result.Enqueue(localizationLoading);
-            result.Enqueue(mainMenuLoading);
+            AddLoadingItem<BindingChipsPoolLoadingItem>(result);
+            AddLoadingItem<GameDefsLoadingItem>(result);
+            AddLoadingItem<UserContextLoadingItem>(result);
+            AddLoadingItem<LocalizationLoadingItem>(result);
+            AddLoadingItem<MainMenuLoadingItem>(result);
             return result;
+        }
+
+        private void AddLoadingItem<T>(Queue<ILoadingItem> loadingItems) where T : ILoadingItem
+        {
+            var loadingItem = _diContainer.Instantiate<T>();
+            loadingItems.Enqueue(loadingItem);
         }
 
     }

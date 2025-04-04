@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Definitions;
+using Extensions;
 using Factories;
 using Gameplay.Battle;
 using LogicUtility;
@@ -6,15 +8,16 @@ using LogicUtility.Nodes;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.RockPaperScissors
 {
     public class RockPaperScissorsViewModel : ViewModel
     {
         [Inject] private LogicBuilderFactory _logicBuilder;
+        [Inject] private SignalBus _signalBus;
 
-        public NpcViewBitModel LeftNpcViewBitModel { get; } = new();
-        public NpcViewBitModel RightNpcViewBitModel { get; } = new();
-        public TimerViewBitModel TimerViewBitModel { get; } = new();
+        public NpcViewPartModel LeftNpcViewComponentModel { get; } = new();
+        public NpcViewPartModel RightNpcViewComponentModel { get; } = new();
+        public TimerViewPartModel TimerViewPartModel { get; } = new();
         public IReactiveProperty<bool> ShowTitleInfoText => _logicAgent.Context.TitleInfoTextVisible;
         public IReactiveProperty<bool> ShowPlayerInfoText => _logicAgent.Context.PlayerInfoTextVisible;
         public IReactiveProperty<bool> ShowHandsButtons => _logicAgent.Context.HandButtonsVisible;
@@ -60,9 +63,9 @@ namespace UI
         private void InitializeProperties()
         {
             var context = _logicAgent.Context;
-            TimerViewBitModel.SetContext(context.TimerViewBitModelContext);
-            LeftNpcViewBitModel.SetContext(context.LeftNpcViewBitModelContext);
-            RightNpcViewBitModel.SetContext(context.RightNpcViewBitModelContext);
+            TimerViewPartModel.SetContext(context.TimerViewPartModelContext);
+            LeftNpcViewComponentModel.SetContext(context.LeftNpcViewComponentModelContext);
+            RightNpcViewComponentModel.SetContext(context.RightNpcViewComponentModelContext);
         }
 
         public void OnPlayerHandClicked(RockPaperScissorsHand hand)
@@ -84,8 +87,8 @@ namespace UI
         {
             var isOverForMyPlayer = context.RoundPlayers.Contains(PlayerType.MyPlayer) == false;
             var isNeedNextRound = context.RoundPlayers.Count > 1;
-            var isNeedContinue = isNeedNextRound && isOverForMyPlayer;
-            if (isNeedContinue)
+            var isNeedAutoExecuting = isNeedNextRound && isOverForMyPlayer;
+            if (isNeedAutoExecuting)
             {
                 _logicAgent.Execute();
             }
@@ -96,5 +99,30 @@ namespace UI
             _logicAgent.OnFinished -= OnLogicExecutionFinished;
             _logicAgent.Dispose();
         }
+        
+        
+#if WITH_CHEATS
+        public void SetOrderCheat()
+        {
+            var context = _logicAgent.Context;
+            var playersResults = new Dictionary<PlayerType, int>(context.PlayersResults);
+            var pair = playersResults.GetMaxByValue();
+            playersResults.Remove(pair.Key);
+            context.Shared.FirstMovePlayer = context.Shared.Players.Find(p => p.Type == pair.Key);
+            var player = context.Shared.FirstMovePlayer;
+            while (playersResults.Count > 0)
+            {
+                pair = playersResults.GetMaxByValue();
+                playersResults.Remove(pair.Key);
+                player.NextPlayerTypeInTurn = pair.Key;
+                player = context.Shared.Players.Find(p => p.Type == pair.Key);
+            }
+            player.NextPlayerTypeInTurn = context.Shared.FirstMovePlayer.Type;
+
+            _signalBus.Fire<PlayersMoveOrderSetSignal>();
+        }
+
+#endif
+
     }
 }

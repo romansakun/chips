@@ -43,7 +43,7 @@ namespace UI
             LocalizationKey = localizationKey;
             Args = args;
             UpdateTextInternal();
-        }   
+        }
 
         public void UpdateText(params object[] args)
         {

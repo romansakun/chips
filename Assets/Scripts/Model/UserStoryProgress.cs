@@ -6,6 +6,6 @@ namespace Model
     [Serializable]
     public class UserStoryProgress
     {
-        public List<int> FinishedStories = new List<int>();
+        public List<int> FinishedStories = new();
     }
 }

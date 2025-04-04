@@ -2,7 +2,7 @@ using Gameplay;
 using Installers;
 using Zenject;
 
-namespace UI
+namespace UI.Gameplay
 {
     public class SetSuccessHitStateAction : BaseGameplayViewModelAction
     {

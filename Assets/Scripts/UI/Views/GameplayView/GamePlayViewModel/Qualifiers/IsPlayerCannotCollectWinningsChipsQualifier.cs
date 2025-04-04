@@ -4,13 +4,13 @@ using Gameplay.Chips;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace UI.Gameplay
 {
     public class IsPlayerCannotCollectWinningsChipsQualifier : BaseGameplayViewModelQualifier
     {
         [Inject] private GameDefs _gameDefs;
 
-        private readonly List<(Chip, ChipDef)> _winningChips = new List<(Chip, ChipDef)>();
+        private readonly List<(Chip, ChipDef)> _winningChips = new();
 
         protected override float Score(GameplayViewModelContext context)
         {
@@ -24,6 +24,8 @@ namespace UI
                 var chipTransform = chip.Facade.Transform;
                 var slopeAngle = Vector3.Angle(chipTransform.up, Vector3.up);
                 var allowedSlopeAngle = _gameDefs.GameplaySettings.AllowedSlopeAngle;
+
+                //todo replace it to special class helper
                 if (slopeAngle > allowedSlopeAngle && slopeAngle < 180 - allowedSlopeAngle)
                     return 1;
 

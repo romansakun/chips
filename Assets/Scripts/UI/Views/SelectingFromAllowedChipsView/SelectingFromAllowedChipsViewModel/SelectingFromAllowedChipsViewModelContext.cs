@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using Definitions;
 using Gameplay.Battle;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class SelectingFromAllowedChipsViewModelContext : IContext 
     {

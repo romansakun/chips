@@ -1,7 +1,7 @@
 using Model;
 using Zenject;
 
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class MoveCurrentWatchingChipToSkippedChipsAction : BaseSelectingFromAllowedChipsViewModelAction
     {

@@ -1,4 +1,4 @@
-namespace UI
+namespace UI.SelectingFromAllowedChips
 {
     public class MoveSkippedToWatchingChipAction : BaseSelectingFromAllowedChipsViewModelAction
     {
