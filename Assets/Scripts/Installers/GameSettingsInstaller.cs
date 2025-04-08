@@ -44,6 +44,9 @@ namespace Installers
         public Color FailedHitCircleColor;
         public Color SuccessHitCircleColor;
         public Color WhiteTextColor;
+        public Color TimerColor;
+        public Color SelectedPrepareHitButtonColor;
+        public Color NotSelectedPrepareHitButtonColor;
     }
 
     public class LayersSettings

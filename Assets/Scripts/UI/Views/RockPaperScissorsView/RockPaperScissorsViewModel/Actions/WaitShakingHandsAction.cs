@@ -60,7 +60,7 @@ namespace UI.RockPaperScissors
                     }, 2f, 1f))
                     .Join(DOTween.To(() => 1f, x =>
                     {
-                        var color = _colorsSettings.WhiteTextColor;
+                        var color = _colorsSettings.TimerColor;
                         color.a = x;
                         timerContext.Color.Value = color;
                     }, 0f, 1f))

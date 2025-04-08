@@ -16,7 +16,7 @@ namespace UI.Gameplay
         public override async Task ExecuteAsync(GameplayViewModelContext context)
         {
             context.HitTimerContext.Visible.Value = false;
-            context.HitTimerContext.Color.Value = _colorsSettings.WhiteTextColor;
+            context.HitTimerContext.Color.Value = _colorsSettings.TimerColor;
             var allowedScatterRadius = _gameDefs.GameplaySettings.AllowedScatterRadius;
             var sqrAllowedScatterRadius = allowedScatterRadius * allowedScatterRadius;
             var waitingTime = _gameDefs.GameplaySettings.MaxTimeToWaitHitResult;

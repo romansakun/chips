@@ -158,10 +158,12 @@ namespace UI.SelectingFromAllowedChips
                 var npcContext = _userContext.GetNpcContext(player.Id);
                 npcContext.ForeachChips(pair =>
                 {
-                    if (player.BetChips.Count < needBetCount && pair.Value > 0)
+                    var chipDef = _gameDefs.Chips[pair.Key];
+                    var chipCount = pair.Value;
+                    while (chipCount > 0 && player.BetChips.Count < needBetCount)
                     {
-                        var chipDef = _gameDefs.Chips[pair.Key];
-                        player.BetChips.AddManyTimes(chipDef, pair.Value);
+                        chipCount--;
+                        player.BetChips.Add(chipDef);
                     }
                 });
             }

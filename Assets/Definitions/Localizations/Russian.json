@@ -11,6 +11,11 @@
         "ROCK_PAPER_SCISSORS_FIRST_PLAYER": "Я первый!",
         "ROCK_PAPER_SCISSORS_SECOND_PLAYER": "Второй",
         "ROCK_PAPER_SCISSORS_THIRD_PLAYER": "Последний",
-        "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND": "Дальше.."
+        "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND": "Дальше..",
+        "ROCK_PAPER_SCISSORS_SELECT_HAND": "Выбери свою руку",
+        "PREPARE_TORQUE_BUTTON": "КРУЧЕНИЕ",
+        "PREPARE_ANGLE_BUTTON": "УГОЛ",
+        "PREPARE_HEIGHT_BUTTON": "ВЫСОТА",
+        "PREPARE_FORCE_BUTTON": "СИЛА"
     }
 }

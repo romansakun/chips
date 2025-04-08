@@ -78,7 +78,7 @@ namespace Managers
                 if (viewInstance is not T)
                     continue;
 
-                Object.Destroy(viewInstance.gameObject);
+                CloseView(viewInstance);
                 _instancedViews.RemoveAt(i);
 
                 if (onlyTopView) 
@@ -94,7 +94,7 @@ namespace Managers
                 if (viewInstance != view) 
                     continue;
 
-                Object.Destroy(viewInstance.gameObject);
+                CloseView(viewInstance);
                 _instancedViews.RemoveAt(i);
 
                 if (onlyTopView)
@@ -110,9 +110,16 @@ namespace Managers
                 if (viewInstance == null) 
                     continue;
 
-                Object.Destroy(viewInstance.gameObject);
+                CloseView(viewInstance);
             }
             _instancedViews.Clear();
+        }
+
+        private void CloseView(View view)
+        {
+            view.OnClose?.Invoke();
+            view.OnClose = null;
+            Object.Destroy(view.gameObject);
         }
 
         public Vector2 ScreenPointToLocalPoint(Vector2 screenPoint)

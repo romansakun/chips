@@ -33,14 +33,10 @@ namespace UI.RockPaperScissors
             return handSprite;
         }
 
-        //todo: replace it to other helper class
         protected async Task<Sprite> GetAvatarSprite(string npcDefId)
         {
             var avatarSpriteId = _gameDefs.Npc[npcDefId].AvatarSprite;
-            var avatarTexture = await _addressableManager.LoadAsync<Texture2D>(avatarSpriteId);
-            var avatarSprite = Sprite.Create(avatarTexture, 
-                new Rect(0, 0, avatarTexture.width, avatarTexture.height), 
-                new Vector2(.5f, .5f));
+            var avatarSprite = await _addressableManager.LoadSpriteAsync(avatarSpriteId);
             return avatarSprite;
         }
 

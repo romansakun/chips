@@ -1,0 +1,30 @@
+{
+    "PrepareForceRange": [1.05, 2.5],
+    "PrepareTorqueRange": [0.0, 1.5],
+    "PrepareHeightRange": [1.25, 4.0],
+    "PrepareAngleRange": [45.0, 90.0],
+    "ForceInfoSprites": 
+    {
+        "Minimum": "min_force",
+        "Medium": "mid_force",
+        "Maximum": "max_force"
+    },
+    "TorqueInfoSprites": 
+    {
+        "Minimum": "min_torque",
+        "Medium": "mid_torque",
+        "Maximum": "max_torque"
+    },
+    "HeightInfoSprites": 
+    {
+        "Minimum": "min_height",
+        "Medium": "mid_height",
+        "Maximum": "max_height"
+    },
+    "AngleInfoSprites": 
+    {
+        "Minimum": "min_angle",
+        "Medium": "mid_angle",
+        "Maximum": "max_angle"
+    }
+}

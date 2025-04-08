@@ -130,7 +130,12 @@
         "ROCK_PAPER_SCISSORS_FIRST_PLAYER": "I'm first!",
         "ROCK_PAPER_SCISSORS_SECOND_PLAYER": "Second",
         "ROCK_PAPER_SCISSORS_THIRD_PLAYER": "Last",
-        "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND": "Continue.."
+        "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND": "Continue..",
+        "ROCK_PAPER_SCISSORS_SELECT_HAND": "Select your hand",
+        "PREPARE_TORQUE_BUTTON": "TORQUE",
+        "PREPARE_ANGLE_BUTTON": "ANGLE",
+        "PREPARE_HEIGHT_BUTTON": "HEIGHT",
+        "PREPARE_FORCE_BUTTON": "FORCE"
       },
       "Id": "English"
     },
@@ -146,7 +151,12 @@
         "ROCK_PAPER_SCISSORS_FIRST_PLAYER": "Я первый!",
         "ROCK_PAPER_SCISSORS_SECOND_PLAYER": "Второй",
         "ROCK_PAPER_SCISSORS_THIRD_PLAYER": "Последний",
-        "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND": "Дальше.."
+        "ROCK_PAPER_SCISSORS_NEED_NEXT_ROUND": "Дальше..",
+        "ROCK_PAPER_SCISSORS_SELECT_HAND": "Выбери свою руку",
+        "PREPARE_TORQUE_BUTTON": "КРУЧЕНИЕ",
+        "PREPARE_ANGLE_BUTTON": "УГОЛ",
+        "PREPARE_HEIGHT_BUTTON": "ВЫСОТА",
+        "PREPARE_FORCE_BUTTON": "СИЛА"
       },
       "Id": "Russian"
     }
@@ -173,7 +183,7 @@
   },
   "GameplaySettings": {
     "AllowedScatterRadius": 10.0,
-    "AllowedSlopeAngle": 61.0,
+    "AllowedSlopeAngle": 45.0,
     "MaxTimeToWaitHitResult": 10.0,
     "FirstTimeToWaitHitResult": 5.0,
     "SqrRestChipPositionThreshold": 0.00025,
@@ -181,48 +191,52 @@
     "FramesToWatchRestChip": 60,
     "TimeToShowFailedHit": 0.5,
     "TimeToMoveWinningChipToPlayer": 0.5,
+    "Deviation": 0.005,
+    "ChipSpacing": 0.0215,
+    "Id": "GameplaySettings"
+  },
+  "PreparingHitSettings": {
     "PrepareForceRange": [
       1.05,
       2.5
     ],
     "PrepareTorqueRange": [
       0.0,
-      1.75
+      1.5
     ],
     "PrepareHeightRange": [
       1.25,
       4.0
     ],
     "PrepareAngleRange": [
-      60.0,
+      45.0,
       90.0
     ],
-    "PrepareForceInfoSprites": [
-      "PrepareForceInfo1",
-      "PrepareForceInfo2",
-      "PrepareForceInfo3"
-    ],
-    "PrepareTorqueInfoSprites": [
-      "PrepareTorqueInfo1",
-      "PrepareTorqueInfo2",
-      "PrepareTorqueInfo3"
-    ],
-    "PrepareHeightInfoSprites": [
-      "PrepareHeightInfo1",
-      "PrepareHeightInfo2",
-      "PrepareHeightInfo3"
-    ],
-    "PrepareAngleInfoSprites": [
-      "PrepareAngleInfo1",
-      "PrepareAngleInfo2",
-      "PrepareAngleInfo3"
-    ],
-    "Deviation": 0.005,
-    "ChipSpacing": 0.0215,
-    "Id": "GameplaySettings"
+    "InfoSpriteAtlas": "PreparingHitInfoSprites",
+    "ForceInfoSprites": {
+      "Minimum": "min_force",
+      "Medium": "mid_force",
+      "Maximum": "max_force"
+    },
+    "TorqueInfoSprites": {
+      "Minimum": "min_torque",
+      "Medium": "mid_torque",
+      "Maximum": "max_torque"
+    },
+    "HeightInfoSprites": {
+      "Minimum": "min_height",
+      "Medium": "mid_height",
+      "Maximum": "max_height"
+    },
+    "AngleInfoSprites": {
+      "Minimum": "min_angle",
+      "Medium": "mid_angle",
+      "Maximum": "max_angle"
+    },
+    "Id": "PreparingHitSettings"
   },
   "SelectingChipsForBetSettings": {
-    "MaxBetChipsCount": 10,
+    "MaxBetChipsCount": 5,
     "AnimationChipMovingTime": 0.225,
     "SelectedChipsBetPosition": {
       "x": 0.0,
@@ -298,7 +312,7 @@
     "Id": "SelectingChipsForBetSettings"
   },
   "RockPaperScissorsSettings": {
-    "ShakingHandsTime": 1.0,
+    "ShakingHandsTime": 3.0,
     "ShowRoundResultsTime": 1.5,
     "HandSprites": {
       "Rock": "hands[rock]",

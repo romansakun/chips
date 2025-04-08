@@ -9,14 +9,9 @@ namespace UI.Gameplay
 {
     public class GameplayViewModelContext : IContext
     {
-        public PreparingHitViewPartModelContext PreparingForceContext { get; } = new();
-        public PreparingHitViewPartModelContext PreparingTorqueContext { get; } = new();
-        public PreparingHitViewPartModelContext PreparingAngleContext { get; } = new();
-        public PreparingHitViewPartModelContext PreparingHeightContext { get; } = new();
         public NpcViewPartModelContext LeftNpcContext { get; } = new();
         public NpcViewPartModelContext RightNpcContext { get; } = new();
         public TimerViewPartModelContext HitTimerContext { get; } = new();
-        public ReactiveProperty<bool> IsHitStarted { get; } = new();
         public ReactiveProperty<bool> IsPlayerCanHitNow { get; } = new();
         public ReactiveProperty<bool> IsHitFailed { get; } = new();
         public ReactiveProperty<bool> IsHitSuccess { get; } = new();
@@ -28,7 +23,6 @@ namespace UI.Gameplay
         public Vector3 PlayerHitForce { get; set; }
         public Vector3 PlayerHitTorque { get; set; }
         public bool IsTimeToHitChips { get; set; }
-        public bool IsPrepareChipsButtonPressed { get; set; }
         public bool IsPlayerCannotCollectWinningsChips { get; set; }
 
         public bool IsDisposed { get; private set; }
@@ -37,10 +31,6 @@ namespace UI.Gameplay
         {
             IsDisposed = true;
 
-            PreparingForceContext.Dispose();
-            PreparingTorqueContext.Dispose();
-            PreparingAngleContext.Dispose();
-            PreparingHeightContext.Dispose();
             LeftNpcContext.Dispose();
             RightNpcContext.Dispose();
             HitTimerContext.Dispose();

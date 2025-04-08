@@ -36,7 +36,7 @@ namespace UI.Gameplay
                 chipFacade.Rigidbody.AddTorque(bitTorque, forceMode);
             }
 
-            Debug.Log($"bitForce: {bitForce} torque: {bitTorque}");
+            Debug.Log($"height: {_userContext.GetPreparingHeight()} angle: {_userContext.GetPreparingAngle()} bitForce: {_userContext.GetPreparingForce()} torque: {_userContext.GetPreparingTorque()}");
         }
     }
 }

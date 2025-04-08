@@ -28,9 +28,15 @@ namespace UI.Gameplay
             var chipsDestination = Vector3.positiveInfinity;
             switch (hittingPlayer.Type)
             {
-                case PlayerType.MyPlayer: chipsDestination = _destinations.MyPlayerChipDestination.position; break;
-                case PlayerType.LeftPlayer: chipsDestination = _destinations.LeftPlayerChipDestination.position; break;
-                case PlayerType.RightPlayer: chipsDestination = _destinations.RightPlayerChipDestination.position; break;
+                case PlayerType.MyPlayer: 
+                    chipsDestination = _destinations.MyPlayerChipDestination.position; 
+                    break;
+                case PlayerType.LeftPlayer: 
+                    chipsDestination = _destinations.LeftPlayerChipDestination.position;
+                    break;
+                case PlayerType.RightPlayer: 
+                    chipsDestination = _destinations.RightPlayerChipDestination.position;
+                    break;
             }
 
             foreach (var chipAndDef in context.HitWinningChipsAndDefs)

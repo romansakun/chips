@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Definitions;
-using Gameplay;
 using Gameplay.Chips;
-using Installers;
 using Managers;
 using Model;
 using UnityEngine;
@@ -17,12 +14,9 @@ namespace UI.Gameplay
     public class PrepareChipsStackAction : BaseGameplayViewModelAction
     {
         [Inject] private Chip.Pool _chipPool;
-        [Inject] private CameraController _cameraController;
         [Inject] private AddressableManager _addressableManager;
         [Inject] private GameDefs _gameDefs;
         [Inject] private UserContextRepository _userContext;
-        [Inject] private GameplayObjectsHolder _gameplayObjects;
-        [Inject] private ColorsSettings _colorsSettings;
 
         private readonly Dictionary<ChipDef, int> _chipsCount = new();
 
@@ -31,12 +25,6 @@ namespace UI.Gameplay
 
         public override async Task ExecuteAsync(GameplayViewModelContext context)
         {
-            //todo: replace to other action:
-            context.IsHitStarted.SetWithForceChangeInvoke(true);
-            _gameplayObjects.AllowedScatterCircleSpriteRenderer.color = _colorsSettings.DefaultCircleColor;
-            //
-
-            TrySaveChangedPreparingHitValues(context);
             PreparingForNewChipsStack(context);
 
             _playerType = context.HittingPlayer.Type; 
@@ -79,8 +67,6 @@ namespace UI.Gameplay
             {
                 chip.gameObject.SetActive(true);
             }
-
-            _cameraController.ResetPosition();
         }
 
         private Vector3 GetPlayerHitForce(GameplayViewModelContext context, Vector3 direction)
@@ -89,11 +75,11 @@ namespace UI.Gameplay
             switch (_playerType)
             {
                 case PlayerType.MyPlayer:
-                    result = direction * context.PreparingForceContext.NeedValue;
+                    result = direction * _userContext.GetPreparingForce();
                     break;
                 default:
-                    var forceRange = _gameDefs.GameplaySettings.PrepareForceRange;
-                    result = direction * Random.Range(forceRange[0], forceRange[1]);
+                    var forceRange = _gameDefs.PreparingHitSettings.PrepareForceRange;
+                    result = direction * Random.Range(forceRange[0], forceRange[1]/2); //todo: add bot logic and replace it there
                     break;
             }
             result.x += Random.Range(-_deviation, _deviation);
@@ -108,11 +94,11 @@ namespace UI.Gameplay
             switch (_playerType)
             {
                 case PlayerType.MyPlayer:
-                    result.y = context.PreparingTorqueContext.NeedValue;
+                    result.y = _userContext.GetPreparingTorque();
                     break;
                 default:
-                    var range = _gameDefs.GameplaySettings.PrepareTorqueRange;
-                    result.y = Random.Range(range[0], range[1]);
+                    var range = _gameDefs.PreparingHitSettings.PrepareTorqueRange;
+                    result.y = Random.Range(range[0], range[1]/2);
                     break;
             }
             result.x += Random.Range(-_deviation, _deviation);
@@ -126,17 +112,17 @@ namespace UI.Gameplay
             switch (_playerType)
             {
                 case PlayerType.MyPlayer:
-                    return direction * (-1 * context.PreparingHeightContext.NeedValue);
+                    return direction * (-1 * _userContext.GetPreparingHeight());
                 default:
-                    var heightRange = _gameDefs.GameplaySettings.PrepareHeightRange;
+                    var heightRange = _gameDefs.PreparingHitSettings.PrepareHeightRange;
                     return direction * (-1 * Random.Range(heightRange[0], heightRange[1]));
             }
         }
 
         private Vector3 GetDirection(GameplayViewModelContext context)
         {
-            var range = _gameDefs.GameplaySettings.PrepareAngleRange;
-            var needAngle = range[1] - context.PreparingAngleContext.NeedValue + range[0];
+            var range = _gameDefs.PreparingHitSettings.PrepareAngleRange;
+            var needAngle = range[1] - _userContext.GetPreparingAngle() + range[0];
             var radAngle = -1 * needAngle * Mathf.Deg2Rad;
             switch (_playerType)
             {
@@ -153,12 +139,12 @@ namespace UI.Gameplay
 
         private Quaternion GetChipsRotation(GameplayViewModelContext context)
         {
-            var minusMax = -1 * _gameDefs.GameplaySettings.PrepareAngleRange[1];
-            var range = _gameDefs.GameplaySettings.PrepareAngleRange;
+            var range = _gameDefs.PreparingHitSettings.PrepareAngleRange;
+            var minusMax = -1 * range[1];
             switch (_playerType)
             {
                 case PlayerType.MyPlayer:
-                    var needAngle = range[1] - context.PreparingAngleContext.NeedValue + range[0];
+                    var needAngle = range[1] - _userContext.GetPreparingAngle() + range[0];
                     return Quaternion.Euler(minusMax + needAngle,0, 0);
                 case PlayerType.RightPlayer:
                     return Quaternion.Euler(0,0, minusMax + Random.Range(range[0], range[1]));
@@ -194,19 +180,6 @@ namespace UI.Gameplay
             context.HittingChips.ForEach(c => c.Dispose());
             context.HittingChips.Clear();
             context.HittingChipsAndDefs.Clear();
-        }
-
-        private void TrySaveChangedPreparingHitValues(GameplayViewModelContext context)
-        {
-            const float eps = .01f;
-            if (Math.Abs(_userContext.GetPreparingForce() - context.PreparingForceContext.ValueSlider.Value) > eps)
-                _userContext.UpdatePreparedForce(context.PreparingForceContext.ValueSlider.Value);
-            if (Math.Abs(_userContext.GetPreparingTorque() - context.PreparingTorqueContext.ValueSlider.Value) > eps)
-                _userContext.UpdatePreparedTorque(context.PreparingTorqueContext.ValueSlider.Value);
-            if (Math.Abs(_userContext.GetPreparingAngle() - context.PreparingAngleContext.ValueSlider.Value) > eps)
-                _userContext.UpdatePreparedAngle(context.PreparingAngleContext.ValueSlider.Value);
-            if (Math.Abs(_userContext.GetPreparingHeight() - context.PreparingHeightContext.ValueSlider.Value) > eps)
-                _userContext.UpdatePreparedHeight(context.PreparingHeightContext.ValueSlider.Value);
         }
     }
 }

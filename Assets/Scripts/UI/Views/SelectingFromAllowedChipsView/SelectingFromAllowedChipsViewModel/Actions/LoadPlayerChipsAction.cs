@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Definitions;
-using Gameplay.Battle;
 using Gameplay.Chips;
 using Managers;
 using Model;
@@ -16,7 +15,6 @@ namespace UI.SelectingFromAllowedChips
         [Inject] private Chip.Pool _chipPool;
         [Inject] private AddressableManager _addressableManager;
         [Inject] private UserContextRepository _userContext;
-        [Inject] private BattleController _battleController;
 
         private int _asyncInProgressCount;
         private SelectingFromAllowedChipsViewModelContext _context;

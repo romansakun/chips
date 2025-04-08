@@ -1,6 +1,6 @@
 {
     "AllowedScatterRadius"   : 10.0,
-    "AllowedSlopeAngle"      : 61.0,
+    "AllowedSlopeAngle"      : 45.0,
     "MaxTimeToWaitHitResult" : 10.0,
     "FirstTimeToWaitHitResult" : 5.0,
     "TimeToShowFailedHit"    : 0.5,

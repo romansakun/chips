@@ -1,12 +1,7 @@
-using Model;
-using Zenject;
-
 namespace UI.SelectingFromAllowedChips
 {
     public class MoveCurrentWatchingChipToSkippedChipsAction : BaseSelectingFromAllowedChipsViewModelAction
     {
-        [Inject] UserContextRepository _userContext;
-        
         protected override void Execute(SelectingFromAllowedChipsViewModelContext context)
         {
             context.LeftSideChips.Insert(0, context.CurrentWatchingChip);

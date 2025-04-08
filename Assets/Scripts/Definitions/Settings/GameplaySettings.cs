@@ -51,16 +51,6 @@ namespace Definitions
         /// </summary>
         public float TimeToMoveWinningChipToPlayer { get; set; }
 
-        public float[] PrepareForceRange { get; set; } = { 0.5f, 2.5f };
-        public float[] PrepareTorqueRange { get; set; } = { 0.0f, 0.9f };
-        public float[] PrepareHeightRange { get; set; } = { 0.1f, 1f };
-        public float[] PrepareAngleRange { get; set; } = { 30f, 90f };
-
-        public string[] PrepareForceInfoSprites { get; set; } = { "PrepareForceInfo1", "PrepareForceInfo2", "PrepareForceInfo3" };
-        public string[] PrepareTorqueInfoSprites { get; set; } = { "PrepareTorqueInfo1", "PrepareTorqueInfo2", "PrepareTorqueInfo3" };
-        public string[] PrepareHeightInfoSprites  { get; set; } = { "PrepareHeightInfo1", "PrepareHeightInfo2", "PrepareHeightInfo3" };
-        public string[] PrepareAngleInfoSprites  { get; set; } = { "PrepareAngleInfo1", "PrepareAngleInfo2", "PrepareAngleInfo3" };
-
         public float Deviation { get; set; } = .05f;
         public float ChipSpacing { get; set; } = .11f;
 

@@ -11,6 +11,7 @@ namespace Definitions
         public Dictionary<string, LocalizationDef> Localizations = new Dictionary<string, LocalizationDef>();
         public InitialPlayerContext InitialPlayerContext { get; set; }
         public GameplaySettings GameplaySettings { get; set; }
+        public PreparingHitSettings PreparingHitSettings { get; set; }
         public SelectingChipsForBetSettings SelectingChipsForBetSettings { get; set; }
         public RockPaperScissorsSettings RockPaperScissorsSettings { get; set; }
     }
