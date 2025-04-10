@@ -30,6 +30,10 @@ namespace Installers
 
             Container.Bind<ViewModelFactory>().AsSingle();
             Container.Bind<LogicBuilderFactory>().AsSingle();
+
+#if WITH_CHEATS
+            Container.BindInterfacesAndSelfTo<Cheats.CheatCommandsManager>().AsSingle();
+#endif
         }
 
     }

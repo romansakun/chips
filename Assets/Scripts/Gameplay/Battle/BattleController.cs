@@ -17,6 +17,7 @@ namespace Gameplay.Battle
         [Inject] private LogicBuilderFactory _logicBuilder;
         [Inject] private GuiManager _guiManager;
         [Inject] private SignalBus _signalBus;
+        [Inject] private DiContainer _diContainer;
 
         private LogicAgent<BattleContext> _logicAgent;
 
@@ -81,7 +82,7 @@ namespace Gameplay.Battle
 
         public void StartBattle(IEnumerable<string> opponentPlayerIds)
         {
-            _logicAgent.Context.Shared = CreateSharedContext(opponentPlayerIds);
+            _logicAgent.Context.Shared = BindSharedContext(opponentPlayerIds);
             if (_logicAgent.Context.Shared.Players.Count < 2)
             {
                 Debug.LogError("Not enough players!");
@@ -93,7 +94,7 @@ namespace Gameplay.Battle
             Debug.Log(_logicAgent.GetLog());
         }
 
-        private SharedBattleContext CreateSharedContext(IEnumerable<string> opponentPlayerIds)
+        private SharedBattleContext BindSharedContext(IEnumerable<string> opponentPlayerIds)
         {
             var result = new SharedBattleContext();
             var npcIds = new List<string>(opponentPlayerIds);
@@ -122,6 +123,9 @@ namespace Gameplay.Battle
                     }
                 }
             }
+
+            _diContainer.Bind<SharedBattleContext>().FromInstance(result);
+
             return result;
         }
 

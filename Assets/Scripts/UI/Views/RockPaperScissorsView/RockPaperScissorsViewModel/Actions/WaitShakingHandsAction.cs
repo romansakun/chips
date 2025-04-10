@@ -30,7 +30,7 @@ namespace UI.RockPaperScissors
             context.TitleInfoTextVisible.Value = false;
 
             _sequence?.Kill();
-            _sequence = DOTween.Sequence();
+            _sequence = DOTween.Sequence().SetRecyclable(true);
             _sequence.OnUpdate(() =>
             {
                 if (context.IsDisposed)
@@ -57,13 +57,13 @@ namespace UI.RockPaperScissors
                         context.LeftNpcViewComponentModelContext.CommunicationImageScale.Value = handScale;
                         context.RightNpcViewComponentModelContext.CommunicationImageScale.Value = handScale;
                         context.PlayerChosenHandScale.Value = handScale;
-                    }, 2f, 1f))
+                    }, 2f, 1f).SetRecyclable(true))
                     .Join(DOTween.To(() => 1f, x =>
                     {
                         var color = _colorsSettings.TimerColor;
                         color.a = x;
                         timerContext.Color.Value = color;
-                    }, 0f, 1f))
+                    }, 0f, 1f).SetRecyclable(true))
                     .JoinCallback(() => timerContext.TimerText.Value = $"{currentTime}");
             }
  

@@ -2,6 +2,8 @@ namespace UI.PreparingHit
 {
     public class PreparingTorqueHitViewModel : PreparingHitViewModel
     {
+        private float _value;
+
         public override void Initialize()
         {
             var range = _gameDefs.PreparingHitSettings.PrepareTorqueRange;
@@ -15,12 +17,19 @@ namespace UI.PreparingHit
 
         protected override void UpdateUserContextValue(float value)
         {
-            _userContext.UpdatePreparedTorque(value);
+            _value = value;
         }
 
         protected override float GetUserContextValue()
         {
             return _userContext.GetPreparingTorque();
+        }
+
+        public override void Dispose()
+        {
+            _userContext.UpdatePreparedTorque(_value);
+
+            base.Dispose();
         }
 
     }

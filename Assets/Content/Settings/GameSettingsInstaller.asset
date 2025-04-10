@@ -12,6 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09f27b1db1484fd2862e6503f901be6d, type: 3}
   m_Name: GameSettingsInstaller
   m_EditorClassIdentifier: 
+  _zenjectSettings:
+    _ensureDeterministicDestructionOrderOnApplicationQuit: 0
+    _displayWarningWhenResolvingDuringInstall: 1
+    _validationRootResolveMethod: 0
+    _validationErrorResponse: 0
+    _signalSettings:
+      _defaultSyncMode: 0
+      _missingHandlerDefaultResponse: 0
+      _requireStrictUnsubscribe: 0
+      _defaultAsyncTickPriority: 1
   _soundsSettings:
     GroundChipsHitSound: {fileID: 8300000, guid: ea6190085e532954aac88653c3c8bfc9, type: 3}
     BackroundMusic: {fileID: 8300000, guid: b4ac6706bc1a0744a98c6fef769e4c4b, type: 3}

@@ -4,21 +4,22 @@ using System.Threading.Tasks;
 
 namespace LogicUtility
 {
-    public class LogicAgent<TContext> : IDisposable where TContext : class, IContext
+    public class LogicAgent<TContext> : ILogicAgent where TContext : class, IContext
     {
         private readonly LogicUtilityClient<TContext> _client;
         private readonly INode<TContext> _root;
+        private readonly StringBuilder _log = new ();
 
-        private bool _isExecuting;
         private bool _isNeedNextExecutionAfterCurrent;
         private bool _isDisposed;
 
         public event Action<TContext> OnFinished = delegate { };
 
         public TContext Context { get; set; }
-        public bool IsExecuting => _isExecuting;
+        public bool IsExecuting { get; private set; }
 
-        private StringBuilder _log = new StringBuilder();
+        public IContext LogicContext => Context;
+
 
         public LogicAgent(TContext context, INode<TContext> rootNode, bool safeMode)
         {
@@ -40,7 +41,7 @@ namespace LogicUtility
         private async Task ExecuteInternal(bool forceNext = false, bool needInvokeFinishEvent = true)
         {
             _log.Clear();
-            if (_isExecuting)
+            if (IsExecuting)
             {
                 _log.AppendLine("Executing is in progress");
                 _isNeedNextExecutionAfterCurrent = _isNeedNextExecutionAfterCurrent || forceNext;
@@ -52,9 +53,9 @@ namespace LogicUtility
 
             while (true)
             {
-                _isExecuting = true;
+                IsExecuting = true;
                 await _client.ExecuteAsync(_root);
-                _isExecuting = false;
+                IsExecuting = false;
 
                 if (_isNeedNextExecutionAfterCurrent == false || _isDisposed)
                     break;

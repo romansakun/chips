@@ -5,9 +5,15 @@ namespace Gameplay.Battle
 {
     public class SharedBattleContext
     {
-        public PlayerSharedContext FirstMovePlayer { get; set; } = new();
-        public List<PlayerSharedContext> Players { get; set; } = new();
+        public List<PlayerSharedContext> Players { get; } = new();
+        public PlayerSharedContext FirstMovePlayer { get; set; }
         public int NeedBetChipsCount { get; set; } = 0;
+
+        public void Reset()
+        {
+            FirstMovePlayer = null;
+            Players.Clear();
+        }
     }
 
     public class PlayerSharedContext

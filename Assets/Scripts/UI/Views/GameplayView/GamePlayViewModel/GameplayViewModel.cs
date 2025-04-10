@@ -17,8 +17,8 @@ namespace UI.Gameplay
         [Inject] private ViewModelFactory _viewModelFactory;
         [Inject] private LogicBuilderFactory _logicBuilder;
         [Inject] private ReloadManager _reloadManager;
-        [Inject] private DiContainer _diContainer;
         [Inject] private GuiManager _guiManager;
+        [Inject] private SignalBus _signalBus;
         [Inject] private GameDefs _gameDefs;
 
         public NpcViewPartModel LeftNpc { get; } = new();
@@ -61,12 +61,36 @@ namespace UI.Gameplay
             setSuccessHitState.DirectTo(finishMove);
 
             _logicAgent = builder.Build();
-            _logicAgent.OnFinished += OnLogicFinished;
-            InitializeProperties();
+            _signalBus.Fire(new LogicAgentCreatedSignal(_logicAgent));
 
-#if WITH_CHEATS
-            AddDebugCommands();
-#endif
+            InitializeProperties();
+            Subscribes();
+        }
+
+        private void Subscribes()
+        {
+            _logicAgent.OnFinished += OnLogicFinished;
+            _signalBus.Subscribe<ShowViewSignal>(OnShowViewSignal);
+            _signalBus.Subscribe<CloseViewSignal>(OnCloseViewSignal);
+        } 
+        
+        private void Unsubscribes()
+        {
+            _logicAgent.OnFinished -= OnLogicFinished;
+            _signalBus.Unsubscribe<ShowViewSignal>(OnShowViewSignal);
+            _signalBus.Unsubscribe<CloseViewSignal>(OnCloseViewSignal);
+        }
+
+        private void OnShowViewSignal(ShowViewSignal signal)
+        {
+            if (signal.View is PreparingHitView)
+                _logicAgent.Context.IsPlayerCanHitNow.Value = false;
+        }
+
+        private void OnCloseViewSignal(CloseViewSignal signal)
+        {
+            if (signal.View is PreparingHitView)
+                _logicAgent.Context.IsPlayerCanHitNow.Value = true;
         }
 
         private void InitializeProperties()
@@ -98,15 +122,9 @@ namespace UI.Gameplay
 
         public async void OnPrepareButtonClick()
         {
-            _logicAgent.Context.IsPlayerCanHitNow.Value = false;
-
             var viewModel = _viewModelFactory.Create<PreparingForceHitViewModel>();
             var view = await _guiManager.ShowAsync<PreparingHitView, PreparingForceHitViewModel>(viewModel);
             view.SelectForceButton();
-            view.OnClose += () =>
-            {
-                _logicAgent.Context.IsPlayerCanHitNow.Value = true;
-            };
         }
 
         public void OnBitButtonClick()
@@ -151,66 +169,11 @@ namespace UI.Gameplay
 
         public override void Dispose()
         {
-            _logicAgent.OnFinished -= OnLogicFinished;
+            Unsubscribes();
+
             _logicAgent.Dispose();
-
-#if WITH_CHEATS
-            RemoveDebugCommands();
-#endif
+            _signalBus?.Fire(new LogicAgentDisposedSignal(_logicAgent));
         }
-
-//todo: replace cheats
-#if WITH_CHEATS
-        private void AddDebugCommands()
-        {
-            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(WinGame).ToLower(), string.Empty, WinGame);
-            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(LoseGame).ToLower(), string.Empty, LoseGame);
-            IngameDebugConsole.DebugLogConsole.AddCommand(nameof(PrepareChipsHit).ToLower(), string.Empty, PrepareChipsHit);
-        }
-
-        private void RemoveDebugCommands()
-        {
-            IngameDebugConsole.DebugLogConsole.RemoveCommand(WinGame);
-            IngameDebugConsole.DebugLogConsole.RemoveCommand(LoseGame);
-            IngameDebugConsole.DebugLogConsole.RemoveCommand(PrepareChipsHit);
-        }
-
-        public async void WinGame()
-        {
-            await FinishGame(true);
-        }
-
-        public async void LoseGame()
-        {
-            await FinishGame(false);
-        }
-
-        public async void PrepareChipsHit()
-        {
-            var prepareAction = _diContainer.Instantiate<PrepareChipsStackAction>();
-            await prepareAction.ExecuteAsync(_logicAgent.Context);
-        }
-
-        private async UniTask FinishGame(bool isUserNeedBeWinner)
-        {
-            _logicAgent.Context.HittingPlayer = _logicAgent.Context.Shared.Players.Find(p => isUserNeedBeWinner 
-                ? p.Type == PlayerType.MyPlayer
-                : p.Type != PlayerType.MyPlayer);
-            var prepareAction = _diContainer.Instantiate<PrepareChipsStackAction>();
-            var successHitAction = _diContainer.Instantiate<SetSuccessHitStateAction>();
-            var collectChipsAction = _diContainer.Instantiate<CollectWinningChips>();
-            var finishPlayerMoveAction = _diContainer.Instantiate<FinishPlayerMoveAction>();
-            var tryFinishGameAction = _diContainer.Instantiate<TryFinishGameAction>();
-
-            await prepareAction.ExecuteAsync(_logicAgent.Context);
-            _logicAgent.Context.HitWinningChipsAndDefs.Clear();
-            _logicAgent.Context.HitWinningChipsAndDefs.AddRange(_logicAgent.Context.HittingChipsAndDefs);
-            await successHitAction.ExecuteAsync(_logicAgent.Context);
-            await collectChipsAction.ExecuteAsync(_logicAgent.Context);
-            await finishPlayerMoveAction.ExecuteAsync(_logicAgent.Context);
-            await tryFinishGameAction.ExecuteAsync(_logicAgent.Context);
-        }
-#endif
 
     }
 }

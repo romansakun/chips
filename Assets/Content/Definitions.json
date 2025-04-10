@@ -188,7 +188,7 @@
     "FirstTimeToWaitHitResult": 5.0,
     "SqrRestChipPositionThreshold": 0.00025,
     "RestChipAngleThreshold": 2.0,
-    "FramesToWatchRestChip": 60,
+    "FramesToWatchRestChip": 75,
     "TimeToShowFailedHit": 0.5,
     "TimeToMoveWinningChipToPlayer": 0.5,
     "Deviation": 0.005,

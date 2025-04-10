@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 using Managers;
 using UnityEngine;
@@ -16,8 +15,6 @@ namespace UI
 
         public short OverridedSortingOrder = -1;
         public RectTransform RectTransform => GetComponent<RectTransform>();
-
-        public Action OnClose;
 
         public abstract UniTask Initialize(ViewModel viewModel);
 

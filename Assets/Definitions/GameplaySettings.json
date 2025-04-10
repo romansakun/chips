@@ -9,7 +9,7 @@
     "ChipSpacing"    : 0.0215,
     "SqrRestChipPositionThreshold" : 0.00025,
     "RestChipAngleThreshold" : 2,
-    "FramesToWatchRestChip"  : 60,
+    "FramesToWatchRestChip"  : 75,
     "PrepareForceRange": [1.05, 2.5],
     "PrepareTorqueRange": [0.0, 1.75],
     "PrepareHeightRange": [1.25, 4.0],

@@ -2,6 +2,8 @@ namespace UI.PreparingHit
 {
     public class PreparingHeightHitViewModel : PreparingHitViewModel
     {
+        private float _value;
+
         public override void Initialize()
         {
             var range = _gameDefs.PreparingHitSettings.PrepareHeightRange;
@@ -15,12 +17,19 @@ namespace UI.PreparingHit
 
         protected override void UpdateUserContextValue(float value)
         {
-            _userContext.UpdatePreparedHeight(value);
+            _value = value;
         }
 
         protected override float GetUserContextValue()
         {
             return _userContext.GetPreparingHeight();
+        }
+
+        public override void Dispose()
+        {
+            _userContext.UpdatePreparedHeight(_value);
+
+            base.Dispose();
         }
 
     }

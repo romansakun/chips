@@ -39,7 +39,7 @@ namespace UI.PreparingHit
         protected abstract void UpdateUserContextValue(float value);
         protected abstract float GetUserContextValue();
 
-        protected virtual string GetValueText(float value)
+        private string GetValueText(float value)
         {
             return value.ToString("P0");
         }

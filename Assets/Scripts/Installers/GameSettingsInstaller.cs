@@ -17,12 +17,12 @@ namespace Installers
 
         public override void InstallBindings()
         {
+            SignalsInstaller.Install(Container);
+
             Container.Bind<SoundsSettings>().FromInstance(_soundsSettings).AsSingle();
             Container.Bind<ColorsSettings>().FromInstance(_colorsSettings).AsSingle();
-            Container.Bind<GameDefs>().AsSingle();
             Container.Bind<LayersSettings>().AsSingle();
-
-            SignalsInstaller.Install(Container);
+            Container.Bind<GameDefs>().AsSingle();
 
 #if WITH_CHEATS
             Instantiate(_ingameDebugConsolePrefab);

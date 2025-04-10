@@ -61,6 +61,7 @@
     <Compile Include="Assets\LogicUtility\LogicUtility\LogicBuilder\IBuildNode.cs" />
     <Compile Include="Assets\LogicUtility\LogicUtility\Nodes\INode.cs" />
     <Compile Include="Assets\LogicUtility\LogicUtility\LogicBuilder\BuilderSelector.cs" />
+    <Compile Include="Assets\LogicUtility\ILogicAgent.cs" />
     <Compile Include="Assets\LogicUtility\LogicUtility\Nodes\IOptionScorer.cs" />
     <Compile Include="Assets\LogicUtility\LogicUtility\Nodes\ISelector.cs" />
     <None Include="Assets\LogicUtility\LogicUtility.asmdef" />

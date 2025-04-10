@@ -2,6 +2,8 @@ namespace UI.PreparingHit
 {
     public class PreparingAngleHitViewModel : PreparingHitViewModel
     {
+        private float _value;
+        
         public override void Initialize()
         {
             var range = _gameDefs.PreparingHitSettings.PrepareAngleRange;
@@ -15,7 +17,7 @@ namespace UI.PreparingHit
 
         protected override void UpdateUserContextValue(float value)
         {
-            _userContext.UpdatePreparedAngle(value);
+            _value = value;
         }
 
         protected override float GetUserContextValue()
@@ -23,5 +25,11 @@ namespace UI.PreparingHit
             return _userContext.GetPreparingAngle();
         }
 
+        public override void Dispose()
+        {
+            _userContext.UpdatePreparedAngle(_value);
+
+            base.Dispose();
+        }
     }
 }

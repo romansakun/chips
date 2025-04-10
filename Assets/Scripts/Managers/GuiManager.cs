@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Definitions;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -12,12 +13,14 @@ namespace Managers
     {
         private readonly DiContainer _diContainer;
         private readonly AddressableManager _addressableManager;
+        private readonly SignalBus _signalBus;
         private readonly RectTransform _canvasRectTransform;
         private readonly List<View> _instancedViews = new();
 
-        public GuiManager(DiContainer container, AddressableManager addressableManager, Canvas canvas)
+        public GuiManager(DiContainer container, AddressableManager addressableManager, Canvas canvas, SignalBus signalBus)
         {
             _diContainer = container;
+            _signalBus = signalBus;
             _addressableManager = addressableManager;
             _canvasRectTransform = canvas.GetComponent<RectTransform>();
         }
@@ -30,7 +33,8 @@ namespace Managers
             _instancedViews.Add(view);
             PrepareToShow(view);
             await view.Initialize(viewModel);
-
+            _signalBus.Fire(new ShowViewSignal{View = view});
+            
             return view;
         }
 
@@ -117,8 +121,7 @@ namespace Managers
 
         private void CloseView(View view)
         {
-            view.OnClose?.Invoke();
-            view.OnClose = null;
+            _signalBus.Fire(new CloseViewSignal{View = view});
             Object.Destroy(view.gameObject);
         }
 
